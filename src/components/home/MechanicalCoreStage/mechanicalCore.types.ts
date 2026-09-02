@@ -1,4 +1,4 @@
-export type MechanicalCoreState = 'off' | 'idle' | 'initializing' | 'active' | 'interacting' | 'engaged' | 'blueprint'
+export type MechanicalCoreState = 'off' | 'idle' | 'initializing' | 'active' | 'interacting' | 'engaged'
 
 export type MechanicalCoreTelemetry = {
   rpm: number
