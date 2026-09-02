@@ -1,0 +1,5 @@
+import { MechanicalPanel } from '../../mechanical/MechanicalPanel'
+import { TechnicalLabel } from '../../typography/TechnicalLabel'
+import { TechnicalDivider } from '../../mechanical/TechnicalDivider'
+import type { ThermodynamicsModel } from './thermodynamics'
+export function ThermodynamicsReadout({model}:{model:ThermodynamicsModel}){return <MechanicalPanel variant="highlighted" className="thermo-readout"><div className="thermo-readout__head"><TechnicalLabel prefix="SYSTEM">THERMODYNAMICS</TechnicalLabel><span className="technical-small">{model.state}</span></div><TechnicalDivider label="CONCEPTUAL MODEL"/><div className="thermo-readout__grid"><div><span>HEAT INPUT</span><strong>{model.heatInput} %</strong></div><div><span>TEMPERATURE</span><strong>+{model.temperatureIndex}</strong></div><div><span>PRESSURE</span><strong>+{model.pressureIndex}</strong></div><div><span>ENERGY</span><strong>+{model.energyIndex}</strong></div></div><p className="technical-small thermo-readout__note">NORMALIZED VISUALIZATION / NOT A LABORATORY MEASUREMENT</p></MechanicalPanel>}

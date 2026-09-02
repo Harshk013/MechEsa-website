@@ -1,0 +1,32 @@
+/* PROMPT 06 — REFINED INDUSTRIAL MECHANICAL CORE */
+.core-stage { width: min(68vw, 780px); aspect-ratio: 1.18; position: relative; display: block; isolation: isolate; }
+.core-stage__canvas-wrap { position: absolute; inset: 0; overflow: hidden; border: 1px solid color-mix(in srgb, var(--color-border-strong) 72%, transparent); background: radial-gradient(circle at 50% 48%, rgba(201,208,211,.065), transparent 50%); box-shadow: inset 0 0 90px rgba(0,0,0,.3); }
+.core-stage__canvas-wrap canvas { display: block !important; width: 100% !important; height: 100% !important; }
+.core-stage__scanline { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 0%, rgba(201,208,211,.03) 48%, transparent 52%); opacity: .45; mix-blend-mode: screen; }
+.core-stage__reticle { position: absolute; left: 50%; top: 50%; width: 28px; height: 28px; transform: translate(-50%,-50%); pointer-events: none; opacity: .34; }
+.core-stage__reticle::before, .core-stage__reticle::after { content: ''; position: absolute; background: var(--color-accent-line); }
+.core-stage__reticle::before { left: 50%; top: 0; width: 1px; height: 100%; }
+.core-stage__reticle::after { left: 0; top: 50%; width: 100%; height: 1px; }
+.core-stage__reticle span { position: absolute; inset: 8px; border: 1px solid var(--color-accent-line); border-radius: 50%; }
+.core-stage__reticle i { position: absolute; left: 50%; top: -5px; width: 1px; height: 4px; background: var(--color-accent); }
+.core-stage__webgl-fallback { position: absolute; inset: 0; display: grid; place-content: center; gap: 10px; text-align: center; background: radial-gradient(circle at 50% 50%, rgba(201,208,211,.08), transparent 55%), var(--color-bg-deep); border: 1px solid var(--color-border); }
+.core-stage__webgl-fallback strong { font-size: clamp(1.5rem, 4vw, 3rem); letter-spacing: -.04em; }
+.core-stage__webgl-fallback span { color: var(--color-text-dim); }
+.core-stage__telemetry { position: absolute; left: 18px; top: 18px; z-index: 5; display: grid; grid-template-columns: repeat(2, minmax(92px, 1fr)); gap: 5px; width: 205px; pointer-events: none; }
+.core-stage__telemetry > div { display: grid; gap: 4px; padding: 8px 9px; border: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-bg-deep) 82%, transparent); backdrop-filter: blur(8px); }
+.core-stage__telemetry span { color: var(--color-text-dim); font: 8px/1 var(--font-mono); letter-spacing: .11em; }
+.core-stage__telemetry strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-text); font: 600 10px/1.1 var(--font-mono); letter-spacing: .04em; }
+.core-stage__annotations { position: absolute; inset: 0; z-index: 4; pointer-events: none; color: var(--color-text-dim); font: 8px/1 var(--font-mono); letter-spacing: .14em; }
+.core-stage__annotation { position: absolute; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.core-stage__annotation i { display: block; width: 42px; height: 1px; background: var(--color-border-strong); position: relative; }
+.core-stage__annotation i::after { content: ''; position: absolute; right: 0; top: -2px; width: 5px; height: 5px; border: 1px solid var(--color-border-strong); transform: rotate(45deg); }
+.core-stage__annotation--input { left: 12%; bottom: 31%; }
+.core-stage__annotation--train { right: 8%; top: 29%; }
+.core-stage__annotation--actuator { right: 8%; bottom: 23%; }
+.core-stage__readout { position: absolute; left: 18px; right: 18px; bottom: 18px; z-index: 5; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+.core-stage__engage { position: absolute; right: 18px; top: 18px; z-index: 6; display: grid; gap: 4px; min-width: 120px; padding: 9px 11px; text-align: left; color: var(--color-text); background: color-mix(in srgb, var(--color-panel-technical) 90%, transparent); border: 1px solid var(--color-border); box-shadow: var(--shadow-control); transition: border-color var(--duration-fast) var(--ease-mechanical), transform var(--duration-fast) var(--ease-mechanical), background var(--duration-fast) var(--ease-ui); }
+.core-stage__engage:hover { transform: translateY(-2px); border-color: var(--color-accent-line); background: var(--color-accent-soft); }
+.core-stage__engage strong { font: 600 10px/1 var(--font-mono); letter-spacing: .1em; }
+@media (max-width: 980px) { .core-stage { width: min(86vw, 700px); } .core-stage__annotation--train { right: 4%; } .core-stage__annotation--actuator { right: 4%; } }
+@media (max-width: 680px) { .core-stage { width: 100%; aspect-ratio: 1; } .core-stage__telemetry { left: 10px; top: 10px; width: 150px; grid-template-columns: repeat(2, 1fr); } .core-stage__telemetry > div { padding: 6px; } .core-stage__annotations { display: none; } .core-stage__readout { left: 10px; right: 10px; bottom: 10px; } .core-stage__engage { right: 10px; top: 10px; min-width: 100px; } .core-stage__canvas-wrap { border-inline: 0; } }
+@media (prefers-reduced-motion: reduce) { .core-stage__scanline { display: none; } .core-stage__engage { transition: none; } }

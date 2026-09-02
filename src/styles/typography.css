@@ -1,0 +1,14 @@
+:root {
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+.display { font-size: clamp(3rem, 9vw, 8rem); line-height: .9; letter-spacing: -.06em; font-weight: 650; }
+.heading-xl { font-size: clamp(2.5rem, 6vw, 5rem); line-height: .96; letter-spacing: -.045em; font-weight: 650; }
+.heading-lg { font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1; letter-spacing: -.035em; font-weight: 650; }
+.heading-md { font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.1; letter-spacing: -.02em; font-weight: 620; }
+.body { font-size: 1rem; line-height: 1.65; }
+.body-small { font-size: .875rem; line-height: 1.55; }
+.technical { font-family: var(--font-mono); font-size: .8rem; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; }
+.technical-small { font-family: var(--font-mono); font-size: .68rem; line-height: 1.4; letter-spacing: .11em; text-transform: uppercase; }
+.label { font-family: var(--font-mono); font-size: .72rem; line-height: 1.2; letter-spacing: .13em; text-transform: uppercase; }
+.telemetry { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: .04em; }

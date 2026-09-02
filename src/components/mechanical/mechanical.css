@@ -1,0 +1,84 @@
+.mechanical-panel { position: relative; background: var(--color-panel); border: 1px solid var(--color-border); border-radius: var(--radius-sm); box-shadow: var(--shadow-inner); overflow: hidden; }
+.mechanical-panel::before, .mechanical-panel::after { content: ""; position: absolute; width: 8px; height: 8px; border-color: var(--color-border-strong); pointer-events: none; }
+.mechanical-panel::before { top: 0; left: 0; border-top: 1px solid; border-left: 1px solid; }
+.mechanical-panel::after { right: 0; bottom: 0; border-right: 1px solid; border-bottom: 1px solid; }
+.mechanical-panel--elevated { background: var(--color-surface-elevated); box-shadow: var(--shadow-deep); }
+.mechanical-panel--technical { background: var(--color-panel-technical); }
+.mechanical-panel--highlighted { border-color: var(--color-accent); box-shadow: var(--shadow-inner), var(--shadow-glow); }
+.mechanical-panel--blueprint { background: linear-gradient(rgba(130,169,199,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(130,169,199,.035) 1px, transparent 1px), var(--color-panel-technical); background-size: 24px 24px; }
+.mechanical-panel > * { position: relative; z-index: 1; }
+.mechanical-panel { padding: var(--space-6); }
+
+.mechanical-button { --button-border: var(--color-border-strong); display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 42px; padding: 0 var(--space-5); border: 1px solid var(--button-border); border-radius: var(--radius-sm); background: transparent; color: var(--color-text); transition: transform var(--duration-fast) var(--ease-mechanical), background var(--duration-fast) var(--ease-ui), border-color var(--duration-fast) var(--ease-ui), box-shadow var(--duration-fast) var(--ease-ui); }
+.mechanical-button:hover:not(:disabled) { transform: translateY(-1px); background: var(--color-accent-soft); border-color: var(--color-accent); }
+.mechanical-button:active:not(:disabled) { transform: translateY(1px); }
+.mechanical-button:disabled { opacity: .42; cursor: not-allowed; }
+.mechanical-button--primary { background: var(--color-text); color: var(--color-bg-deep); border-color: var(--color-text); }
+.mechanical-button--primary:hover:not(:disabled) { background: var(--color-accent); }
+.mechanical-button--danger { --button-border: var(--color-danger); }
+.mechanical-button--ghost { border-color: transparent; }
+
+.technical-label { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--color-text-muted); }
+.technical-label__indicator { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex: 0 0 auto; }
+.technical-label__prefix, .technical-label__suffix { color: var(--color-text-dim); }
+
+.system-indicator { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--color-text-muted); }
+.system-indicator__light { width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 10px currentColor; }
+.system-indicator--online { color: var(--color-success); }
+.system-indicator--active { color: var(--color-info); }
+.system-indicator--warning { color: var(--color-warning); }
+.system-indicator--offline, .system-indicator--idle { color: var(--color-text-dim); }
+.system-indicator--processing .system-indicator__light { animation: indicator-pulse 1.2s var(--ease-ui) infinite; }
+@keyframes indicator-pulse { 0%,100%{opacity:.45} 50%{opacity:1} }
+
+.engineering-grid, .blueprint-grid { position: relative; background-image: linear-gradient(rgba(255,255,255,var(--grid-opacity, .035)) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,var(--grid-opacity, .035)) 1px, transparent 1px); background-size: var(--grid-size, 32px) var(--grid-size, 32px); }
+.blueprint-grid { background-image: linear-gradient(rgba(130,169,199,var(--grid-opacity, .06)) 1px, transparent 1px), linear-gradient(90deg, rgba(130,169,199,var(--grid-opacity, .06)) 1px, transparent 1px); }
+.engineering-grid > *, .blueprint-grid > * { position: relative; z-index: 1; }
+
+.technical-divider { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--space-3); color: var(--color-text-dim); }
+.technical-divider__line { height: 1px; background: var(--color-border); }
+.technical-divider__marker { width: 4px; height: 4px; background: currentColor; }
+
+@media (max-width: 640px) { .mechanical-panel { padding: var(--space-5); } }
+
+/* Prompt 02 — industrial design language */
+.mechanical-panel { box-shadow: var(--shadow-machined); transition: border-color var(--duration-fast) var(--ease-ui), transform var(--duration-fast) var(--ease-mechanical), background var(--duration-fast) var(--ease-ui); }
+.mechanical-panel:hover { border-color: color-mix(in srgb, var(--color-border-strong) 80%, var(--color-accent)); }
+.mechanical-panel--highlighted { border-color: var(--color-accent-line); }
+.mechanical-button { position: relative; isolation: isolate; overflow: hidden; }
+.mechanical-button::after { content: ""; position: absolute; inset: 0 auto 0 0; width: 2px; background: var(--color-accent); transform: scaleY(0); transform-origin: bottom; transition: transform var(--duration-fast) var(--ease-precision); }
+.mechanical-button:hover:not(:disabled)::after, .mechanical-button:focus-visible::after { transform: scaleY(1); }
+.mechanical-button--technical { background: linear-gradient(180deg, rgba(255,255,255,.025), transparent); }
+.mechanical-card { position: relative; display: flex; min-height: 270px; flex-direction: column; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-technical); background: var(--color-panel); box-shadow: var(--shadow-machined); transition: transform var(--duration-normal) var(--ease-mechanical), border-color var(--duration-fast) var(--ease-ui); }
+.mechanical-card::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(255,255,255,.035); pointer-events: none; }
+.mechanical-card:hover { transform: translateY(-2px); border-color: var(--color-accent-line); }
+.mechanical-card__top, .mechanical-card__body, .mechanical-card__action { position: relative; z-index: 1; }
+.mechanical-card__top { display: flex; justify-content: space-between; padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--color-border); }
+.mechanical-card__status { color: var(--color-success); }
+.mechanical-card__body { display: grid; gap: var(--space-3); padding: var(--space-7) var(--space-6); }
+.mechanical-card__body h3, .mechanical-card__body p { margin: 0; }
+.mechanical-card__category { color: var(--color-text-dim); }
+.mechanical-card__action { margin-top: auto; padding: 0 var(--space-6) var(--space-6); }
+.technical-corner { display: block; width: 14px; height: 14px; border-top: 1px solid var(--color-border-strong); border-left: 1px solid var(--color-border-strong); }
+.measurement-mark { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--color-text-dim); }
+.measurement-mark__tick { display: block; width: 1px; height: 12px; background: currentColor; }
+.measurement-mark--vertical { flex-direction: column; }
+.measurement-mark--vertical .measurement-mark__tick { width: 12px; height: 1px; }
+.section-marker { display: inline-flex; align-items: center; gap: var(--space-3); color: var(--color-text-muted); }
+.section-marker__number { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--color-border-strong); font-family: var(--font-mono); font-size: .7rem; color: var(--color-accent); }
+.reference-line { display: block; height: 1px; width: 100%; background: linear-gradient(90deg, var(--color-accent-line), transparent); }
+.mechanical-switch { display: inline-flex; align-items: center; gap: var(--space-3); }
+.mechanical-switch__track { display: flex; align-items: center; width: 54px; height: 28px; padding: 3px; border: 1px solid var(--color-border-strong); background: var(--color-bg-deep); transition: border-color var(--duration-fast) var(--ease-ui); }
+.mechanical-switch__track.is-on { border-color: var(--color-accent-line); }
+.mechanical-switch__thumb { width: 20px; height: 20px; background: var(--color-text-dim); box-shadow: var(--shadow-control); transition: transform var(--duration-normal) var(--ease-mechanical), background var(--duration-fast) var(--ease-ui); }
+.mechanical-switch__track.is-on .mechanical-switch__thumb { transform: translateX(26px); background: var(--color-accent); }
+.mechanical-dial { display: grid; justify-items: center; gap: var(--space-2); width: 130px; }
+.mechanical-dial__face { position: relative; width: 94px; aspect-ratio: 1; border: 1px solid var(--color-border-strong); border-radius: 50%; background: radial-gradient(circle, var(--color-surface-elevated), var(--color-bg-deep)); box-shadow: var(--shadow-control); }
+.mechanical-dial__face::before { content: ""; position: absolute; inset: 9px; border: 1px dashed var(--color-border); border-radius: 50%; }
+.mechanical-dial__needle { position: absolute; left: 50%; top: 50%; width: 2px; height: 34px; transform-origin: 50% 100%; background: var(--color-accent); }
+.mechanical-dial__center { position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; transform: translate(-50%,-50%); border-radius: 50%; background: var(--color-text); }
+.mechanical-dial__value { color: var(--color-text); }
+.mechanical-gauge { display: grid; gap: var(--space-3); min-width: 210px; }
+.mechanical-gauge__header { display: flex; justify-content: space-between; align-items: baseline; }
+.mechanical-gauge__track { height: 4px; background: var(--color-bg-deep); overflow: hidden; }
+.mechanical-gauge__track span { display: block; height: 100%; background: var(--color-accent); transition: width var(--duration-slow) var(--ease-precision); }

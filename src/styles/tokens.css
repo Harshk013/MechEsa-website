@@ -1,0 +1,94 @@
+:root {
+  --color-bg: #101214;
+  --color-bg-deep: #0a0c0d;
+  --color-surface: #15181b;
+  --color-surface-elevated: #1b1f22;
+  --color-panel: #181c1f;
+  --color-panel-technical: #121619;
+  --color-border: rgba(205, 214, 219, 0.14);
+  --color-border-strong: rgba(205, 214, 219, 0.24);
+  --color-text: #edf1f2;
+  --color-text-muted: #9da6aa;
+  --color-text-dim: #697276;
+  --color-accent: #c9d0d3;
+  --color-accent-soft: rgba(201, 208, 211, 0.12);
+  --color-accent-glow: rgba(201, 208, 211, 0.2);
+  --color-warning: #d8a45f;
+  --color-success: #79b89a;
+  --color-info: #82a9c7;
+  --color-danger: #c77b78;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+
+  --shadow-panel: 0 18px 48px rgba(0,0,0,.24);
+  --shadow-deep: inset 0 1px 0 rgba(255,255,255,.025), 0 24px 64px rgba(0,0,0,.35);
+  --shadow-inner: inset 0 1px 0 rgba(255,255,255,.035), inset 0 -18px 32px rgba(0,0,0,.12);
+  --shadow-glow: 0 0 24px var(--color-accent-glow);
+
+  --duration-instant: 80ms;
+  --duration-micro: 140ms;
+  --duration-fast: 220ms;
+  --duration-normal: 380ms;
+  --duration-slow: 700ms;
+  --duration-cinematic: 1200ms;
+  --ease-mechanical: cubic-bezier(.2,.8,.2,1);
+  --ease-precision: cubic-bezier(.16,1,.3,1);
+  --ease-ui: cubic-bezier(.4,0,.2,1);
+  --ease-cinematic: cubic-bezier(.76,0,.24,1);
+}
+
+:root {
+  /* Prompt 02: semantic engineering atmosphere */
+  --color-metal-dark: #0d1012;
+  --color-metal-mid: #22272a;
+  --color-metal-highlight: #8d969a;
+  --color-blueprint: #82a9c7;
+  --color-blueprint-soft: rgba(130, 169, 199, 0.07);
+  --color-accent-line: color-mix(in srgb, var(--color-accent) 68%, transparent);
+  --space-7: 1.75rem;
+  --space-14: 3.5rem;
+  --space-28: 7rem;
+  --radius-technical: 1px;
+  --shadow-machined: inset 0 1px 0 rgba(255,255,255,.04), inset 0 -1px 0 rgba(0,0,0,.28), 0 18px 42px rgba(0,0,0,.22);
+  --shadow-control: inset 0 1px 0 rgba(255,255,255,.06), inset 0 -8px 16px rgba(0,0,0,.22), 0 8px 24px rgba(0,0,0,.24);
+}
+
+:root {
+  /* Prompt 03 — global interaction layers */
+  --z-background: 0;
+  --z-content: 10;
+  --z-navigation: 100;
+  --z-cursor: 300;
+  --z-overlay: 500;
+  --z-transition: 600;
+  --cursor-size: 22px;
+  --cursor-ring-size: 34px;
+  --nav-height: 68px;
+  --motion-mechanical: var(--ease-mechanical);
+  --motion-precision: var(--ease-precision);
+}
+
+:root {
+  /* PROMPT 14 — global representation vocabulary */
+  --representation-blueprint-line: rgba(130, 169, 199, 0.62);
+  --representation-blueprint-grid: rgba(130, 169, 199, 0.08);
+  --representation-blueprint-text: #a9c4d8;
+  --representation-blueprint-surface: rgba(18, 35, 45, 0.72);
+  --representation-blueprint-accent: #82a9c7;
+}

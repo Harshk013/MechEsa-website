@@ -1,0 +1,19 @@
+.site-footer{position:relative;padding:72px 0 28px;background:var(--color-bg-deep);border-top:1px solid var(--color-border);overflow:clip}
+.site-footer__grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(180px,.75fr) minmax(180px,.65fr);gap:clamp(32px,6vw,96px);padding:56px 0 72px}
+.site-footer__identity h2{margin:18px 0 16px;font-size:clamp(2.5rem,5.5vw,5.5rem);line-height:.9;letter-spacing:-.06em}
+.site-footer__identity h2 em{font-style:normal;color:var(--color-accent)}
+.site-footer__identity p{max-width:420px;color:var(--color-text-muted);margin:0}
+.site-footer__nav,.site-footer__controls{display:grid;align-content:start;gap:8px}
+.site-footer__nav>a,.site-footer__nav .cursor-target{min-width:0}
+.site-footer__nav .cursor-target{display:block}
+.site-footer__nav a{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(205,214,219,.07);color:var(--color-text-muted);text-decoration:none;transition:color var(--duration-fast) var(--ease-ui),border-color var(--duration-fast) var(--ease-ui)}
+.site-footer__nav a:hover,.site-footer__nav a:focus-visible{color:var(--color-text);border-color:var(--color-accent-line)}
+.site-footer__nav a span{font:500 .56rem/1 var(--font-mono);color:var(--color-text-dim)}
+.site-footer__nav a strong{font:600 .68rem/1.2 var(--font-mono);letter-spacing:.1em;text-transform:uppercase}
+.site-footer__nav a i{font-style:normal;font-size:.7rem}
+.site-footer__controls .representation-control{margin-top:2px}
+.site-footer__meta{display:grid;gap:6px;margin-top:28px;padding-top:16px;border-top:1px solid var(--color-border);font:500 .55rem/1.5 var(--font-mono);letter-spacing:.1em;color:var(--color-text-dim)}
+.site-footer__base{display:flex;justify-content:space-between;gap:16px;padding-top:18px;border-top:1px solid var(--color-border)}
+@media (max-width:900px){.site-footer__grid{grid-template-columns:1fr 1fr}.site-footer__identity{grid-column:1/-1}.site-footer__controls{justify-self:end}}
+@media (max-width:600px){.site-footer{padding-top:56px}.site-footer__grid{grid-template-columns:1fr;padding:40px 0 52px;gap:42px}.site-footer__controls{justify-self:stretch}.site-footer__base{align-items:flex-start;flex-direction:column;gap:7px}}
+@media (prefers-reduced-motion:reduce){.site-footer__nav a{transition:none}}

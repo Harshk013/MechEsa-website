@@ -1,0 +1,28 @@
+{
+  "name": "mechesa-engineered-motion",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "typescript": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "latest",
+    "tailwindcss": "latest",
+    "@tailwindcss/vite": "latest",
+    "framer-motion": "latest",
+    "gsap": "latest",
+    "lenis": "latest",
+    "three": "^0.179.1",
+    "@react-three/fiber": "^9.3.0",
+    "@react-three/drei": "^10.7.6"
+  },
+  "devDependencies": {}
+}
