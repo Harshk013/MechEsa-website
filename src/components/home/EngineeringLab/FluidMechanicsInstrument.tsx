@@ -62,7 +62,7 @@ export function FluidMechanicsInstrument() {
           particle.node?.setAttribute('opacity', '0')
           return
         }
-        particle.node?.setAttribute('opacity', String(blueprint ? 0.55 : 0.7))
+        particle.node?.setAttribute('opacity', String(isBlueprint ? 0.55 : 0.7))
         if (!reduced && visible) {
           particle.progress = (particle.progress + speed * dt) % 1
         }

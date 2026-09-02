@@ -51,7 +51,6 @@ export function MechanicalNavigation() {
 
 function NavItem({ href, label, number, mobile, onNavigate, linkRef }: { href: string; label: string; number: string; mobile?: boolean; onNavigate?: () => void; linkRef?: RefObject<HTMLAnchorElement | null> }) {
   const { setIntent, clearIntent } = usePointer()
-  const location = useLocation()
   const handleClick = () => {
     onNavigate?.()
   }

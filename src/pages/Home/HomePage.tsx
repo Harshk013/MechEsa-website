@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MechanicalButton } from '../../components/mechanical/MechanicalButton'
 import { MechanicalCard } from '../../components/mechanical/MechanicalCard'
@@ -23,13 +23,12 @@ import './home.css'
 export function HomePage() {
   const [selectedSystem, setSelectedSystem] = useState('design')
   const [selectedMember, setSelectedMember] = useState(homepageTeam[0].id)
-  const selected = useMemo(() => engineeringSystems.find(item => item.id === selectedSystem) ?? engineeringSystems[0], [selectedSystem])
   const selectedMemberData = homepageTeam.find(member => member.id === selectedMember) ?? homepageTeam[0]
 
-  return <HomeScrollController><HomeContent selectedSystem={selectedSystem} setSelectedSystem={setSelectedSystem} selected={selected} selectedMember={selectedMember} setSelectedMember={setSelectedMember} selectedMemberData={selectedMemberData} /></HomeScrollController>
+  return <HomeScrollController><HomeContent selectedSystem={selectedSystem} setSelectedSystem={setSelectedSystem} selectedMember={selectedMember} setSelectedMember={setSelectedMember} selectedMemberData={selectedMemberData} /></HomeScrollController>
 }
 
-function HomeContent({ selectedSystem, setSelectedSystem, selected, selectedMember, setSelectedMember, selectedMemberData }: { selectedSystem: string; setSelectedSystem: (value: string) => void; selected: typeof engineeringSystems[number]; selectedMember: string; setSelectedMember: (value: string) => void; selectedMemberData: typeof homepageTeam[number] }) {
+function HomeContent({ selectedSystem, setSelectedSystem, selectedMember, setSelectedMember, selectedMemberData }: { selectedSystem: string; setSelectedSystem: (value: string) => void; selectedMember: string; setSelectedMember: (value: string) => void; selectedMemberData: typeof homepageTeam[number] }) {
   const { snapshot, scrollToSection } = useHomeScrollProgress()
   return <div className="home-page" data-active-section={snapshot.activeSection} data-machine-state={snapshot.machineState}>
     <section className="home-section home-hero" id="home-core" data-section="01" data-transition="mechanical-lock" data-motion="hero">

@@ -4,7 +4,7 @@ import { useRepresentation } from '../../../app/providers/RepresentationProvider
 import { CursorTarget } from '../../interaction/CursorTarget'
 import { INITIAL_MOTION, INITIAL_TRACK_PROGRESS, MAX_HISTORY_POINTS, TRACK, TRACK_STATIONS } from './engineeringMotion.constants'
 import { buildTrack, buildTrackStationMarkers, calculateMotionState, getTrackStation, sampleTrack } from './engineeringMotion.model'
-import type { MotionSample, TrackSample } from './engineeringMotion.types'
+import type { MotionSample, TrackSample, TrackStation } from './engineeringMotion.types'
 import { MotionTrace } from './MotionTrace'
 
 const TRACK_MODEL = buildTrack()
@@ -102,7 +102,7 @@ export function MotionInstrument({ onStateChange, onHistoryChange }: { onStateCh
   const historyCountRef = useRef(0)
   const historyWriteRef = useRef(0)
   const [inputs, setInputs] = useState(INITIAL_MOTION)
-  const [activeStation, setActiveStation] = useState(TRACK_STATIONS[0])
+  const [activeStation, setActiveStation] = useState<TrackStation>(TRACK_STATIONS[0])
   const modelStateRef = useRef(calculateMotionState(INITIAL_MOTION))
   const inputsRef = useRef(INITIAL_MOTION)
   const lastRef = useRef(0)

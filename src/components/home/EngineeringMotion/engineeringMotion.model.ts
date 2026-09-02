@@ -151,7 +151,7 @@ export function buildTrackStationMarkers(track: TrackModel): TrackStationMarker[
 
 export function getTrackStation(progress: number): TrackStation {
   const normalized = ((progress % 1) + 1) % 1
-  let nearest = TRACK_STATIONS[0]
+  let nearest: TrackStation = TRACK_STATIONS[0]
   let nearestDistance = 1
   for (const station of TRACK_STATIONS) {
     const distance = Math.min(Math.abs(normalized - station.progress), 1 - Math.abs(normalized - station.progress))
