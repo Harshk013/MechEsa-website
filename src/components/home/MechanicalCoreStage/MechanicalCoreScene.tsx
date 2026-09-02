@@ -1,10 +1,9 @@
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows } from '@react-three/drei'
-import { useEffect, useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import type { RefObject } from 'react'
 import * as THREE from 'three'
 import { useReducedMotion } from '../../../hooks/useReducedMotion'
-import { useRepresentation } from '../../../app/providers/RepresentationProvider'
 import { usePointer } from '../../interaction/PointerProvider'
 import { CORE_CONFIG, CORE_MATERIALS } from './mechanicalCore.constants'
 import { calculateGearAngularVelocity, calculateGearRatio, solveCrankSlider } from './gearMath'
@@ -17,7 +16,6 @@ import { MechanicalCoreCamera } from './MechanicalCoreCamera'
 import { MechanicalCoreLighting } from './MechanicalCoreLighting'
 import type { MechanicalCoreStageProps } from './mechanicalCore.types'
 import { useCoreQuality } from './useCoreQuality'
-import { applyMechanicalRepresentation, captureMechanicalMaterials } from './mechanicalRepresentation'
 
 function MachineFrame({ mobile }: { mobile: boolean }) {
   return <group>
@@ -151,26 +149,9 @@ function CoreAssembly({ state, onTelemetry, onHover, onEngage, mobile }: Mechani
   const cycleRef = useRef(0)
   const focusRef = useRef('CORE')
   const { setIntent, clearIntent } = usePointer()
-  const { isBlueprint } = useRepresentation()
-  const representationRootRef = useRef<THREE.Group>(null)
-  const materialSnapshotsRef = useRef<ReturnType<typeof captureMechanicalMaterials>>([])
-  const blueprintAmountRef = useRef(0)
   const ratio = useMemo(() => calculateGearRatio(CORE_CONFIG.primaryTeeth, CORE_CONFIG.secondaryTeeth), [])
 
-  useEffect(() => {
-    if (!representationRootRef.current) return
-    materialSnapshotsRef.current = captureMechanicalMaterials(representationRootRef.current)
-    applyMechanicalRepresentation(materialSnapshotsRef.current, blueprintAmountRef.current)
-  }, [])
-
   useFrame((_, delta) => {
-    const representationTarget = isBlueprint ? 1 : 0
-    const representationSpeed = reducedMotion ? 12 : 4.8
-    blueprintAmountRef.current = reducedMotion
-      ? representationTarget
-      : THREE.MathUtils.damp(blueprintAmountRef.current, representationTarget, representationSpeed, Math.min(delta, 0.05))
-    if (materialSnapshotsRef.current.length) applyMechanicalRepresentation(materialSnapshotsRef.current, blueprintAmountRef.current)
-
     const dt = Math.min(delta, 0.05)
     const targetRpm = state === 'engaged' ? CORE_CONFIG.engagedRpm : state === 'active' || state === 'interacting' ? CORE_CONFIG.baseRpm : 0
     currentRpmRef.current += (targetRpm - currentRpmRef.current) * Math.min(1, dt * (state === 'engaged' ? 2.2 : 1.35))
@@ -235,7 +216,7 @@ function CoreAssembly({ state, onTelemetry, onHover, onEngage, mobile }: Mechani
   const secondaryPos: [number, number, number] = [2.05, 0.05, 0.42]
   const tertiaryPos: [number, number, number] = [2.05, -1.66, 0.38]
 
-  return <group ref={representationRootRef}>
+  return <group>
     <MachineFrame mobile={mobile} />
     <ActuatorHousing mobile={mobile} />
 

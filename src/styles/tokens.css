@@ -83,12 +83,3 @@
   --motion-mechanical: var(--ease-mechanical);
   --motion-precision: var(--ease-precision);
 }
-
-:root {
-  /* PROMPT 14 — global representation vocabulary */
-  --representation-blueprint-line: rgba(130, 169, 199, 0.62);
-  --representation-blueprint-grid: rgba(130, 169, 199, 0.08);
-  --representation-blueprint-text: #a9c4d8;
-  --representation-blueprint-surface: rgba(18, 35, 45, 0.72);
-  --representation-blueprint-accent: #82a9c7;
-}

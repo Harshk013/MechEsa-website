@@ -1,3 +1,0 @@
-export type ThermodynamicsModel={heatInput:number;temperatureIndex:number;pressureIndex:number;energyIndex:number;pistonPosition:number;particleSpeed:number;state:'IDLE'|'HEATING'|'STABLE'|'HIGH ENERGY'}
-export function clampHeat(v:number){return Math.max(0,Math.min(100,Math.round(v)))}
-export function calculateThermodynamics(v:number):ThermodynamicsModel{const heat=clampHeat(v);return{heatInput:heat,temperatureIndex:heat,pressureIndex:Math.round(heat*.52),energyIndex:Math.round(heat*1.2),pistonPosition:heat*.34,particleSpeed:.35+heat/100*1.8,state:heat<=10?'IDLE':heat<=60?'HEATING':heat<=85?'STABLE':'HIGH ENERGY'}}

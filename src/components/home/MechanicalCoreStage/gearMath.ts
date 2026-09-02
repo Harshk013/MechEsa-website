@@ -16,9 +16,6 @@ export function calculateGearRatio(inputTeeth: number, outputTeeth: number) {
 export function solveCrankSlider(crankAngle: number, crankRadius: number, rodLength: number) {
   const crankOffset = crankRadius * Math.cos(crankAngle)
   const crankVertical = crankRadius * Math.sin(crankAngle)
-  const pistonTravel = Math.sqrt(Math.max(0, rodLength ** 2 - crankOffset ** 2))
-  // The piston sits on the slider axis, so its position is the crank-pin
-  // vertical coordinate plus the remaining rod projection.
-  const pistonY = crankVertical + pistonTravel
-  return { x: crankOffset, y: crankVertical, pistonY }
+  const pistonOffset = Math.sqrt(Math.max(0, rodLength ** 2 - crankOffset ** 2))
+  return { x: crankOffset, y: crankVertical, pistonY: pistonOffset }
 }

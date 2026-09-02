@@ -1,8 +1,6 @@
 import { forwardRef, useMemo, useState } from 'react'
 import * as THREE from 'three'
-import { Edges } from '@react-three/drei'
 import { CORE_MATERIALS } from './mechanicalCore.constants'
-import { useRepresentation } from '../../../app/providers/RepresentationProvider'
 
 type MechanicalGearProps = {
   radius: number
@@ -40,7 +38,6 @@ function createGearShape(radius: number, teeth: number, toothDepth = 0.16) {
 
 export const MechanicalGear = forwardRef<THREE.Group, MechanicalGearProps>(function MechanicalGear({ radius, teeth, thickness, material = 'graphite', position = [0, 0, 0], scale = 1, onPointerEnter, onPointerLeave, onClick }, ref) {
   const [hovered, setHovered] = useState(false)
-  const { isBlueprint } = useRepresentation()
   const geometry = useMemo(() => new THREE.ExtrudeGeometry(createGearShape(radius, teeth), {
     depth: thickness,
     bevelEnabled: true,
@@ -57,7 +54,6 @@ export const MechanicalGear = forwardRef<THREE.Group, MechanicalGearProps>(funct
     onClick={(event) => { event.stopPropagation(); onClick?.() }}>
     <mesh geometry={geometry} rotation={[Math.PI / 2, 0, 0]} castShadow receiveShadow>
       <meshStandardMaterial color={color} metalness={0.9} roughness={hovered ? 0.24 : 0.32} emissive={CORE_MATERIALS.accent} emissiveIntensity={hovered ? 0.055 : 0.008} />
-      <Edges threshold={24} color={CORE_MATERIALS.blueprint} linewidth={0.7} visible={isBlueprint} />
     </mesh>
     <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, thickness * 0.52]}>
       <ringGeometry args={[radius * 0.28, radius * 0.38, 32]} />
