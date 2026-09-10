@@ -13,7 +13,6 @@ import { MechanicalCoreStage } from '../../components/home/MechanicalCoreStage'
 import { HomeScrollController } from '../../components/home/scroll/HomeScrollController'
 import { useHomeScrollProgress } from '../../components/home/scroll/useHomeScrollProgress'
 import { TeamAssemblyNode } from '../../components/home/TeamAssemblyNode'
-import { EngineeringLab } from '../../components/home/EngineeringLab/EngineeringLab'
 import { EngineeringMotion } from '../../components/home/EngineeringMotion'
 import { SystemHandoff } from '../../components/home/SystemHandoff'
 import { engineeringSystems, homepageBlogs, homepageEvents, homepageTeam } from '../../data/home'
@@ -21,14 +20,13 @@ import './home.css'
 
 
 export function HomePage() {
-  const [selectedSystem, setSelectedSystem] = useState('design')
   const [selectedMember, setSelectedMember] = useState(homepageTeam[0].id)
   const selectedMemberData = homepageTeam.find(member => member.id === selectedMember) ?? homepageTeam[0]
 
-  return <HomeScrollController><HomeContent selectedSystem={selectedSystem} setSelectedSystem={setSelectedSystem} selectedMember={selectedMember} setSelectedMember={setSelectedMember} selectedMemberData={selectedMemberData} /></HomeScrollController>
+  return <HomeScrollController><HomeContent selectedMember={selectedMember} setSelectedMember={setSelectedMember} selectedMemberData={selectedMemberData} /></HomeScrollController>
 }
 
-function HomeContent({ selectedSystem, setSelectedSystem, selectedMember, setSelectedMember, selectedMemberData }: { selectedSystem: string; setSelectedSystem: (value: string) => void; selectedMember: string; setSelectedMember: (value: string) => void; selectedMemberData: typeof homepageTeam[number] }) {
+function HomeContent({ selectedMember, setSelectedMember, selectedMemberData }: { selectedMember: string; setSelectedMember: (value: string) => void; selectedMemberData: typeof homepageTeam[number] }) {
   const { snapshot, scrollToSection } = useHomeScrollProgress()
   return <div className="home-page" data-active-section={snapshot.activeSection} data-machine-state={snapshot.machineState}>
     <section className="home-section home-hero" id="home-core" data-section="01" data-transition="mechanical-lock" data-motion="hero">
@@ -80,8 +78,21 @@ function HomeContent({ selectedSystem, setSelectedSystem, selectedMember, setSel
 
     <section className="home-section systems-section" id="systems" data-section="03" data-transition="signal-propagation" data-motion="systems">
       <div className="page-container">
-        <SectionHeader number="03" eyebrow="ENGINEERING SYSTEMS / LAB" title="INTERACT WITH THE SYSTEM." description="Select an engineering domain. Thermodynamics is the first interactive instrument; the remaining systems retain their existing informational states." />
-        <EngineeringLab systems={engineeringSystems} selectedSystem={selectedSystem} onSelectSystem={setSelectedSystem} />
+        <SectionHeader number="03" eyebrow="ENGINEERING SYSTEMS / LAB" title="INTERACT WITH THE SYSTEM." description="Eight live engineering instruments — thermodynamics, fluid mechanics, manufacturing, robotics and more. Operate the full lab on its own page." />
+        <div className="systems-teaser">
+          <div className="systems-teaser__domains">
+            {engineeringSystems.map((s, i) => (
+              <div key={s.id} className="systems-teaser__domain">
+                <span className="technical-small">{String(i + 1).padStart(2, '0')}</span>
+                <strong>{s.shortLabel}</strong>
+              </div>
+            ))}
+          </div>
+          <div className="systems-teaser__cta">
+            <Link to="/systems" className="mechanical-button mechanical-button--primary label">OPEN SYSTEMS LAB ↗</Link>
+            <span className="technical-small">{engineeringSystems.length} SYSTEMS / {engineeringSystems.filter(s => s.status === 'ACTIVE').length} ACTIVE</span>
+          </div>
+        </div>
       </div>
     </section>
 

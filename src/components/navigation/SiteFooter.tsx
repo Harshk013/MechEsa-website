@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { navigation, site } from '../../data/site'
 import { CursorTarget } from '../interaction/CursorTarget'
-import { RepresentationToggle } from '../system/RepresentationToggle/RepresentationToggle'
 import { TechnicalDivider } from '../mechanical/TechnicalDivider'
 import { TechnicalLabel } from '../typography/TechnicalLabel'
 import './siteFooter.css'
@@ -34,8 +33,6 @@ export function SiteFooter() {
           </nav>
 
           <div className="site-footer__controls">
-            <span className="technical-small">REPRESENTATION</span>
-            <RepresentationToggle />
             <div className="site-footer__meta">
               <span>MECHESA / {site.institute.toUpperCase()}</span>
               <span>© {year} / ENGINEERED MOTION</span>

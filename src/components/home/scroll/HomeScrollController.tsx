@@ -2,7 +2,6 @@ import { createContext, useCallback, useEffect, useMemo, useRef, useState, type 
 import { useMotionSettings } from '../../../app/providers/MotionProvider'
 import { HOME_SECTIONS } from './homeScroll.constants'
 import type { HomeScrollSnapshot } from './homeScroll.types'
-import { SectionProgressRail } from './SectionProgressRail'
 import { MachineStateIndicator } from './MachineStateIndicator'
 
 const initialSnapshot: HomeScrollSnapshot = { globalProgress: 0, sectionProgress: 0, velocity: 0, direction: 'idle', activeSection: 'home-core', machineState: 'ACTIVE' }
@@ -74,5 +73,5 @@ export function HomeScrollController({ children }: { children: ReactNode }) {
   }, [reducedMotion])
 
   const value = useMemo(() => ({ snapshot, scrollToSection }), [snapshot, scrollToSection])
-  return <HomeScrollContext.Provider value={value}><div className="home-scroll-system"><MachineStateIndicator />{children}<SectionProgressRail /></div></HomeScrollContext.Provider>
+  return <HomeScrollContext.Provider value={value}><div className="home-scroll-system"><MachineStateIndicator />{children}</div></HomeScrollContext.Provider>
 }
