@@ -13,20 +13,6 @@ import { useMotionSettings } from '../../app/providers/MotionProvider'
 import './about.css'
 
 const aboutSections = ['IDENTIFY', 'DISCOVER', 'CONNECT', 'TRANSFORM', 'OPERATE', 'CONTEXT', 'DECLARE', 'MANIFESTO', 'HANDOFF']
-// MECHESA PATCH UI-03 - canonical system color map
-const systemColorTokenById: Record<string, string> = {
-  design: 'var(--sys-design)',
-  materials: 'var(--sys-materials)',
-  manufacturing: 'var(--sys-manufacturing)',
-  mechatronics: 'var(--sys-mechatronics)',
-  robotics: 'var(--sys-robotics)',
-  automotive: 'var(--sys-automotive)',
-  thermodynamics: 'var(--sys-thermodynamics)',
-  fluid: 'var(--sys-fluid)',
-}
-
-const getSystemColorToken = (id: string) =>
-  systemColorTokenById[id] ?? 'var(--color-border)'
 const systemPositions = [
   { x: 18, y: 18 }, { x: 50, y: 9 }, { x: 82, y: 18 }, { x: 15, y: 50 },
   { x: 50, y: 49 }, { x: 85, y: 50 }, { x: 28, y: 81 }, { x: 73, y: 81 },
@@ -131,12 +117,11 @@ export function AboutPage() {
               <svg className="systems-map__connections" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
                 {systemPositions.map((position, index) => index > 0 && <line key={`${index}-a`} x1={systemPositions[index - 1].x} y1={systemPositions[index - 1].y} x2={position.x} y2={position.y} />)}
                 <line x1="18" y1="18" x2="50" y2="49" /><line x1="82" y1="18" x2="50" y2="49" /><line x1="15" y1="50" x2="50" y2="49" /><line x1="85" y1="50" x2="50" y2="49" /><line x1="28" y1="81" x2="50" y2="49" /><line x1="73" y1="81" x2="50" y2="49" />
-                {selectedSystemData && <line key={selectedSystemData.id} className="systems-map__selected-connection" data-system-id={selectedSystemData.id} x1="50" y1="49" x2={systemPositions[activeSystemIndex].x} y2={systemPositions[activeSystemIndex].y} style={{ '--system-color': getSystemColorToken(selectedSystemData.id) } as CSSProperties} />}
               </svg>
               {engineeringSystems.map((system, index) => <SystemNode key={system.id} system={system} index={index} position={systemPositions[index]} selected={selectedSystem === system.id} onSelect={() => setSelectedSystem(system.id)} />)}
             </div>
-            <MechanicalPanel variant="technical" className="system-inspector" aria-live="polite" style={{ '--system-color': getSystemColorToken(selectedSystemData?.id ?? '') } as CSSProperties}>
-              <div className="system-inspector__top"><span className="system-inspector__identity-marker" aria-hidden="true" /><TechnicalLabel prefix="SYSTEM NODE">{selectedSystemData?.shortLabel ?? 'N/A'}</TechnicalLabel><SystemIndicator state={selectedSystemData?.status === 'ACTIVE' ? 'active' : 'idle'} label={selectedSystemData?.status ?? 'STANDBY'} /></div>
+            <MechanicalPanel variant="technical" className="system-inspector" aria-live="polite">
+              <div className="system-inspector__top"><TechnicalLabel prefix="SYSTEM NODE">{selectedSystemData?.shortLabel ?? 'N/A'}</TechnicalLabel><SystemIndicator state={selectedSystemData?.status === 'ACTIVE' ? 'active' : 'idle'} label={selectedSystemData?.status ?? 'STANDBY'} /></div>
               <span className="technical-small">ENGINEERING SYSTEM / {String(activeSystemIndex + 1).padStart(2, '0')}</span>
               <h3>{selectedSystemData?.title}</h3>
               <p>{selectedSystemData?.description}</p>
@@ -192,7 +177,7 @@ function PrincipleNode({ principle, selected, reducedMotion, onSelect }: { princ
 }
 
 function SystemNode({ system, index, position, selected, onSelect }: { system: typeof engineeringSystems[number]; index: number; position: { x: number; y: number }; selected: boolean; onSelect: () => void }) {
-  return <CursorTarget intent="view" label="VIEW" className="system-node-wrap" style={{ left: `${position.x}%`, top: `${position.y}%` } as CSSProperties}><button type="button" className={`system-node${selected ? ' is-selected' : ''}`} data-system-id={system.id} style={{ '--system-color': getSystemColorToken(system.id) } as CSSProperties} onClick={onSelect} aria-pressed={selected} aria-label={`Inspect ${system.title}`}><span>{String(index + 1).padStart(2, '0')}</span><i aria-hidden="true" /><strong>{system.shortLabel}</strong></button></CursorTarget>
+  return <CursorTarget intent="view" label="VIEW" className="system-node-wrap" style={{ left: `${position.x}%`, top: `${position.y}%` } as CSSProperties}><button type="button" className={`system-node${selected ? ' is-selected' : ''}`} onClick={onSelect} aria-pressed={selected} aria-label={`Inspect ${system.title}`}><span>{String(index + 1).padStart(2, '0')}</span><i aria-hidden="true" /><strong>{system.shortLabel}</strong></button></CursorTarget>
 }
 
 function TheoryToMotion({ reducedMotion }: { reducedMotion: boolean }) {

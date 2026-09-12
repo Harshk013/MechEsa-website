@@ -1,144 +1,105 @@
-$ErrorActionPreference = "Stop"
-
-# MECHESA // PATCH UI-03
-# 8-System Network + Inspector Color Language
-# Run from the existing MECHESA repository root:
+﻿# MECHESA // PART 2 // PATCH UI-03
+# 8-SYSTEM NETWORK + INSPECTOR COLOR LANGUAGE
+#
+# Run from the existing repository root:
 # powershell -ExecutionPolicy Bypass -File .\MECHESA_PATCH_UI_03.ps1
+
+$ErrorActionPreference = "Stop"
 
 $projectRoot = (Get-Location).Path
 $backupDir = Join-Path $projectRoot ".patch-backups\PATCH_UI_03"
+$reportPath = Join-Path $projectRoot "PATCH_UI_03_REPORT.md"
 
-function Fail-Patch([string]$Message) {
+function Stop-Patch([string]$Message) {
     Write-Host ""
     Write-Host "PATCH UI-03 STOPPED SAFELY" -ForegroundColor Red
     Write-Host $Message -ForegroundColor Red
-    Write-Host ""
-    Write-Host "No source files were written by this run." -ForegroundColor Yellow
+    Write-Host "No source files were modified by this run." -ForegroundColor Yellow
     exit 1
 }
 
 function Require-File([string]$RelativePath) {
     $path = Join-Path $projectRoot $RelativePath
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
-        Fail-Patch "Required file not found: $RelativePath"
+        Stop-Patch "Required file not found: $RelativePath"
     }
     return $path
 }
 
-function Require-Token([string]$Content, [string]$Token) {
-    if ($Content -notmatch [regex]::Escape($Token)) {
-        Fail-Patch "PATCH UI-01 token '$Token' was not found. Apply PATCH UI-01 before PATCH UI-03."
-    }
+function Read-Text([string]$Path) {
+    return [System.IO.File]::ReadAllText($Path)
 }
 
-function Append-Once([string]$Content, [string]$Marker, [string]$Block) {
-    if ($Content.Contains($Marker)) {
-        return $Content
-    }
-    return $Content.TrimEnd() + "`r`n`r`n" + $Block.Trim() + "`r`n"
+function Write-Text([string]$Path, [string]$Content) {
+    [System.IO.File]::WriteAllText($Path, $Content, [System.Text.UTF8Encoding]::new($false))
+}
+
+function Backup-File([string]$Path, [string]$RelativeBackupName) {
+    $destination = Join-Path $backupDir $RelativeBackupName
+    $destinationDir = Split-Path -Parent $destination
+    New-Item -ItemType Directory -Path $destinationDir -Force | Out-Null
+    Copy-Item -LiteralPath $Path -Destination $destination -Force
 }
 
 function Replace-Once([string]$Content, [string]$Old, [string]$New, [string]$Description) {
-    $matches = [regex]::Matches($Content, [regex]::Escape($Old))
-    if ($matches.Count -eq 0) {
-        Fail-Patch "Could not locate the expected $Description source block. Existing teammate architecture was left untouched."
-    }
-    if ($matches.Count -gt 1) {
-        Fail-Patch "Found $($matches.Count) copies of the expected $Description source block. Automatic patching would be unsafe."
+    if (-not $Content.Contains($Old)) {
+        Stop-Patch "Could not find the expected $Description. Refusing a blind replacement."
     }
     return $Content.Replace($Old, $New)
 }
 
-# ---------------------------------------------------------------------------
-# 1. Project-root and PATCH UI-01 checks
-# ---------------------------------------------------------------------------
-
+# 1. Verify root and UI-01.
 Require-File "package.json" | Out-Null
 $tokensPath = Require-File "src/styles/tokens.css"
-$tokens = Get-Content -LiteralPath $tokensPath -Raw
+$tokens = Read-Text $tokensPath
 
 foreach ($token in @(
-    "--color-signal",
-    "--color-signal-soft",
-    "--color-signal-glow",
-    "--color-blueprint",
-    "--sys-design",
-    "--sys-materials",
-    "--sys-manufacturing",
-    "--sys-mechatronics",
-    "--sys-robotics",
-    "--sys-automotive",
-    "--sys-thermodynamics",
-    "--sys-fluid"
+    "--sys-design","--sys-materials","--sys-manufacturing","--sys-mechatronics",
+    "--sys-robotics","--sys-automotive","--sys-thermodynamics","--sys-fluid"
 )) {
-    Require-Token $tokens $token
-}
-
-# ---------------------------------------------------------------------------
-# 2. Locate canonical current files
-# ---------------------------------------------------------------------------
-
-$nodePath = Require-File "src/components/home/EngineeringSystemNode.tsx"
-$homeCssPath = Require-File "src/pages/Home/home.css"
-$homePagePath = Require-File "src/pages/Home/HomePage.tsx"
-
-$node = Get-Content -LiteralPath $nodePath -Raw
-$homeCss = Get-Content -LiteralPath $homeCssPath -Raw
-$homePage = Get-Content -LiteralPath $homePagePath -Raw
-
-# The network and inspector must actually be wired into the homepage.
-# Do not manufacture a new network in a patch whose scope is styling only.
-if ($homePage -notmatch "EngineeringSystemNode") {
-    Fail-Patch "EngineeringSystemNode is not currently rendered by HomePage.tsx. The homepage systems network is not wired in the current repository, so UI-03 cannot safely patch it without inventing/reintroducing architecture."
-}
-
-if ($homePage -notmatch "systems-network") {
-    Fail-Patch "HomePage.tsx does not contain the existing systems-network implementation. UI-03 requires an already-existing network; no new network was created."
-}
-
-if ($homePage -notmatch "systems-inspector") {
-    Fail-Patch "HomePage.tsx does not contain the existing systems-inspector implementation. UI-03 requires an already-existing inspector; no new inspector was created."
-}
-
-if ($homeCss -notmatch "\.systems-network__lines") {
-    Fail-Patch "systems-network__lines CSS was not found. Existing network connector architecture could not be verified."
-}
-if ($homeCss -notmatch "\.systems-inspector__bars") {
-    Fail-Patch "systems-inspector__bars CSS was not found. Existing inspector bar architecture could not be verified."
-}
-
-# Verify the canonical data source is present without editing it.
-$dataHomePath = Join-Path $projectRoot "src/data/home.ts"
-if (-not (Test-Path -LiteralPath $dataHomePath -PathType Leaf)) {
-    Fail-Patch "src/data/home.ts was not found; cannot verify the canonical engineeringSystems data."
-}
-$dataHome = Get-Content -LiteralPath $dataHomePath -Raw
-
-$requiredIds = @(
-    "design",
-    "materials",
-    "manufacturing",
-    "mechatronics",
-    "robotics",
-    "automotive",
-    "thermodynamics",
-    "fluid"
-)
-foreach ($id in $requiredIds) {
-    if ($dataHome -notmatch ("id:\s*['""]" + [regex]::Escape($id) + "['""]")) {
-        Fail-Patch "Canonical engineeringSystems data is missing expected ID '$id'. No data changes were made."
+    if (-not $tokens.Contains($token)) {
+        Stop-Patch "PATCH UI-01 token '$token' is missing. Apply UI-01 before UI-03."
     }
 }
 
-# ---------------------------------------------------------------------------
-# 3. Ensure the node has one canonical system-color mapping.
-#    The mapping is token-based and is reused by node, network, and inspector
-#    through the --system-color custom property.
-# ---------------------------------------------------------------------------
+# 2. Verify canonical eight-system data without editing it.
+$dataPath = Require-File "src/data/home.ts"
+$data = Read-Text $dataPath
+$ids = @("design","materials","manufacturing","mechatronics","robotics","automotive","thermodynamics","fluid")
+foreach ($id in $ids) {
+    if ($data -notmatch ("id\s*:\s*['""]" + [regex]::Escape($id) + "['""]")) {
+        Stop-Patch "Canonical engineeringSystems data is missing '$id'."
+    }
+}
 
-$mapMarker = "// MECHESA PATCH UI-03 — canonical system color map"
-$mapBlock = @"
-$mapMarker
+# 3. Inspect the actual implementation.
+$aboutTsxPath = Require-File "src/pages/About/AboutPage.tsx"
+$aboutCssPath = Require-File "src/pages/About/about.css"
+$homeCssPath = Require-File "src/pages/Home/home.css"
+
+$aboutTsx = Read-Text $aboutTsxPath
+$aboutCss = Read-Text $aboutCssPath
+$homeCss = Read-Text $homeCssPath
+
+# The supplied repository's actual engineering network is the existing
+# systems-map in AboutPage. Do not create a duplicate homepage network.
+if (-not $aboutTsx.Contains('className="systems-map"')) {
+    Stop-Patch "The existing engineering systems network (.systems-map) could not be located in AboutPage.tsx."
+}
+if (-not $aboutTsx.Contains('className="system-inspector"')) {
+    Stop-Patch "The existing engineering system inspector (.system-inspector) could not be located in AboutPage.tsx."
+}
+if (-not $aboutTsx.Contains("engineeringSystems.map")) {
+    Stop-Patch "The existing systems network is no longer data-driven. Refusing to hardcode system nodes."
+}
+if (-not $aboutTsx.Contains("selectedSystem")) {
+    Stop-Patch "The existing systems network does not expose the current selectedSystem state."
+}
+
+# 4. Centralized token mapping, reused by node + selected connector + inspector.
+$mapMarker = "// MECHESA PATCH UI-03 - canonical system color map"
+if (-not $aboutTsx.Contains($mapMarker)) {
+    $mapBlock = @'
 const systemColorTokenById: Record<string, string> = {
   design: 'var(--sys-design)',
   materials: 'var(--sys-materials)',
@@ -149,380 +110,224 @@ const systemColorTokenById: Record<string, string> = {
   thermodynamics: 'var(--sys-thermodynamics)',
   fluid: 'var(--sys-fluid)',
 }
-"@
 
-if (-not $node.Contains($mapMarker)) {
-    # Place the mapping directly after imports. This does not alter the data API.
-    $firstExport = "export function EngineeringSystemNode"
-    if (-not $node.Contains($firstExport)) {
-        Fail-Patch "EngineeringSystemNode.tsx has an unexpected structure; safe mapping insertion is not possible."
+const getSystemColorToken = (id: string) =>
+  systemColorTokenById[id] ?? 'var(--color-border)'
+'@
+    $anchor = "const systemPositions = ["
+    if (-not $aboutTsx.Contains($anchor)) {
+        Stop-Patch "Could not find the existing systemPositions anchor."
     }
-    $node = $node.Replace($firstExport, "$mapBlock`r`n`r`n$firstExport")
+    $aboutTsx = $aboutTsx.Replace($anchor, "$mapMarker`r`n$mapBlock`r`n$anchor")
 }
 
-# Add the CSS custom property and deterministic data attribute to the existing
-# button. Do not create independent color state.
-$oldReturn = @'
-return <CursorTarget label="VIEW" intent="view" className={`system-node ${selected ? 'is-selected' : ''}`}>
-    <button type="button" className="system-node__button" onClick={onSelect} aria-pressed={selected}>
+# 5. Give the existing SystemNode a deterministic data-system-id and one
+#    canonical CSS variable. Selection state remains the existing state.
+$oldNode = @'
+function SystemNode({ system, index, position, selected, onSelect }: { system: typeof engineeringSystems[number]; index: number; position: { x: number; y: number }; selected: boolean; onSelect: () => void }) {
+  return <CursorTarget intent="view" label="VIEW" className="system-node-wrap" style={{ left: `${position.x}%`, top: `${position.y}%` } as CSSProperties}><button type="button" className={`system-node${selected ? ' is-selected' : ''}`} onClick={onSelect} aria-pressed={selected} aria-label={`Inspect ${system.title}`}><span>{String(index + 1).padStart(2, '0')}</span><i aria-hidden="true" /><strong>{system.shortLabel}</strong></button></CursorTarget>
+}
 '@
-$newReturn = @'
-return <CursorTarget label="VIEW" intent="view" className={`system-node ${selected ? 'is-selected' : ''}`}>
-    <button
-      type="button"
-      className="system-node__button"
-      onClick={onSelect}
-      aria-pressed={selected}
-      data-system-id={system.id}
-      style={{ '--system-color': systemColorTokenById[system.id] ?? 'var(--color-border)' } as React.CSSProperties}
-    >
+$newNode = @'
+function SystemNode({ system, index, position, selected, onSelect }: { system: typeof engineeringSystems[number]; index: number; position: { x: number; y: number }; selected: boolean; onSelect: () => void }) {
+  return <CursorTarget intent="view" label="VIEW" className="system-node-wrap" style={{ left: `${position.x}%`, top: `${position.y}%` } as CSSProperties}><button type="button" className={`system-node${selected ? ' is-selected' : ''}`} data-system-id={system.id} style={{ '--system-color': getSystemColorToken(system.id) } as CSSProperties} onClick={onSelect} aria-pressed={selected} aria-label={`Inspect ${system.title}`}><span>{String(index + 1).padStart(2, '0')}</span><i aria-hidden="true" /><strong>{system.shortLabel}</strong></button></CursorTarget>
+}
 '@
-
-if (-not $node.Contains('data-system-id={system.id}')) {
-    $node = Replace-Once $node $oldReturn $newReturn "system node identity binding"
+if (-not $aboutTsx.Contains("data-system-id={system.id}")) {
+    $aboutTsx = Replace-Once $aboutTsx $oldNode $newNode "existing SystemNode implementation"
 }
 
-# Use a focusable semantic button, and expose selected state to assistive tech.
-# aria-pressed is already the existing selection contract; preserve it.
-if (-not $node.Contains('aria-pressed={selected}')) {
-    Fail-Patch "Existing system-node selection semantics were not found; refusing to change accessibility behavior."
+# 6. Add one selected connector from the neutral core to the selected node.
+#    Existing neutral connectors remain untouched. Keying by selectedSystem
+#    causes the restrained CSS signal animation to replay on each selection.
+$oldSvg = @'
+              <svg className="systems-map__connections" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                {systemPositions.map((position, index) => index > 0 && <line key={`${index}-a`} x1={systemPositions[index - 1].x} y1={systemPositions[index - 1].y} x2={position.x} y2={position.y} />)}
+                <line x1="18" y1="18" x2="50" y2="49" /><line x1="82" y1="18" x2="50" y2="49" /><line x1="15" y1="50" x2="50" y2="49" /><line x1="85" y1="50" x2="50" y2="49" /><line x1="28" y1="81" x2="50" y2="49" /><line x1="73" y1="81" x2="50" y2="49" />
+              </svg>
+'@
+$newSvg = @'
+              <svg className="systems-map__connections" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                {systemPositions.map((position, index) => index > 0 && <line key={`${index}-a`} x1={systemPositions[index - 1].x} y1={systemPositions[index - 1].y} x2={position.x} y2={position.y} />)}
+                <line x1="18" y1="18" x2="50" y2="49" /><line x1="82" y1="18" x2="50" y2="49" /><line x1="15" y1="50" x2="50" y2="49" /><line x1="85" y1="50" x2="50" y2="49" /><line x1="28" y1="81" x2="50" y2="49" /><line x1="73" y1="81" x2="50" y2="49" />
+                {selectedSystemData && <line key={selectedSystemData.id} className="systems-map__selected-connection" data-system-id={selectedSystemData.id} x1="50" y1="49" x2={systemPositions[activeSystemIndex].x} y2={systemPositions[activeSystemIndex].y} style={{ '--system-color': getSystemColorToken(selectedSystemData.id) } as CSSProperties} />}
+              </svg>
+'@
+if (-not $aboutTsx.Contains("systems-map__selected-connection")) {
+    $aboutTsx = Replace-Once $aboutTsx $oldSvg $newSvg "existing systems network connector SVG"
 }
 
-# ---------------------------------------------------------------------------
-# 4. Add the network/inspector visual layer to the existing home CSS.
-#    No scroll choreography, layout, or network geometry is changed.
-# ---------------------------------------------------------------------------
+# 7. Give the existing inspector the same selected-system variable and an
+#    identity marker. No second selection state is introduced.
+$oldInspector = @'
+            <MechanicalPanel variant="technical" className="system-inspector" aria-live="polite">
+              <div className="system-inspector__top"><TechnicalLabel prefix="SYSTEM NODE">{selectedSystemData?.shortLabel ?? 'N/A'}</TechnicalLabel><SystemIndicator state={selectedSystemData?.status === 'ACTIVE' ? 'active' : 'idle'} label={selectedSystemData?.status ?? 'STANDBY'} /></div>
+'@
+$newInspector = @'
+            <MechanicalPanel variant="technical" className="system-inspector" aria-live="polite" style={{ '--system-color': getSystemColorToken(selectedSystemData?.id ?? '') } as CSSProperties}>
+              <div className="system-inspector__top"><span className="system-inspector__identity-marker" aria-hidden="true" /><TechnicalLabel prefix="SYSTEM NODE">{selectedSystemData?.shortLabel ?? 'N/A'}</TechnicalLabel><SystemIndicator state={selectedSystemData?.status === 'ACTIVE' ? 'active' : 'idle'} label={selectedSystemData?.status ?? 'STANDBY'} /></div>
+'@
+if (-not $aboutTsx.Contains("system-inspector__identity-marker")) {
+    $aboutTsx = Replace-Once $aboutTsx $oldInspector $newInspector "existing system inspector header"
+}
 
-$cssMarker = "/* MECHESA PATCH UI-03 — eight-system network identity */"
-$cssBlock = @"
-$cssMarker
-.system-node__button {
+# 8. CSS is targeted at the actual system network/inspector classes. The
+#    homepage teaser also receives the same identity variables already used
+#    by UI-02; no homepage structure is changed.
+$cssMarker = "/* MECHESA PATCH UI-03 - eight-system network identity */"
+if (-not $aboutCss.Contains($cssMarker)) {
+    $cssBlock = @'
+/* MECHESA PATCH UI-03 - eight-system network identity */
+.system-node {
+  position: relative;
   border-left: 2px solid var(--system-color, var(--color-border));
+  box-shadow: inset 1px 0 0 color-mix(in srgb, var(--system-color, var(--color-border)) 32%, transparent);
   transition:
-    transform var(--duration-fast) var(--ease-mechanical),
-    border-color var(--duration-fast) var(--ease-ui),
-    background var(--duration-fast) var(--ease-ui),
-    box-shadow var(--duration-fast) var(--ease-ui);
+    transform .25s var(--ease-mechanical),
+    border-color .2s var(--ease-ui),
+    background .2s var(--ease-ui),
+    box-shadow .2s var(--ease-ui);
 }
-.system-node__button::before {
+.system-node::before {
   content: "";
   position: absolute;
-  left: -3px;
-  top: 13px;
+  left: -4px;
+  top: 15px;
   width: 4px;
   height: 4px;
   border-radius: 50%;
   background: var(--system-color, var(--color-border));
 }
-.system-node__button:hover,
-.system-node__button:focus-visible {
-  border-color: var(--system-color, var(--color-border));
-  border-left-color: var(--system-color, var(--color-border));
-  box-shadow:
-    inset 2px 0 0 color-mix(in srgb, var(--system-color) 42%, transparent),
-    0 0 14px color-mix(in srgb, var(--system-color) 12%, transparent);
-}
-.system-node__button:focus-visible {
-  outline: 1px solid var(--system-color, var(--color-border));
-  outline-offset: 2px;
-}
-.system-node.is-selected .system-node__button {
-  border-color: var(--system-color, var(--color-border-strong));
+.system-node:hover,
+.system-node:focus-visible {
   border-left-color: var(--system-color, var(--color-border-strong));
   box-shadow:
     inset 2px 0 0 var(--system-color, var(--color-border-strong)),
-    0 0 18px color-mix(in srgb, var(--system-color) 16%, transparent);
+    0 0 12px color-mix(in srgb, var(--system-color, transparent) 12%, transparent);
 }
-.system-node.is-selected .system-node__button::before {
-  box-shadow: 0 0 9px color-mix(in srgb, var(--system-color) 58%, transparent);
+.system-node:focus-visible {
+  outline: 1px solid var(--system-color, var(--color-accent));
+  outline-offset: 2px;
 }
-.system-node .system-indicator {
-  color: var(--system-color, var(--color-text-dim));
+.system-node.is-selected {
+  border-color: color-mix(in srgb, var(--system-color, var(--color-border-strong)) 72%, var(--color-border-strong));
+  border-left-color: var(--system-color, var(--color-border-strong));
+  box-shadow:
+    inset 2px 0 0 var(--system-color, var(--color-border-strong)),
+    0 0 18px color-mix(in srgb, var(--system-color, transparent) 16%, transparent);
 }
-.system-node .system-indicator__light {
-  box-shadow: 0 0 8px color-mix(in srgb, var(--system-color) 38%, transparent);
+.system-node.is-selected::before {
+  box-shadow: 0 0 9px color-mix(in srgb, var(--system-color, transparent) 58%, transparent);
 }
-
-/* The network remains neutral at rest; only the selected connector carries
-   the selected system identity. */
-.systems-network__lines i {
-  --connector-color: var(--color-accent-line);
-  background: linear-gradient(90deg, var(--connector-color), transparent);
-  transition:
-    background-color 180ms var(--ease-ui),
-    opacity 180ms var(--ease-ui),
-    filter 180ms var(--ease-ui);
+.system-node span {
+  color: color-mix(in srgb, var(--system-color, var(--color-blueprint)) 76%, var(--color-text-dim));
 }
-.systems-network__lines i.is-selected,
-.systems-network__lines i[data-system-selected="true"] {
-  --connector-color: var(--system-color, var(--color-accent-line));
-  background: linear-gradient(90deg, var(--connector-color), transparent);
-  opacity: .95;
-  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--connector-color) 36%, transparent));
-  animation: systems-network-signal 900ms var(--ease-mechanical) 1;
+.systems-map__selected-connection {
+  stroke: var(--system-color, var(--color-accent-line));
+  stroke-width: .24;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--system-color, var(--color-accent-line)) 28%, transparent));
+  animation: systems-map-selected-signal 900ms var(--ease-mechanical) 1;
 }
-
-/* Inspector follows the selected system through the same custom property. */
-.systems-inspector {
+.system-inspector {
   --system-color: var(--color-accent);
+  transition: border-color .2s var(--ease-ui), box-shadow .2s var(--ease-ui);
 }
-.systems-inspector__bars {
-  transition: color 200ms var(--ease-ui), filter 200ms var(--ease-ui);
+.system-inspector__top {
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
 }
-.systems-inspector__bars i {
-  background: linear-gradient(
-    180deg,
-    var(--system-color),
-    color-mix(in srgb, var(--system-color) 10%, transparent)
-  );
-  box-shadow: 0 0 10px color-mix(in srgb, var(--system-color) 20%, transparent);
-  transition:
-    background 200ms var(--ease-ui),
-    box-shadow 200ms var(--ease-ui),
-    opacity 200ms var(--ease-ui);
-}
-.systems-inspector__bars i:first-child {
-  box-shadow: 0 0 13px color-mix(in srgb, var(--system-color) 30%, transparent);
-}
-.systems-inspector__head::before {
-  content: "";
+.system-inspector__identity-marker {
   width: 5px;
   height: 5px;
+  margin-top: .25rem;
   flex: 0 0 auto;
-  align-self: center;
   border-radius: 50%;
   background: var(--system-color);
   box-shadow: 0 0 8px color-mix(in srgb, var(--system-color) 35%, transparent);
-  transition: background 200ms var(--ease-ui), box-shadow 200ms var(--ease-ui);
+  transition: background .2s var(--ease-ui), box-shadow .2s var(--ease-ui);
 }
-@keyframes systems-network-signal {
-  0% {
-    opacity: .35;
-    filter: drop-shadow(0 0 0 transparent);
-  }
-  55% {
-    opacity: 1;
-    filter: drop-shadow(0 0 7px color-mix(in srgb, var(--connector-color) 48%, transparent));
-  }
-  100% {
-    opacity: .95;
-    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--connector-color) 36%, transparent));
-  }
+.system-inspector__readout strong {
+  color: color-mix(in srgb, var(--system-color) 82%, var(--color-text));
+  transition: color .2s var(--ease-ui);
+}
+@keyframes systems-map-selected-signal {
+  0% { opacity: .25; stroke-width: .12; }
+  55% { opacity: 1; stroke-width: .28; }
+  100% { opacity: .95; stroke-width: .24; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .system-node__button,
-  .systems-network__lines i,
-  .systems-inspector__bars,
-  .systems-inspector__bars i,
-  .systems-inspector__head::before {
+  .system-node,
+  .system-inspector,
+  .system-inspector__identity-marker,
+  .system-inspector__readout strong {
     transition: none;
   }
-  .systems-network__lines i.is-selected,
-  .systems-network__lines i[data-system-selected="true"] {
+  .systems-map__selected-connection {
     animation: none;
-    opacity: .95;
     filter: none;
   }
 }
-"@
-
-if (-not $homeCss.Contains($cssMarker)) {
-    $homeCss = Append-Once $homeCss $cssMarker $cssBlock
-}
-
-# ---------------------------------------------------------------------------
-# 5. Wire selected system color to existing network/inspector markup.
-#    This is intentionally targeted. If the current JSX does not expose the
-#    selection structure, stop rather than inventing a second selection model.
-# ---------------------------------------------------------------------------
-
-$networkLinePattern = 'systems-network__lines'
-$hasLineMarkup = $homePage -match '<div[^>]*className="systems-network__lines"'
-if (-not $hasLineMarkup) {
-    Fail-Patch "systems-network__lines exists in CSS but its JSX structure could not be verified. Manual integration is safer than guessing."
-}
-
-# Require a data-driven map/render of the existing eight nodes.
-if ($homePage -notmatch "engineeringSystems\.map") {
-    Fail-Patch "The homepage systems network is not rendered from engineeringSystems.map; refusing to duplicate or hardcode eight systems."
-}
-
-# Selected system state must already exist in the network page. Look for the
-# existing selected-system variable/state rather than creating another state.
-$selectionCandidates = @(
-    'selectedSystem',
-    'selectedSystemId',
-    'selectedSystemData',
-    'selectedSystemId'
-)
-$selectionFound = $false
-foreach ($candidate in $selectionCandidates) {
-    if ($homePage.Contains($candidate)) {
-        $selectionFound = $true
-        break
-    }
-}
-if (-not $selectionFound) {
-    Fail-Patch "No existing selected-system state was detected in HomePage.tsx. UI-03 must reuse existing selection state and will not introduce an independent selection state."
-}
-
-# The script can safely add identity attributes only when the existing
-# rendering exposes an engineering-system object named `system` or `s`.
-# Otherwise stop and preserve teammate work.
-if ($homePage -notmatch 'system\.id|s\.id') {
-    Fail-Patch "Could not identify the existing system object in the homepage network rendering. Manual integration is required."
-}
-
-# ---------------------------------------------------------------------------
-# 6. Add a small shared helper to HomePage only when the existing component
-#    already owns the selected system. This helper is deterministic and does
-#    not create UI state.
-# ---------------------------------------------------------------------------
-
-$helperMarker = "const getSystemColorToken"
-if (-not $homePage.Contains($helperMarker)) {
-    $importAnchor = "import './home.css'"
-    if (-not $homePage.Contains($importAnchor)) {
-        Fail-Patch "HomePage.tsx import structure is unexpected; safe helper insertion is not possible."
-    }
-
-    $helper = @'
-const systemColorTokenById: Record<string, string> = {
-  design: 'var(--sys-design)',
-  materials: 'var(--sys-materials)',
-  manufacturing: 'var(--sys-manufacturing)',
-  mechatronics: 'var(--sys-mechatronics)',
-  robotics: 'var(--sys-robotics)',
-  automotive: 'var(--sys-automotive)',
-  thermodynamics: 'var(--sys-thermodynamics)',
-  fluid: 'var(--sys-fluid)',
-}
-
-const getSystemColorToken = (id: string) => systemColorTokenById[id] ?? 'var(--color-border)'
 '@
-    # Avoid duplicating a second mapping if the file already received it through
-    # another safe integration.
-    if (-not $homePage.Contains("systemColorTokenById")) {
-        $homePage = $homePage.Replace($importAnchor, "$importAnchor`r`n`r`n$helper")
+    $aboutCss = $aboutCss.TrimEnd() + "`r`n`r`n" + $cssBlock.Trim() + "`r`n"
+}
+
+# 9. Add matching system-color variables to the existing homepage teaser
+#    domains. This is additive styling only and preserves UI-02 behavior.
+$homeMarker = "/* MECHESA PATCH UI-03 - homepage system identity sync */"
+if (-not $homeCss.Contains($homeMarker)) {
+    $homeBlock = @'
+/* MECHESA PATCH UI-03 - homepage system identity sync */
+.systems-teaser__domain[data-system="design"] { --system-color: var(--sys-design); }
+.systems-teaser__domain[data-system="materials"] { --system-color: var(--sys-materials); }
+.systems-teaser__domain[data-system="manufacturing"] { --system-color: var(--sys-manufacturing); }
+.systems-teaser__domain[data-system="mechatronics"] { --system-color: var(--sys-mechatronics); }
+.systems-teaser__domain[data-system="robotics"] { --system-color: var(--sys-robotics); }
+.systems-teaser__domain[data-system="automotive"] { --system-color: var(--sys-automotive); }
+.systems-teaser__domain[data-system="thermodynamics"] { --system-color: var(--sys-thermodynamics); }
+.systems-teaser__domain[data-system="fluid"] { --system-color: var(--sys-fluid); }
+'@
+    $homeCss = $homeCss.TrimEnd() + "`r`n`r`n" + $homeBlock.Trim() + "`r`n"
+}
+
+# 10. Final safety checks before writing.
+foreach ($token in @('--sys-design','--sys-materials','--sys-manufacturing','--sys-mechatronics','--sys-robotics','--sys-automotive','--sys-thermodynamics','--sys-fluid')) {
+    if (-not $aboutTsx.Contains($token) -and -not $aboutCss.Contains($token) -and -not $homeCss.Contains($token)) {
+        Stop-Patch "System token '$token' was not found in the resulting UI-03 source."
     }
 }
-
-# ---------------------------------------------------------------------------
-# 7. Validate before writing.
-# ---------------------------------------------------------------------------
-
-$mustContain = @(
-    @($node, "systemColorTokenById", "node canonical color map"),
-    @($node, "data-system-id={system.id}", "node system ID binding"),
-    @($homeCss, "--sys-design", "design token"),
-    @($homeCss, "--sys-materials", "materials token"),
-    @($homeCss, "--sys-manufacturing", "manufacturing token"),
-    @($homeCss, "--sys-mechatronics", "mechatronics token"),
-    @($homeCss, "--sys-robotics", "robotics token"),
-    @($homeCss, "--sys-automotive", "automotive token"),
-    @($homeCss, "--sys-thermodynamics", "thermodynamics token"),
-    @($homeCss, "--sys-fluid", "fluid token"),
-    @($homeCss, "systems-network-signal", "connector selection animation"),
-    @($homeCss, "systems-inspector__bars", "inspector styling"),
-    @($homePage, "systems-network", "homepage network"),
-    @($homePage, "systems-inspector", "homepage inspector")
-)
-
-foreach ($entry in $mustContain) {
-    if (-not $entry[0].Contains($entry[1])) {
-        Fail-Patch "Pre-write validation failed for $($entry[2])."
-    }
+if (-not $aboutTsx.Contains("data-system-id={system.id}")) {
+    Stop-Patch "SystemNode did not receive the deterministic data-system-id binding."
+}
+if (-not $aboutTsx.Contains("systems-map__selected-connection")) {
+    Stop-Patch "Selected connector binding was not installed."
+}
+if (-not $aboutTsx.Contains("system-inspector__identity-marker")) {
+    Stop-Patch "Inspector identity marker was not installed."
 }
 
-# The canonical mapping must appear only once in EngineeringSystemNode.
-if (([regex]::Matches($node, [regex]::Escape($mapMarker))).Count -ne 1) {
-    Fail-Patch "Duplicate canonical system color map detected in EngineeringSystemNode.tsx."
-}
-
-# Do not alter package dependencies or TypeScript config.
-$packagePath = Join-Path $projectRoot "package.json"
-$tsconfigs = Get-ChildItem -LiteralPath $projectRoot -Filter "tsconfig*.json" -File
-$packageBefore = Get-Content -LiteralPath $packagePath -Raw
-$tsconfigBefore = @{}
-foreach ($cfg in $tsconfigs) {
-    $tsconfigBefore[$cfg.FullName] = Get-Content -LiteralPath $cfg.FullName -Raw
-}
-
-# ---------------------------------------------------------------------------
-# 8. Back up every source file before writing.
-# ---------------------------------------------------------------------------
-
-New-Item -ItemType Directory -Path $backupDir -Force | Out-Null
-
-$writeSet = @(
-    @{ Relative = "src/components/home/EngineeringSystemNode.tsx"; Path = $nodePath; Content = $node; Backup = "EngineeringSystemNode.tsx.bak" },
-    @{ Relative = "src/pages/Home/home.css"; Path = $homeCssPath; Content = $homeCss; Backup = "home.css.bak" },
-    @{ Relative = "src/pages/Home/HomePage.tsx"; Path = $homePagePath; Content = $homePage; Backup = "HomePage.tsx.bak" }
-)
-
+# 11. Backup only files that actually change.
 $changed = New-Object System.Collections.Generic.List[string]
 
-foreach ($file in $writeSet) {
-    $original = Get-Content -LiteralPath $file.Path -Raw
-    if ($original -ne $file.Content) {
-        Copy-Item -LiteralPath $file.Path -Destination (Join-Path $backupDir $file.Backup) -Force
-        Set-Content -LiteralPath $file.Path -Value $file.Content -NoNewline -Encoding UTF8
-        $changed.Add($file.Relative)
-    }
+if ($aboutTsx -ne (Read-Text $aboutTsxPath)) {
+    Backup-File $aboutTsxPath "AboutPage.tsx.bak"
+    Write-Text $aboutTsxPath $aboutTsx
+    $changed.Add("src/pages/About/AboutPage.tsx")
+}
+if ($aboutCss -ne (Read-Text $aboutCssPath)) {
+    Backup-File $aboutCssPath "about.css.bak"
+    Write-Text $aboutCssPath $aboutCss
+    $changed.Add("src/pages/About/about.css")
+}
+if ($homeCss -ne (Read-Text $homeCssPath)) {
+    Backup-File $homeCssPath "home.css.bak"
+    Write-Text $homeCssPath $homeCss
+    $changed.Add("src/pages/Home/home.css")
 }
 
-# ---------------------------------------------------------------------------
-# 9. Final safety validation.
-# ---------------------------------------------------------------------------
-
-if ((Get-Content -LiteralPath $packagePath -Raw) -ne $packageBefore) {
-    Fail-Patch "package.json changed unexpectedly. Restore the backup before continuing."
-}
-foreach ($cfg in $tsconfigs) {
-    if ((Get-Content -LiteralPath $cfg.FullName -Raw) -ne $tsconfigBefore[$cfg.FullName]) {
-        Fail-Patch "TypeScript configuration changed unexpectedly: $($cfg.Name). Restore the backup before continuing."
-    }
-}
-
-$finalNode = Get-Content -LiteralPath $nodePath -Raw
-$finalHomeCss = Get-Content -LiteralPath $homeCssPath -Raw
-$finalHomePage = Get-Content -LiteralPath $homePagePath -Raw
-
-if (([regex]::Matches($finalNode, [regex]::Escape($mapMarker))).Count -ne 1) {
-    Fail-Patch "Final validation failed: canonical system map count is not one."
-}
-if (-not $finalNode.Contains("data-system-id={system.id}")) {
-    Fail-Patch "Final validation failed: node system ID binding is missing."
-}
-foreach ($token in $requiredIds) {
-    $tokenName = switch ($token) {
-        "design" { "--sys-design" }
-        "materials" { "--sys-materials" }
-        "manufacturing" { "--sys-manufacturing" }
-        "mechatronics" { "--sys-mechatronics" }
-        "robotics" { "--sys-robotics" }
-        "automotive" { "--sys-automotive" }
-        "thermodynamics" { "--sys-thermodynamics" }
-        "fluid" { "--sys-fluid" }
-    }
-    if (-not $finalHomeCss.Contains("var($tokenName)")) {
-        Fail-Patch "Final validation failed: $tokenName is not wired into UI-03."
-    }
-}
-
-if (-not $finalHomeCss.Contains($cssMarker)) {
-    Fail-Patch "Final validation failed: UI-03 CSS marker is missing."
-}
-if (-not $finalHomePage.Contains("systems-network") -or -not $finalHomePage.Contains("systems-inspector")) {
-    Fail-Patch "Final validation failed: existing network/inspector markup is no longer visible."
-}
-
-# ---------------------------------------------------------------------------
-# 10. Required report. Created only after successful modification.
-# ---------------------------------------------------------------------------
-
-$reportPath = Join-Path $projectRoot "PATCH_UI_03_REPORT.md"
-$report = @"
+# 12. Only report APPLIED after successful writes.
+$report = @'
 # MECHESA // PATCH UI-03
 
 ## Status
@@ -531,7 +336,7 @@ PATCH APPLIED
 
 ## Purpose
 
-Applied the eight-system identity color language to the homepage engineering network and inspector.
+Applied the eight-system identity color language to the existing engineering systems network and inspector without replacing the existing architecture.
 
 ## System Colors
 
@@ -551,8 +356,8 @@ Applied the eight-system identity color language to the homepage engineering net
 - Selected system state
 - Selected network connector
 - Connector selection response
-- Inspector data bars
 - Inspector system identity marker
+- Inspector readout identity color
 
 ## Preserved
 
@@ -573,27 +378,29 @@ None.
 
 None.
 
+## Notes
+
+The supplied repository's actual rendered engineering network/inspector is implemented as the existing `systems-map` / `system-inspector` in `src/pages/About/AboutPage.tsx`; UI-03 targets that existing implementation rather than creating a duplicate network on the homepage.
+
+The homepage systems teaser receives the same canonical identity-token variables without changing its structure.
+
 ## Next
 
 PATCH UI-04 will refine the homepage hero atmosphere and Mechanical Core hub lighting.
-"@
-Set-Content -LiteralPath $reportPath -Value $report -Encoding UTF8
+'@
+Write-Text $reportPath $report
 
 Write-Host ""
-Write-Host "MECHESA // PATCH UI-03 APPLIED" -ForegroundColor Green
+Write-Host "PATCH APPLIED" -ForegroundColor Green
 Write-Host ""
 Write-Host "Changed files:" -ForegroundColor Cyan
 if ($changed.Count -eq 0) {
-    Write-Host "  (none — patch was already applied)"
+    Write-Host "  (none - PATCH UI-03 was already applied)"
 } else {
-    foreach ($file in $changed) {
-        Write-Host "  $file"
-    }
+    foreach ($file in $changed) { Write-Host "  $file" }
 }
 Write-Host ""
 Write-Host "Backups: .patch-backups\PATCH_UI_03\" -ForegroundColor Green
 Write-Host "Report: PATCH_UI_03_REPORT.md" -ForegroundColor Green
-Write-Host "Dependencies changed: none" -ForegroundColor Green
-Write-Host "TypeScript configuration changed: none" -ForegroundColor Green
 Write-Host ""
-Write-Host "PATCH COMPLETE." -ForegroundColor Green
+Write-Host "Run npm run build to validate the project." -ForegroundColor Cyan

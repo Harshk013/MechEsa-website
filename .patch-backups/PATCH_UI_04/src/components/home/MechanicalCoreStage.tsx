@@ -76,9 +76,6 @@ export function MechanicalCoreStage({ state = 'idle' }: { state?: MechanicalCore
           />
         </CoreSceneBoundary>
         <BlueprintMachineOverlay />
-        {/* MECHESA PATCH UI-04 - restrained blueprint/amber core signal layers */}
-        <div className="core-stage__signal core-stage__signal--blue" aria-hidden="true" />
-        <div className="core-stage__signal core-stage__signal--amber" aria-hidden="true" />
         <div className="core-stage__scanline" aria-hidden="true" />
         <div className="core-stage__reticle" aria-hidden="true"><span /><i /></div>
       </div>
