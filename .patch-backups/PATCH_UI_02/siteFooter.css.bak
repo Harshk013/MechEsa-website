@@ -17,8 +17,3 @@
 @media (max-width:900px){.site-footer__grid{grid-template-columns:1fr 1fr}.site-footer__identity{grid-column:1/-1}.site-footer__controls{justify-self:end}}
 @media (max-width:600px){.site-footer{padding-top:56px}.site-footer__grid{grid-template-columns:1fr;padding:40px 0 52px;gap:42px}.site-footer__controls{justify-self:stretch}.site-footer__base{align-items:flex-start;flex-direction:column;gap:7px}}
 @media (prefers-reduced-motion:reduce){.site-footer__nav a{transition:none}}
-
-/* MECHESA PATCH UI-02 - footer signal signature */
-.site-footer__identity h2 em {
-  color: var(--color-signal);
-}

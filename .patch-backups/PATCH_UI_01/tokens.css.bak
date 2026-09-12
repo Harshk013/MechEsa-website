@@ -1,22 +1,11 @@
-﻿:root {
-  --sys-fluid: #6fb3b8;
-  --sys-thermodynamics: #c77b78;
-  --sys-automotive: #c77b5a;
-  --sys-robotics: #82a9c7;
-  --sys-mechatronics: #8f9fd6;
-  --sys-manufacturing: #d98a3d;
-  --sys-materials: #b98a5e;
-  --sys-design: #c9d0d3;
-  --color-signal-glow: rgba(217, 138, 61, 0.28);
-  --color-signal-soft: rgba(217, 138, 61, 0.14);
-  --color-signal: #d98a3d;
-  --color-bg: #0d0f11;
+:root {
+  --color-bg: #101214;
   --color-bg-deep: #0a0c0d;
-  --color-surface: #171b1e;
-  --color-surface-elevated: #1f2429;
-  --color-panel: #1a1e22;
+  --color-surface: #15181b;
+  --color-surface-elevated: #1b1f22;
+  --color-panel: #181c1f;
   --color-panel-technical: #121619;
-  --color-border: rgba(205, 214, 219, 0.18);
+  --color-border: rgba(205, 214, 219, 0.14);
   --color-border-strong: rgba(205, 214, 219, 0.24);
   --color-text: #edf1f2;
   --color-text-muted: #9da6aa;
@@ -81,7 +70,7 @@
 }
 
 :root {
-  /* Prompt 03 â€” global interaction layers */
+  /* Prompt 03 — global interaction layers */
   --z-background: 0;
   --z-content: 10;
   --z-navigation: 100;
@@ -96,7 +85,7 @@
 }
 
 :root {
-  /* PROMPT 14 â€” global representation vocabulary */
+  /* PROMPT 14 — global representation vocabulary */
   --representation-blueprint-line: rgba(130, 169, 199, 0.62);
   --representation-blueprint-grid: rgba(130, 169, 199, 0.08);
   --representation-blueprint-text: #a9c4d8;

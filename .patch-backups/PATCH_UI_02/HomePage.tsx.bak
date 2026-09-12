@@ -82,7 +82,7 @@ function HomeContent({ selectedMember, setSelectedMember, selectedMemberData }: 
         <div className="systems-teaser">
           <div className="systems-teaser__domains">
             {engineeringSystems.map((s, i) => (
-              <div key={s.id} className="systems-teaser__domain" data-system={s.id} tabIndex={0}>
+              <div key={s.id} className="systems-teaser__domain">
                 <span className="technical-small">{String(i + 1).padStart(2, '0')}</span>
                 <strong>{s.shortLabel}</strong>
               </div>

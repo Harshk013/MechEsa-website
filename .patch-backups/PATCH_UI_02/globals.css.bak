@@ -213,24 +213,3 @@ html[data-representation="blueprint"] .core-stage__annotation i { background: va
   .representation-control__option, .representation-control__track i, .blueprint-machine-overlay { transition: none; }
   html[data-representation="blueprint"] .core-stage__canvas-wrap canvas { filter: saturate(.7); }
 }
-
-/* MECHESA PATCH UI-02 - navigation signal hierarchy */
-.mechanical-nav__item > span {
-  color: var(--color-signal);
-}
-.mechanical-nav__item i {
-  background: var(--color-signal);
-}
-.mechanical-nav__item:hover,
-.mechanical-nav__item:focus-visible {
-  color: var(--color-text);
-  background: color-mix(in srgb, var(--color-signal) 7%, transparent);
-}
-.mechanical-nav__item.is-active {
-  color: var(--color-text);
-  background: color-mix(in srgb, var(--color-signal) 10%, transparent);
-}
-.mechanical-nav__item:focus-visible {
-  outline: 1px solid var(--color-signal);
-  outline-offset: -2px;
-}
