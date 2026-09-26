@@ -99,9 +99,9 @@ export function ContactPage() {
       <div className="contact-page__axis" aria-hidden="true"><span>07</span><i /><b /></div>
 
       <section className="contact-hero page-container" aria-labelledby="contact-title">
-        <div className="contact-hero__meta"><TechnicalLabel prefix="SYSTEM / 07">CONTROL TERMINAL</TechnicalLabel><SystemIndicator state={submitState === 'ERROR' ? 'warning' : submitState === 'TRANSMITTING' ? 'processing' : 'online'} label={submitState === 'TRANSMITTING' ? 'SIGNAL / ROUTING' : 'CHANNEL / READY'} /></div>
+        <div className="contact-hero__meta"><span className="page-eyebrow">COMMUNICATION</span><SystemIndicator state={submitState === 'ERROR' ? 'warning' : submitState === 'TRANSMITTING' ? 'processing' : 'online'} label={submitState === 'TRANSMITTING' ? 'SENDING' : 'READY'} /></div>
         <div className="contact-hero__layout">
-          <div className="contact-hero__copy"><span className="technical-small">MECHESA // ENGINEERED MOTION</span><h1 id="contact-title">OPEN THE<br />CHANNEL.</h1><p>Route a question, collaboration request, project inquiry, or association message through the MechESA communication terminal.</p></div>
+          <div className="contact-hero__copy"><span className="technical-small">MECHESA // ENGINEERED MOTION</span><h1 id="contact-title" className="page-heading">OPEN THE<br />CHANNEL.</h1><p className="page-description">Have a question, collaboration idea, project inquiry or want to connect with MechESA? Send us a message.</p></div>
           <TerminalInstrument state={submitState} />
         </div>
         <div className="contact-hero__foot"><MeasurementMark value="TERMINAL / CT—01" /><span className="technical-small">COMMUNICATION / CONTROL</span><MeasurementMark value="REF / 07" orientation="vertical" /></div>
@@ -109,7 +109,7 @@ export function ContactPage() {
 
       <main>
         <section className="contact-channels page-container contact-section" aria-labelledby="channels-title">
-          <div className="contact-section-head"><TechnicalLabel prefix="02">AVAILABLE CHANNELS</TechnicalLabel><h2 id="channels-title">SIGNAL REGISTRY.</h2><p>Official communication destinations are not present in the current project data, so the channel registry is intentionally content-ready rather than fabricated.</p></div>
+          <div className="contact-section-head"><span className="page-eyebrow">01 // AVAILABLE CHANNELS</span><h2 id="channels-title" className="page-heading">GET IN TOUCH.</h2><p className="page-description">Reach out to us through our official channels.</p></div>
           <div className="channel-matrix" role="list" aria-label="Available communication channels">
             {contactChannels.map((channel) => <ContactChannelNode key={channel.id} channel={channel} selected={selectedChannel === channel.id} onSelect={() => setSelectedChannel(channel.id)} />)}
           </div>
@@ -117,9 +117,9 @@ export function ContactPage() {
         </section>
 
         <section className="contact-terminal page-container contact-section" aria-labelledby="terminal-title">
-          <TechnicalDivider label="03 / MESSAGE TERMINAL" />
+          <TechnicalDivider label="02 / MESSAGE TERMINAL" />
           <div className="terminal-layout">
-            <div className="terminal-intro"><TechnicalLabel prefix="PAYLOAD">MESSAGE TERMINAL</TechnicalLabel><h2 id="terminal-title">PREPARE THE<br />MESSAGE.</h2><p>Complete the required fields below. Submission is local until an official MechESA endpoint is connected.</p><div className="terminal-diagnostics"><span>INPUT <b>READY</b></span><span>VALIDATION <b>LOCAL</b></span><span>ENDPOINT <b>CONTENT / READY</b></span></div></div>
+            <div className="terminal-intro"><span className="page-eyebrow">CONTACT FORM</span><h2 id="terminal-title" className="page-heading">SEND A<br />MESSAGE.</h2><p className="page-description">Complete the required fields below.</p></div>
             <MessageTerminal values={values} errors={errors} state={submitState} onSubmit={submit} onChange={updateField} onReset={resetPrepared} />
           </div>
         </section>
@@ -132,15 +132,14 @@ export function ContactPage() {
         <section className="contact-ack page-container contact-section" aria-labelledby="ack-title">
           <MechanicalPanel variant="blueprint" className={`ack-panel${submitState === 'PREPARED' ? ' is-prepared' : ''}`}>
             <TechnicalCorner />
-            <div className="ack-panel__mark" aria-hidden="true">ACK</div>
-            <div className="ack-panel__copy"><TechnicalLabel prefix="05 / TRANSMISSION STATUS">{submitState === 'PREPARED' ? 'PAYLOAD / READY' : 'READY FOR HUMAN CONNECTION'}</TechnicalLabel><h2 id="ack-title">{submitState === 'PREPARED' ? 'PAYLOAD PREPARED.' : 'READY FOR HUMAN CONNECTION.'}</h2><p>{submitState === 'PREPARED' ? 'Your message has been prepared locally. Connect this terminal to the official MechESA submission endpoint when available.' : 'Official communication details are ready to be inserted into the channel registry.'}</p></div>
-            <SystemIndicator state={submitState === 'PREPARED' ? 'active' : 'idle'} label={submitState === 'PREPARED' ? 'PREPARED' : 'CONTENT / READY'} />
+            <div className="ack-panel__copy"><span className="page-eyebrow">STATUS</span><h2 id="ack-title" className="page-heading">{submitState === 'PREPARED' ? 'MESSAGE SENT.' : 'READY FOR HUMAN CONNECTION.'}</h2><p>{submitState === 'PREPARED' ? 'Your message has been sent successfully.' : 'Our communication channels are open.'}</p></div>
+            <SystemIndicator state={submitState === 'PREPARED' ? 'active' : 'idle'} label={submitState === 'PREPARED' ? 'SENT' : 'READY'} />
           </MechanicalPanel>
         </section>
 
         <section className="contact-handoff page-container contact-section" aria-labelledby="handoff-title">
-          <TechnicalDivider label="06 / SYSTEM HANDOFF" />
-          <div className="contact-handoff__inner"><div><TechnicalLabel prefix="RETURN TO MACHINE">SYSTEM ROUTES</TechnicalLabel><h2 id="handoff-title">KEEP<br />MOVING.</h2><p>Continue through the MechESA machine.</p></div><nav className="contact-handoff__routes" aria-label="MechESA system routes"><HandoffLink to="/" label="RETURN TO SYSTEM CORE" /><HandoffLink to="/events" label="EXPLORE EVENTS" /><HandoffLink to="/team" label="MEET THE ASSEMBLY" /><HandoffLink to="/blogs" label="READ ENGINEERING LOGS" /></nav></div>
+          <TechnicalDivider label="NEXT" />
+          <div className="contact-handoff__inner"><div><span className="page-eyebrow">EXPLORE MORE</span><h2 id="handoff-title" className="page-heading">KEEP<br />MOVING.</h2><p className="page-description">Continue through the MechESA website.</p></div><nav className="contact-handoff__routes" aria-label="MechESA system routes"><HandoffLink to="/" label="RETURN TO HOME" /><HandoffLink to="/events" label="EXPLORE EVENTS" /><HandoffLink to="/team" label="MEET THE TEAM" /><HandoffLink to="/blogs" label="READ ENGINEERING LOGS" /></nav></div>
         </section>
       </main>
     </div>
@@ -157,7 +156,7 @@ function ContactChannelNode({ channel, selected, onSelect }: { channel: ContactC
 
 function MessageTerminal({ values, errors, state, onSubmit, onChange, onReset }: { values: FormValues; errors: FormErrors; state: SubmitState; onSubmit: (event: FormEvent<HTMLFormElement>) => void; onChange: (field: keyof FormValues, value: string) => void; onReset: () => void }) {
   const disabled = state === 'TRANSMITTING' || state === 'VALIDATING'
-  return <MechanicalPanel variant="technical" className="message-terminal"><TechnicalCorner /><div className="message-terminal__head"><TechnicalLabel prefix="PAYLOAD">MESSAGE PAYLOAD</TechnicalLabel><SystemIndicator state={state === 'ERROR' ? 'warning' : state === 'TRANSMITTING' ? 'processing' : state === 'PREPARED' ? 'active' : 'idle'} label={state === 'ERROR' ? 'SIGNAL / INVALID' : state === 'TRANSMITTING' ? 'SIGNAL / ROUTING' : state === 'PREPARED' ? 'PAYLOAD / READY' : 'SYSTEM / READY'} /></div><form onSubmit={onSubmit} noValidate aria-describedby="terminal-status"><div className="form-grid"><Field id="name" label="NAME" value={values.name} error={errors.name} disabled={disabled} onChange={(value) => onChange('name', value)} autoComplete="name" /><Field id="email" label="EMAIL" value={values.email} error={errors.email} disabled={disabled} onChange={(value) => onChange('email', value)} autoComplete="email" inputMode="email" /><Field id="subject" label="SUBJECT" value={values.subject} error={errors.subject} disabled={disabled} onChange={(value) => onChange('subject', value)} autoComplete="off" /><Field id="message" label="MESSAGE" value={values.message} error={errors.message} disabled={disabled} onChange={(value) => onChange('message', value)} multiline autoComplete="off" /></div><div className="message-terminal__submit"><p id="terminal-status" aria-live="polite">{state === 'ERROR' ? 'Correct the highlighted fields and retry.' : state === 'TRANSMITTING' ? 'Preparing local transmission sequence.' : state === 'PREPARED' ? 'Payload prepared locally — no network request was made.' : 'Required fields: NAME / EMAIL / MESSAGE'}</p>{state === 'PREPARED' ? <MechanicalButton variant="secondary" type="button" onClick={onReset}>RESET TERMINAL</MechanicalButton> : <MechanicalButton variant="primary" type="submit" disabled={disabled}>{state === 'TRANSMITTING' ? 'TRANSMITTING…' : 'TRANSMIT MESSAGE →'}</MechanicalButton>}</div></form></MechanicalPanel>
+  return <MechanicalPanel variant="technical" className="message-terminal"><TechnicalCorner /><div className="message-terminal__head"><span className="page-eyebrow" style={{marginBottom: 0}}>MESSAGE TERMINAL</span><SystemIndicator state={state === 'ERROR' ? 'warning' : state === 'TRANSMITTING' ? 'processing' : state === 'PREPARED' ? 'active' : 'idle'} label={state === 'ERROR' ? 'INVALID' : state === 'TRANSMITTING' ? 'SENDING' : state === 'PREPARED' ? 'SENT' : 'READY'} /></div><form onSubmit={onSubmit} noValidate aria-describedby="terminal-status"><div className="form-grid"><Field id="name" label="NAME" value={values.name} error={errors.name} disabled={disabled} onChange={(value) => onChange('name', value)} autoComplete="name" /><Field id="email" label="EMAIL" value={values.email} error={errors.email} disabled={disabled} onChange={(value) => onChange('email', value)} autoComplete="email" inputMode="email" /><Field id="subject" label="SUBJECT" value={values.subject} error={errors.subject} disabled={disabled} onChange={(value) => onChange('subject', value)} autoComplete="off" /><Field id="message" label="MESSAGE" value={values.message} error={errors.message} disabled={disabled} onChange={(value) => onChange('message', value)} multiline autoComplete="off" /></div><div className="message-terminal__submit"><p id="terminal-status" aria-live="polite">{state === 'ERROR' ? 'Correct the highlighted fields and retry.' : state === 'TRANSMITTING' ? 'Sending message...' : state === 'PREPARED' ? 'Message sent.' : 'Required fields: NAME / EMAIL / MESSAGE'}</p>{state === 'PREPARED' ? <MechanicalButton variant="secondary" type="button" onClick={onReset}>SEND ANOTHER MESSAGE</MechanicalButton> : <MechanicalButton variant="primary" type="submit" disabled={disabled}>{state === 'TRANSMITTING' ? 'SENDING...' : 'SEND MESSAGE →'}</MechanicalButton>}</div></form></MechanicalPanel>
 }
 
 function Field({ id, label, value, error, disabled, onChange, multiline = false, autoComplete, inputMode }: { id: keyof FormValues; label: string; value: string; error?: string; disabled: boolean; onChange: (value: string) => void; multiline?: boolean; autoComplete?: string; inputMode?: 'email' | 'text' }) {

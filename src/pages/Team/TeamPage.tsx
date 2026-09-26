@@ -5,7 +5,6 @@ import { homepageTeam } from '../../data/home'
 import { CursorTarget } from '../../components/interaction/CursorTarget'
 import { MechanicalPanel } from '../../components/mechanical/MechanicalPanel'
 import { TechnicalDivider } from '../../components/mechanical/TechnicalDivider'
-import { TechnicalLabel } from '../../components/typography/TechnicalLabel'
 import { SystemIndicator } from '../../components/telemetry/SystemIndicator'
 import { EngineeringGrid } from '../../components/mechanical/EngineeringGrid'
 import { useMotionSettings } from '../../app/providers/MotionProvider'
@@ -79,17 +78,17 @@ function TeamHero() {
 
       <div className="page-container team-hero__inner">
         <div className="team-hero__topline">
-          <TechnicalLabel prefix="TEAM / 01">THE ASSEMBLY</TechnicalLabel>
-          <SystemIndicator state="online" label="MODE / PEOPLE" />
+          <span className="page-eyebrow">MEET THE TEAM</span>
+          <SystemIndicator state="online" label="ACTIVE" />
         </div>
 
         <div className="team-hero__copy">
-          <span className="technical-small">MECHESA / HUMAN SUBSYSTEM</span>
-          <h1 id="team-page-title">
+          <span className="technical-small">MECHESA // ENGINEERED MOTION</span>
+          <h1 id="team-page-title" className="page-heading">
             <span>TEAM</span>
             <em>ASSEMBLY</em>
           </h1>
-          <p>PEOPLE OPERATE THE MACHINE.</p>
+          <p className="page-description">The students, faculty, and engineers who keep MechESA moving.</p>
         </div>
 
         <AssemblySchematic className="team-hero__schematic" />
@@ -120,11 +119,10 @@ function AssemblyFloor({
     <section className="team-assembly-floor" aria-labelledby="assembly-title">
       <div className="page-container">
         <div className="team-section-head">
-          <TechnicalLabel prefix="02">ASSEMBLY FLOOR</TechnicalLabel>
-          <h2 id="assembly-title">BUILD THE SYSTEM.</h2>
-          <p>
-            The current team dataset is intentionally content-ready. The assembly is
-            ready for approved member data without changing the interaction model.
+          <span className="page-eyebrow">01 // THE CORE TEAM</span>
+          <h2 id="assembly-title" className="page-heading">THE ASSEMBLY.</h2>
+          <p className="page-description">
+            Interact with the organizational chart to inspect member roles and specializations.
           </p>
         </div>
 
@@ -238,7 +236,7 @@ function TeamInspector({
       aria-live="polite"
     >
       <div className="team-page-inspector__head">
-        <TechnicalLabel prefix="INSPECTOR">MEMBER</TechnicalLabel>
+        <span className="page-eyebrow" style={{marginBottom: 0}}>MEMBER DETAIL</span>
 
         {member && (
           <button
@@ -262,17 +260,12 @@ function TeamInspector({
 
           <p className="team-page-inspector__role">{member.role}</p>
 
-          <TechnicalDivider label="ASSEMBLY DATA" />
+          <TechnicalDivider label="DETAILS" />
 
           <div className="team-page-inspector__data">
             <span>
               YEAR
               <strong>{member.year ?? 'YEAR / TBD'}</strong>
-            </span>
-
-            <span>
-              STATUS
-              <strong>CONTENT READY</strong>
             </span>
           </div>
 
@@ -282,13 +275,6 @@ function TeamInspector({
               <p className="body-small">{member.specialization}</p>
             </>
           )}
-
-          <div className="team-page-inspector__note">
-            <SystemIndicator state="idle" label="PROFILE DATA PENDING" />
-            <span className="technical-small">
-              Only supplied project fields are shown.
-            </span>
-          </div>
         </>
       ) : (
         <div className="team-page-inspector__empty">
@@ -315,10 +301,10 @@ function TeamDirectory({
     <section className="team-directory" aria-labelledby="directory-title">
       <div className="page-container">
         <div className="team-section-head team-section-head--directory">
-          <TechnicalLabel prefix="03">TEAM DIRECTORY</TechnicalLabel>
-          <h2 id="directory-title">INDEX THE ASSEMBLY.</h2>
-          <p>
-            Structured member records remain connected to the interactive assembly above.
+          <span className="page-eyebrow">02 // TEAM DIRECTORY</span>
+          <h2 id="directory-title" className="page-heading">ALL MEMBERS.</h2>
+          <p className="page-description">
+            A comprehensive list of all MechESA contributors.
           </p>
         </div>
 
@@ -371,19 +357,19 @@ function TeamHandoff() {
   return (
     <section className="team-handoff" aria-labelledby="team-handoff-title">
       <div className="page-container">
-        <TechnicalDivider label="SYSTEM HANDOFF / 04" />
+        <TechnicalDivider label="NEXT" />
 
         <div className="team-handoff__inner">
           <div>
-            <TechnicalLabel prefix="NEXT SYSTEM">ENGINEERING LOGS</TechnicalLabel>
+            <span className="page-eyebrow">READ THE BLOG</span>
 
-            <h2 id="team-handoff-title">
+            <h2 id="team-handoff-title" className="page-heading">
               WHAT THE TEAM BUILDS
               <br />
               <em>BECOMES KNOWLEDGE.</em>
             </h2>
 
-            <p className="body-small">
+            <p className="page-description">
               Continue from people and roles into the documentation of engineering work.
             </p>
           </div>

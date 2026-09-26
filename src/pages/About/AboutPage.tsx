@@ -7,8 +7,6 @@ import { EngineeringGrid } from '../../components/mechanical/EngineeringGrid'
 import { MeasurementMark } from '../../components/mechanical/MeasurementMark'
 import { MechanicalPanel } from '../../components/mechanical/MechanicalPanel'
 import { TechnicalDivider } from '../../components/mechanical/TechnicalDivider'
-import { TechnicalLabel } from '../../components/typography/TechnicalLabel'
-import { SystemIndicator } from '../../components/telemetry/SystemIndicator'
 import { useMotionSettings } from '../../app/providers/MotionProvider'
 import './about.css'
 
@@ -95,36 +93,32 @@ export function AboutPage() {
         <section className="about-identity page-container about-section" data-about-stage="1" aria-labelledby="identity-title">
           <TechnicalDivider label="02 / WHAT MECHESA IS" />
           <div className="identity-layout">
-            <div className="identity-statement"><TechnicalLabel prefix="IDENTITY / CORE">MECHESA // ENGINEERED MOTION</TechnicalLabel><h2 id="identity-title">A SPACE FOR<br />ENGINEERING<br />IN MOTION.</h2></div>
+            <div className="identity-statement"><span className="page-eyebrow">MECHESA // ENGINEERED MOTION</span><h2 id="identity-title" className="page-heading">A SPACE FOR<br />ENGINEERING<br />IN MOTION.</h2></div>
             <MechanicalPanel variant="technical" className="identity-panel">
-              <TechnicalLabel prefix="OFFICIAL CONTEXT">ASSOCIATION DESCRIPTION</TechnicalLabel>
+              <span className="page-eyebrow" style={{marginBottom: 0}}>ASSOCIATION DESCRIPTION</span>
               <p>MECHESA is the Mechanical Engineering Students Association at IIT Indore.</p>
-              <p className="identity-panel__support">This page keeps the broader association description content-ready until official copy is supplied. No history, statistics, achievements or institutional claims are inferred here.</p>
-              <SystemIndicator state="idle" label="OFFICIAL COPY / READY" />
+              <p className="identity-panel__support">A student community dedicated to design, manufacturing, and exploring applied mechanical systems.</p>
             </MechanicalPanel>
           </div>
         </section>
 
         <section className="about-philosophy page-container about-section" data-about-stage="2" aria-labelledby="philosophy-title">
-          <div className="about-section-head"><TechnicalLabel prefix="03">ENGINEERING PHILOSOPHY</TechnicalLabel><h2 id="philosophy-title">UNDERSTAND THE SYSTEM.<br />THEN MOVE IT.</h2><p>Select a principle to inspect the engineering logic behind the sequence.</p></div>
+          <div className="about-section-head"><span className="page-eyebrow">03 // ENGINEERING PHILOSOPHY</span><h2 id="philosophy-title" className="page-heading">UNDERSTAND THE SYSTEM.<br />THEN MOVE IT.</h2><p className="page-description">Select a principle to inspect our engineering process.</p></div>
           <div className="philosophy-layout">
             <div className="philosophy-rail" role="tablist" aria-label="Engineering philosophy">
               <div className="philosophy-rail__line" aria-hidden="true"><span style={{ width: `${(activePrincipleIndex / Math.max(1, aboutPrinciples.length - 1)) * 100}%` }} /></div>
               {aboutPrinciples.map((principle) => <PrincipleNode key={principle.id} principle={principle} selected={selectedPrinciple === principle.id} reducedMotion={reducedMotion} onSelect={() => setSelectedPrinciple(principle.id)} />)}
             </div>
             <MechanicalPanel variant="highlighted" className="principle-inspector" aria-live="polite">
-              <div className="principle-inspector__head"><TechnicalLabel prefix="PROCESS NODE">{selectedPrincipleData?.index ?? '00'}</TechnicalLabel><SystemIndicator state={selectedPrincipleData ? 'active' : 'idle'} label={selectedPrincipleData?.title ?? 'NO NODE'} /></div>
-              <span className="technical-small">ENGINEERING PHILOSOPHY / {selectedPrincipleData?.index}</span>
+              <span className="page-eyebrow">STEP / {selectedPrincipleData?.index ?? '00'}</span>
               <h3>{selectedPrincipleData?.title}</h3>
               <p>{selectedPrincipleData?.description}</p>
-              <TechnicalDivider label="NODE OUTPUT" />
-              <div className="principle-inspector__output"><strong>{selectedPrincipleData?.title}</strong><span>→ NEXT SYSTEM</span></div>
             </MechanicalPanel>
           </div>
         </section>
 
         <section className="about-systems page-container about-section" data-about-stage="3" aria-labelledby="systems-title">
-          <div className="about-section-head"><TechnicalLabel prefix="04">SYSTEMS WE CONNECT</TechnicalLabel><h2 id="systems-title">MECHANICAL ENGINEERING<br />IS A NETWORK.</h2><p>The map is driven directly by the existing MechESA engineering systems dataset.</p></div>
+          <div className="about-section-head"><span className="page-eyebrow">04 // SYSTEMS WE EXPLORE</span><h2 id="systems-title" className="page-heading">MECHANICAL ENGINEERING<br />IS A NETWORK.</h2><p className="page-description">These are the core engineering areas MechESA focuses on.</p></div>
           <div className="systems-layout">
             <div className="systems-map" aria-label="Interconnected engineering systems">
               <div className="systems-map__frame" aria-hidden="true"><span className="corner tl" /><span className="corner tr" /><span className="corner bl" /><span className="corner br" /><i className="systems-map__axis systems-map__axis--x" /><i className="systems-map__axis systems-map__axis--y" /><b>ENGINEERING / NETWORK</b></div>
@@ -136,43 +130,40 @@ export function AboutPage() {
               {engineeringSystems.map((system, index) => <SystemNode key={system.id} system={system} index={index} position={systemPositions[index]} selected={selectedSystem === system.id} onSelect={() => setSelectedSystem(system.id)} />)}
             </div>
             <MechanicalPanel variant="technical" className="system-inspector" aria-live="polite" style={{ '--system-color': getSystemColorToken(selectedSystemData?.id ?? '') } as CSSProperties}>
-              <div className="system-inspector__top"><span className="system-inspector__identity-marker" aria-hidden="true" /><TechnicalLabel prefix="SYSTEM NODE">{selectedSystemData?.shortLabel ?? 'N/A'}</TechnicalLabel><SystemIndicator state={selectedSystemData?.status === 'ACTIVE' ? 'active' : 'idle'} label={selectedSystemData?.status ?? 'STANDBY'} /></div>
-              <span className="technical-small">ENGINEERING SYSTEM / {String(activeSystemIndex + 1).padStart(2, '0')}</span>
+              <span className="page-eyebrow">ENGINEERING SYSTEM / {String(activeSystemIndex + 1).padStart(2, '0')}</span>
               <h3>{selectedSystemData?.title}</h3>
               <p>{selectedSystemData?.description}</p>
-              <TechnicalDivider label="SYSTEM READOUT" />
-              <div className="system-inspector__readout"><span>METRIC<strong>{selectedSystemData?.metric}</strong></span><span>STATUS<strong>{selectedSystemData?.status}</strong></span></div>
             </MechanicalPanel>
           </div>
         </section>
 
         <section className="about-transformation page-container about-section" data-about-stage="4" aria-labelledby="transformation-title">
-          <div className="about-section-head"><TechnicalLabel prefix="05">THEORY → BUILD → MOTION</TechnicalLabel><h2 id="transformation-title">FROM MODEL<br />TO MOTION.</h2><p>A deliberately abstract transformation track: no fabricated project is attached to the sequence.</p></div>
+          <div className="about-section-head"><span className="page-eyebrow">05 // THEORY → BUILD → MOTION</span><h2 id="transformation-title" className="page-heading">FROM MODEL<br />TO MOTION.</h2><p className="page-description">Our approach to taking engineering from paper to the physical world.</p></div>
           <TheoryToMotion reducedMotion={reducedMotion} />
         </section>
 
         <section className="about-loop page-container about-section" data-about-stage="5" aria-labelledby="loop-title">
-          <div className="about-section-head"><TechnicalLabel prefix="06">HOW THE ASSOCIATION OPERATES</TechnicalLabel><h2 id="loop-title">THE ENGINEERING LOOP.</h2><p>A conceptual operating model for learning, making, documenting and returning to the problem.</p></div>
+          <div className="about-section-head"><span className="page-eyebrow">06 // HOW WE OPERATE</span><h2 id="loop-title" className="page-heading">THE ENGINEERING LOOP.</h2><p className="page-description">A cycle for learning, making, documenting, and returning to the problem.</p></div>
           <div className="loop-layout">
             <div className="loop-ring" aria-hidden="true"><div className="loop-ring__core"><span>MECHESA</span><strong>LOOP</strong></div>{aboutLoopStages.map((stage, index) => <button key={stage.id} type="button" className={`loop-ring__node loop-ring__node--${index + 1}${selectedLoop === stage.id ? ' is-active' : ''}`} style={{ '--loop-angle': `${index * 72 - 90}deg` } as CSSProperties} onClick={() => setSelectedLoop(stage.id)} aria-label={`Inspect ${stage.title}`} aria-pressed={selectedLoop === stage.id}><span>{stage.index}</span><b>{stage.title}</b></button>)}</div>
-            <MechanicalPanel variant="blueprint" className="loop-inspector" aria-live="polite"><TechnicalLabel prefix="LOOP STAGE">{selectedLoopData?.index}</TechnicalLabel><h3>{selectedLoopData?.title}</h3><p>{selectedLoopData?.description}</p><TechnicalDivider label="OUTPUT" /><strong>{selectedLoopData?.output}</strong><span className="technical-small">CONCEPTUAL OPERATING MODEL / NOT AN ACTIVITY CLAIM</span></MechanicalPanel>
+            <MechanicalPanel variant="blueprint" className="loop-inspector" aria-live="polite"><span className="page-eyebrow">STAGE {selectedLoopData?.index}</span><h3>{selectedLoopData?.title}</h3><p>{selectedLoopData?.description}</p></MechanicalPanel>
           </div>
         </section>
 
         <section className="about-institution page-container about-section" data-about-stage="6" aria-labelledby="institution-title">
-          <TechnicalDivider label="07 / IIT INDORE CONNECTION" />
-          <div className="institution-plate"><div className="institution-plate__id"><TechnicalLabel prefix="INSTITUTION">ENGINEERING / IIT INDORE</TechnicalLabel><strong>MECHESA</strong><span>MECHANICAL ENGINEERING</span><span>IIT INDORE</span></div><div className="institution-plate__copy"><SystemIndicator state="online" label="ACTIVE SYSTEM" /><h2 id="institution-title">BUILT IN AN<br />ENGINEERING ENVIRONMENT.</h2><p>MECHESA / Mechanical Engineering Students Association / IIT Indore. The surrounding institutional copy is intentionally concise and ready for official expansion.</p></div><div className="institution-plate__datum" aria-hidden="true"><span>01</span><i /><span>02</span><i /><span>03</span><i /><span>04</span></div></div>
+          <TechnicalDivider label="07 / IIT INDORE" />
+          <div className="institution-plate"><div className="institution-plate__id"><span className="page-eyebrow">INSTITUTION</span><strong>MECHESA</strong><span>MECHANICAL ENGINEERING</span><span>IIT INDORE</span></div><div className="institution-plate__copy"><h2 id="institution-title" className="page-heading">BUILT IN AN<br />ENGINEERING ENVIRONMENT.</h2><p className="page-description">MECHESA / Mechanical Engineering Students Association / IIT Indore.</p></div><div className="institution-plate__datum" aria-hidden="true"><span>01</span><i /><span>02</span><i /><span>03</span><i /><span>04</span></div></div>
         </section>
 
         <section className="about-manifesto page-container about-section" data-about-stage="7" aria-labelledby="manifesto-title">
-          <div className="manifesto-head"><TechnicalLabel prefix="08">ENGINEERING MANIFESTO</TechnicalLabel><span className="technical-small">SPECIFICATION / ACTIVE</span></div>
+          <div className="manifesto-head"><span className="page-eyebrow">08 // ENGINEERING MANIFESTO</span></div>
           <h2 id="manifesto-title" className="sr-only">Engineering Manifesto</h2>
           <div className="manifesto-list">{aboutManifesto.map((line, index) => <div key={line.id} className="manifesto-line" style={{ '--manifesto-index': index } as CSSProperties}><span>{line.index}</span><strong>{line.text}</strong><em>{line.annotation}</em></div>)}</div>
         </section>
 
         <section className="about-handoff page-container about-section" data-about-stage="8" aria-labelledby="handoff-title">
-          <TechnicalDivider label="SYSTEM HANDOFF / 07" />
-          <div className="about-handoff__inner"><div><TechnicalLabel prefix="NEXT SYSTEM">COMMUNICATION</TechnicalLabel><h2 id="handoff-title">READY TO<br />CONNECT?</h2><p>The next system is the communication terminal.</p></div><CursorTarget intent="view" label="OPEN"><Link className="mechanical-button mechanical-button--primary label" to="/contact">OPEN CONTACT TERMINAL ↗</Link></CursorTarget></div>
+          <TechnicalDivider label="NEXT" />
+          <div className="about-handoff__inner"><div><span className="page-eyebrow">COMMUNICATION</span><h2 id="handoff-title" className="page-heading">READY TO<br />CONNECT?</h2><p className="page-description">Get in touch with the association.</p></div><CursorTarget intent="view" label="OPEN"><Link className="mechanical-button mechanical-button--primary label" to="/contact">OPEN CONTACT FORM ↗</Link></CursorTarget></div>
         </section>
       </main>
     </div>
@@ -180,7 +171,7 @@ export function AboutPage() {
 }
 
 function AboutHero() {
-  return <div className="about-hero__inner"><div className="about-hero__top"><TechnicalLabel prefix="SYSTEM / 06">ENGINEERING IDENTITY</TechnicalLabel><SystemIndicator state="online" label="MODE / IDENTITY" /></div><div className="about-hero__layout"><div className="about-hero__copy"><span className="technical-small">MECHESA // ENGINEERED MOTION</span><h1 id="about-title">WHY<br />MECHESA?</h1><p>Understand the system. Design it. Build it. Test it. Keep moving from theory into physical systems.</p></div><IdentityInstrument /></div><div className="about-hero__foot"><MeasurementMark value="DATUM A / 000" /><span className="technical-small">ORIGIN / SYSTEM IDENTIFICATION</span><MeasurementMark value="SECTION / A—A" orientation="vertical" /></div></div>
+  return <div className="about-hero__inner"><div className="about-hero__top"><span className="page-eyebrow">ENGINEERING IDENTITY</span></div><div className="about-hero__layout"><div className="about-hero__copy"><span className="technical-small">MECHESA // ENGINEERED MOTION</span><h1 id="about-title" className="page-heading">WHY<br />MECHESA?</h1><p className="page-description">Understand the system. Design it. Build it. Test it. Keep moving from theory into physical systems.</p></div><IdentityInstrument /></div><div className="about-hero__foot"><MeasurementMark value="DATUM A / 000" /><span className="technical-small">ORIGIN / SYSTEM IDENTIFICATION</span><MeasurementMark value="SECTION / A—A" orientation="vertical" /></div></div>
 }
 
 function IdentityInstrument() {

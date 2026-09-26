@@ -34,18 +34,18 @@ function HomeContent({ selectedMember, setSelectedMember, selectedMemberData }: 
       <div className="home-hero__atmosphere" aria-hidden="true" />
       <div className="home-hero__content page-container">
         <div className="home-hero__topline">
-          <TechnicalLabel prefix="00">INITIALIZATION HANDOFF</TechnicalLabel>
-          <SystemIndicator state="online" label="MECHESA CORE" />
+          <TechnicalLabel prefix="00">IIT INDORE</TechnicalLabel>
+          <SystemIndicator state="online" label="STUDENT ASSOCIATION" />
         </div>
         <div className="home-hero__machine">
           <MechanicalCoreStage />
           <div className="home-hero__title">
-            <span className="technical-small">IIT INDORE / MECHANICAL ENGINEERING</span>
+            <span className="page-eyebrow">MECHANICAL ENGINEERING STUDENTS ASSOCIATION</span>
             <h1><span>MECH</span><span>ESA</span></h1>
-            <p>MECHANICAL ENGINEERING<br />STUDENTS ASSOCIATION</p>
+            <p className="page-description" style={{ marginTop: '1rem', color: 'var(--color-text)' }}>Explore mechanical engineering through design, manufacturing, systems and experimentation.</p>
           </div>
-          <div className="home-hero__annotation home-hero__annotation--a">CORE / 01<br /><span>MECHANICAL SYSTEM</span></div>
-          <div className="home-hero__annotation home-hero__annotation--b">IIT INDORE<br /><span>SYSTEM / ORIGIN</span></div>
+          <div className="home-hero__annotation home-hero__annotation--a">MECHESA<br /><span>STUDENT COMMUNITY</span></div>
+          <div className="home-hero__annotation home-hero__annotation--b">IIT INDORE<br /><span>ENGINEERING</span></div>
         </div>
         <div className="home-hero__actions">
           <CursorTarget label="ENGAGE" intent="button"><MechanicalButton variant="primary" onClick={() => scrollToSection('engineering')}>EXPLORE MECHESA</MechanicalButton></CursorTarget>
@@ -56,12 +56,12 @@ function HomeContent({ selectedMember, setSelectedMember, selectedMemberData }: 
     </section>
 
     <section className="home-section identity-section page-container" id="engineering" data-section="02" data-transition="mechanical-lock" data-motion="identity">
-      <SectionHeader number="02" eyebrow="ENGINEERING IDENTITY" title="ENGINEERING IS MOTION." description="A visual foundation for MechESA that treats engineering as a system of decisions, forces, materials and movement." />
+      <SectionHeader number="02" eyebrow="ABOUT MECHESA" title="ENGINEERED MOTION." description="A student community built around mechanical engineering, experimentation, and moving from theory into physical reality." />
       <div className="identity-layout">
         <MechanicalPanel variant="technical" className="identity-statement">
           <span className="identity-statement__number">01</span>
-          <h3>BUILD<br />WITH<br /><em>INTENT.</em></h3>
-          <p className="body-small">CONTENT-READY COPY / APPROVED INSTITUTIONAL MESSAGING PENDING</p>
+          <h3>DESIGN.<br />BUILD.<br /><em>MOVE.</em></h3>
+          <p className="body-small">MechESA provides a space to explore applied mechanical systems.</p>
           <TechnicalDivider label="SYSTEM PRINCIPLE" />
           <span className="technical-small">PRECISION / FORCE / MOTION / INTELLIGENCE</span>
         </MechanicalPanel>
@@ -78,7 +78,7 @@ function HomeContent({ selectedMember, setSelectedMember, selectedMemberData }: 
 
     <section className="home-section systems-section" id="systems" data-section="03" data-transition="signal-propagation" data-motion="systems">
       <div className="page-container">
-        <SectionHeader number="03" eyebrow="ENGINEERING SYSTEMS / LAB" title="INTERACT WITH THE SYSTEM." description="Eight live engineering instruments — thermodynamics, fluid mechanics, manufacturing, robotics and more. Operate the full lab on its own page." />
+        <SectionHeader number="03" eyebrow="ENGINEERING SYSTEMS" title="WHAT WE EXPLORE." description="The eight core engineering disciplines that form the foundation of our projects and learning." />
         <div className="systems-teaser">
           <div className="systems-teaser__domains">
             {engineeringSystems.map((s, i) => (
@@ -97,7 +97,7 @@ function HomeContent({ selectedMember, setSelectedMember, selectedMemberData }: 
     </section>
 
     <section className="home-section events-section page-container" id="events" data-section="04" data-transition="production-line" data-motion="production">
-      <SectionHeader number="04" eyebrow="EVENTS / PRODUCTION LINE" title="LOAD THE NEXT MODULE." description="A homepage preview for future workshops, competitions and engineering activities. The complete event archive lives on its own route." />
+      <SectionHeader number="04" eyebrow="UPCOMING EVENTS" title="WHAT'S NEXT." description="Workshops, competitions, and engineering activities hosted by MechESA." />
       <div className="production-line" aria-label="Event preview">
         <div className="production-line__track" aria-hidden="true" data-production-track><i /><i /><i /><i /><i /></div>
         <div className="production-line__modules">{homepageEvents.map((event, index) => <CursorTarget key={event.id} label="VIEW" intent="view" className="production-line__module">
@@ -109,7 +109,7 @@ function HomeContent({ selectedMember, setSelectedMember, selectedMemberData }: 
 
     <section className="home-section team-section" id="team" data-section="05" data-transition="assembly" data-motion="assembly">
       <div className="page-container">
-        <SectionHeader number="05" eyebrow="THE PEOPLE BEHIND THE MACHINE" title="ASSEMBLE THE TEAM." description="A connected preview for the people who make the association move. Approved team data can populate this assembly when supplied." />
+        <SectionHeader number="05" eyebrow="MEET THE TEAM" title="THE ASSOCIATION." description="The students and faculty who make MechESA operate." />
         <div className="team-assembly">
           <div className="team-assembly__diagram" aria-hidden="true"><span /><span /><span /><span /><span /><span /></div>
           <div className="team-assembly__nodes" data-assembly-nodes>{homepageTeam.map(member => <TeamAssemblyNode key={member.id} member={member} selected={selectedMember === member.id} onSelect={() => setSelectedMember(member.id)} />)}</div>
@@ -126,10 +126,10 @@ function HomeContent({ selectedMember, setSelectedMember, selectedMemberData }: 
     </section>
 
     <section className="home-section logs-section page-container" id="logs" data-section="06" data-transition="document-reveal" data-motion="document">
-      <SectionHeader number="06" eyebrow="ENGINEERING LOGS" title="DOCUMENT THE WORK." description="A technical editorial layer for future MechESA writing, project notes and engineering stories." />
+      <SectionHeader number="06" eyebrow="ENGINEERING LOGS" title="DOCUMENT THE WORK." description="MechESA writing, project notes, and engineering stories." />
       <div className="logs-layout">
         <CursorTarget label="OPEN" intent="link" className="logs-feature"><MechanicalPanel variant="elevated">
-          <div className="logs-feature__top"><span className="technical-small">LOG / 001</span><span className="technical-small">FEATURED / CONTENT READY</span></div>
+          <div className="logs-feature__top"><span className="technical-small">LOG / 001</span><span className="technical-small">FEATURED ARTICLE</span></div>
           <div className="logs-feature__document" data-document-reveal><span className="logs-feature__stamp">ENGINEERING<br />LOGBOOK</span><div className="logs-feature__sketch" aria-hidden="true"><i /><i /><i /><i /></div></div>
           <h3>{homepageBlogs[0].title}</h3><p className="body-small">{homepageBlogs[0].excerpt}</p>
           <div className="logs-feature__meta"><span className="technical-small">{homepageBlogs[0].category}</span><span className="technical-small">{homepageBlogs[0].date}</span><span className="technical-small">{homepageBlogs[0].readTime}</span></div>
