@@ -1,0 +1,63 @@
+import type { BlogPost } from './types'
+
+export const blogPostsData: BlogPost[] = [
+  {
+    id: 'log-01',
+    title: 'Engineering Log',
+    excerpt: 'A content-ready space for technical articles and project documentation from MechESA members.',
+    content: 'Full articles, engineering logs, and technical reports published by MechESA members will be hosted here. This platform documents design methodologies, manufacturing practices, analysis, and student projects across mechanical engineering domains.',
+    date: 'DATE / TBD',
+    author: 'MECHESA',
+    readTime: '4 MIN READ',
+    category: 'TECHNICAL',
+    tags: ['MECHANICAL', 'SYSTEMS', 'LOGS'],
+  },
+  {
+    id: 'log-02',
+    title: 'Design Notes',
+    excerpt: 'A content-ready space for design, CAD modeling, fabrication, and prototyping reflections.',
+    content: 'Design notes cover the evolution of physical prototypes from initial sketches through finite element analysis and physical testing. Stay tuned for detailed case studies from past MechESA workshops and projects.',
+    date: 'DATE / TBD',
+    author: 'MECHESA',
+    readTime: '3 MIN READ',
+    category: 'DESIGN',
+    tags: ['DESIGN', 'CAD', 'PROTOTYPING'],
+  },
+  {
+    id: 'log-03',
+    title: 'Systems Journal',
+    excerpt: 'A content-ready space for multidisciplinary engineering stories spanning robotics, thermal systems, and fluids.',
+    content: 'Mechanical engineering touches every moving system. The Systems Journal captures cross-disciplinary work intersecting mechanical design, electronics, sensors, and real-time control.',
+    date: 'DATE / TBD',
+    author: 'MECHESA',
+    readTime: '5 MIN READ',
+    category: 'SYSTEMS',
+    tags: ['ROBOTICS', 'AUTOMOTIVE', 'THERMAL'],
+  },
+  {
+    id: 'story-internships',
+    title: 'Internship Stories',
+    excerpt: 'First-hand notes from students on finding opportunities, joining engineering teams, and reflecting on industry experience.',
+    content: 'Detailed field notes documenting application strategies, interview preparations, project responsibilities, and takeaways from core engineering and research internships.',
+    date: 'CAREER TRACK',
+    author: 'STUDENT CONTRIBUTIONS',
+    readTime: 'FIELD NOTES',
+    category: 'CAREER',
+    tags: ['INTERNSHIPS', 'EXPERIENCE', 'GUIDANCE'],
+    trackLink: '/blogs/internships',
+  },
+  {
+    id: 'story-placements',
+    title: 'Placement Stories',
+    excerpt: 'Experiences from the transition into first engineering roles: preparation, interview insights, and decisions.',
+    content: 'Documenting the journey from campus coursework to full-time roles across automotive, aerospace, energy, manufacturing, and technology sectors.',
+    date: 'CAREER TRACK',
+    author: 'STUDENT CONTRIBUTIONS',
+    readTime: 'FIELD NOTES',
+    category: 'CAREER',
+    tags: ['PLACEMENTS', 'CAREER', 'ALUMNI'],
+    trackLink: '/blogs/placements',
+  },
+]
+
+export const blogCategories = ['ALL', 'TECHNICAL', 'DESIGN', 'SYSTEMS', 'CAREER'] as const

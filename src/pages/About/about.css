@@ -14,7 +14,7 @@
 .about-hero__layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(380px, .8fr); gap: clamp(2rem, 8vw, 9rem); align-items: center; padding-block: clamp(3.5rem, 8vw, 7rem); }
 .about-hero__copy { max-width: 760px; }
 .about-hero__copy > .technical-small { color: var(--color-blueprint); }
-.about-hero h1 { margin: 1rem 0 1.4rem; font-size: clamp(5.5rem, 14vw, 13rem); line-height: .78; letter-spacing: -.075em; }
+.about-hero h1 { margin: 1rem 0 1.4rem; font-size: var(--text-hero, clamp(3.5rem, 7vw, 7.5rem)); line-height: .78; letter-spacing: -.075em; }
 .about-hero p { max-width: 640px; margin: 0; color: var(--color-text-muted); font-size: clamp(1rem, 1.5vw, 1.25rem); line-height: 1.65; }
 .about-hero__foot { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 2rem; color: var(--color-text-dim); }
 .about-hero__foot > :last-child { justify-self: end; }

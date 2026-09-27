@@ -8,6 +8,7 @@ type PointerContextValue = {
   setIntent: (intent: CursorIntent, label?: string | null, magnetism?: number, target?: HTMLElement | null) => void
   clearIntent: () => void
   reducedMotion: boolean
+  isPointerDevice: boolean
 }
 
 const initial: PointerSnapshot = { x: -100, y: -100, nx: 0, ny: 0, vx: 0, vy: 0, intent: 'default', label: null, magnetism: 0, target: null }
@@ -73,7 +74,10 @@ export function PointerProvider({ children, reducedMotion }: { children: ReactNo
     pointerRef.current.target = null
   }, [])
 
-  const value = useMemo(() => ({ pointerRef, setIntent, clearIntent, reducedMotion }), [clearIntent, reducedMotion, setIntent])
+  const value = useMemo(
+    () => ({ pointerRef, setIntent, clearIntent, reducedMotion, isPointerDevice }),
+    [clearIntent, reducedMotion, setIntent, isPointerDevice]
+  )
   return <PointerContext.Provider value={value}>{children}</PointerContext.Provider>
 }
 

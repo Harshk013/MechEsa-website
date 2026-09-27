@@ -20,21 +20,12 @@ export const engineeringSystems: EngineeringSystem[] = [
   { id: 'mechatronics', title: 'Mechatronics', shortLabel: 'MECHATRONICS', description: 'Mechanical systems coupled with sensing, electronics and control.', status: 'ACTIVE', metric: 'SENSE / ACTUATE' },
 ]
 
-export const homepageEvents: EventItem[] = [
-  { id: 'event-preview-01', title: 'Upcoming Event', category: 'MECHESA', date: 'DATE / TBD', description: 'Event information will be populated from the official MechESA calendar.', status: 'upcoming' },
-  { id: 'event-preview-02', title: 'Recent Activity', category: 'ENGINEERING', date: 'DATE / TBD', description: 'A content-ready module for future MechESA activity.', status: 'upcoming' },
-  { id: 'event-preview-03', title: 'Workshop Module', category: 'WORKSHOP', date: 'DATE / TBD', description: 'A future event module connected to the complete events archive.', status: 'upcoming' },
-]
+import { eventsData } from './events'
+import { teamMembersData } from './team'
+import { blogPostsData } from './blogs'
 
-export const homepageTeam: TeamMember[] = [
-  { id: 'member-01', name: 'TEAM MEMBER', role: 'ROLE / TBD', year: 'YEAR / TBD' },
-  { id: 'member-02', name: 'TEAM MEMBER', role: 'ROLE / TBD', year: 'YEAR / TBD' },
-  { id: 'member-03', name: 'TEAM MEMBER', role: 'ROLE / TBD', year: 'YEAR / TBD' },
-  { id: 'member-04', name: 'TEAM MEMBER', role: 'ROLE / TBD', year: 'YEAR / TBD' },
-]
+export const homepageEvents: EventItem[] = eventsData
 
-export const homepageBlogs: BlogPost[] = [
-  { id: 'log-01', title: 'Engineering Log', excerpt: 'A content-ready space for a future MechESA technical article.', date: 'DATE / TBD', author: 'MECHESA', readTime: 'TBD', category: 'TECHNICAL' },
-  { id: 'log-02', title: 'Design Notes', excerpt: 'A content-ready space for design, making and engineering documentation.', date: 'DATE / TBD', author: 'MECHESA', readTime: 'TBD', category: 'DESIGN' },
-  { id: 'log-03', title: 'Systems Journal', excerpt: 'A content-ready space for an engineering systems story.', date: 'DATE / TBD', author: 'MECHESA', readTime: 'TBD', category: 'SYSTEMS' },
-]
+export const homepageTeam: TeamMember[] = teamMembersData
+
+export const homepageBlogs: BlogPost[] = blogPostsData.slice(0, 3)

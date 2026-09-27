@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --sys-fluid: #6fb3b8;
   --sys-thermodynamics: #c77b78;
   --sys-automotive: #c77b5a;
@@ -12,10 +12,11 @@
   --color-signal: #d98a3d;
   --color-bg: #0d0f11;
   --color-bg-deep: #0a0c0d;
-  --color-surface: #171b1e;
-  --color-surface-elevated: #1f2429;
-  --color-panel: #1a1e22;
-  --color-panel-technical: #121619;
+  --color-surface: #12171a;
+  --color-surface-elevated: #1e252a;
+  --color-panel: #171d21;
+  --color-panel-special: #202a30;
+  --color-panel-technical: #16232c;
   --color-border: rgba(205, 214, 219, 0.18);
   --color-border-strong: rgba(205, 214, 219, 0.24);
   --color-text: #edf1f2;
@@ -29,18 +30,28 @@
   --color-info: #82a9c7;
   --color-danger: #c77b78;
 
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 80px;
+  --space-10: 96px;
+  --space-11: 120px;
+  --space-12: 144px;
+
+  --text-hero: clamp(3.5rem, 7vw, 7.5rem);
+  --text-h1: clamp(3rem, 5.5vw, 6rem);
+  --text-h2: clamp(2.25rem, 4vw, 4.5rem);
+  --text-h3: clamp(1.5rem, 2vw, 2.5rem);
+  --text-card-title: clamp(1.15rem, 1.5vw, 1.75rem);
+  --text-body: 1.125rem;
+  --text-body-small: 1rem;
+  --text-technical: 0.85rem;
+  --text-technical-small: 0.75rem;
 
   --radius-none: 0;
   --radius-sm: 2px;

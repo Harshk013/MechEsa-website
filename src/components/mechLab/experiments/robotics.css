@@ -1,0 +1,490 @@
+/* ══════════════════════════════════════════════════════════════════════
+   ROBOTICS EXPERIMENT STYLES — FLAGSHIP EXPERIENCE
+   Visualizations: 2-Link Robotic Arm, Target System, Obstacle Navigation,
+   Inverse Kinematics Auto Position, Robot Vision Status
+   ══════════════════════════════════════════════════════════════════════ */
+
+.robotics-exp {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+/* ── Top Header Bar ─────────────────────────────────────────────────── */
+.robotics-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+  background: var(--color-panel, #171d21);
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.robotics-header-bar__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.robotics-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--sys-robotics, #6fb3b8);
+}
+
+.robotics-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sys-robotics, #6fb3b8);
+  box-shadow: 0 0 8px rgba(111, 179, 184, 0.8);
+}
+
+.robotics-title {
+  font-size: 0.92rem;
+  color: var(--color-text);
+  margin: 0;
+  font-weight: 600;
+}
+
+.robotics-tech-sub {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  color: var(--color-text-dim, #697276);
+  letter-spacing: 0.06em;
+}
+
+/* ── Hero Grid (Arm Viewport on Left, Controls & Vision on Right) ────── */
+.robotics-hero-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  width: 100%;
+}
+
+@media (max-width: 960px) {
+  .robotics-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── 1. Robotic Arm Interactive SVG Viewport ─────────────────────────── */
+.robotics-viewport-card {
+  position: relative;
+  min-height: 440px;
+  background: #0b0f13;
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.robotics-viewport-card.is-blueprint {
+  border-color: rgba(93, 156, 236, 0.4);
+  background: #080d14;
+}
+
+.robotics-viewport-card__top-tags,
+.robotics-viewport-card__bottom-tags {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.robotics-viewport-tag {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-dim, #697276);
+  background: rgba(14, 18, 22, 0.8);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm, 2px);
+  border: 1px solid rgba(205, 214, 219, 0.1);
+}
+
+.robotics-viewport-tag--success {
+  color: var(--color-success, #79b89a);
+  border-color: rgba(121, 184, 154, 0.4);
+  background: rgba(121, 184, 154, 0.15);
+}
+
+.robotics-viewport-tag--alert {
+  color: var(--color-signal, #d98a3d);
+  border-color: rgba(217, 138, 61, 0.4);
+  background: rgba(217, 138, 61, 0.15);
+}
+
+.robotics-svg-stage {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  min-height: 360px;
+}
+
+.robotics-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Robot Arm Links and Joint Styling */
+.robotics-link--primary {
+  stroke: #455560;
+  stroke-width: 14;
+  stroke-linecap: round;
+  transition: all 0.12s ease;
+}
+
+.robotics-link--primary-core {
+  stroke: #6fb3b8;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.robotics-link--secondary {
+  stroke: #334048;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: all 0.12s ease;
+}
+
+.robotics-link--secondary-core {
+  stroke: #9da6aa;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.robotics-joint-outer {
+  fill: #1a2228;
+  stroke: #6fb3b8;
+  stroke-width: 2.5;
+}
+
+.robotics-joint-pin {
+  fill: #ffffff;
+}
+
+/* Gripper / Hand */
+.robotics-hand {
+  transition: all 0.15s ease;
+}
+
+.robotics-hand--active {
+  filter: drop-shadow(0 0 10px rgba(111, 179, 184, 0.9));
+}
+
+.robotics-hand--success {
+  filter: drop-shadow(0 0 14px rgba(121, 184, 154, 1));
+}
+
+/* Target Object Visualization */
+.robotics-target-outer {
+  fill: rgba(217, 138, 61, 0.12);
+  stroke: var(--color-signal, #d98a3d);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+  animation: targetRotate 12s linear infinite;
+  transform-origin: center;
+}
+
+.robotics-target-outer--success {
+  fill: rgba(121, 184, 154, 0.2);
+  stroke: var(--color-success, #79b89a);
+  animation: none;
+}
+
+.robotics-target-center {
+  fill: var(--color-signal, #d98a3d);
+  transition: fill 0.2s ease;
+}
+
+.robotics-target-center--success {
+  fill: var(--color-success, #79b89a);
+}
+
+@keyframes targetRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Target Pointer Distance Line */
+.robotics-target-line {
+  stroke: rgba(217, 138, 61, 0.5);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+  pointer-events: none;
+}
+
+.robotics-target-line--success {
+  stroke: rgba(121, 184, 154, 0.7);
+}
+
+/* Obstacle / Hazard Zone */
+.robotics-obstacle-rect {
+  fill: rgba(217, 138, 61, 0.15);
+  stroke: var(--color-signal, #d98a3d);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+
+.robotics-obstacle-rect--hit {
+  fill: rgba(230, 80, 50, 0.35);
+  stroke: #ff4433;
+  animation: hazardPulse 0.4s ease infinite alternate;
+}
+
+@keyframes hazardPulse {
+  0% { stroke-width: 1.5; }
+  100% { stroke-width: 3.5; }
+}
+
+/* ── 2. Controls Panel (Shoulder & Elbow Sliders, Auto Position) ─────── */
+.robotics-controls-card {
+  background: var(--color-panel, #171d21);
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.robotics-controls-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(205, 214, 219, 0.1);
+  padding-bottom: 0.65rem;
+}
+
+.robotics-controls-title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.robotics-controls-reset {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  background: transparent;
+  border: 1px solid rgba(205, 214, 219, 0.2);
+  border-radius: var(--radius-sm, 2px);
+  padding: 2px 6px;
+  color: var(--color-text-dim, #697276);
+  cursor: pointer;
+  transition: all var(--duration-fast, 180ms) ease;
+}
+
+.robotics-controls-reset:hover {
+  color: var(--color-text);
+  border-color: rgba(205, 214, 219, 0.4);
+}
+
+.robotics-control-slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.robotics-control-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.robotics-control-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.robotics-control-value {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--sys-robotics, #6fb3b8);
+}
+
+.robotics-control-subtext {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  color: var(--color-text-dim, #697276);
+}
+
+/* Quick Action Toolbar (Auto Position + Presets) */
+.robotics-actions-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(205, 214, 219, 0.1);
+}
+
+.robotics-auto-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.95rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: rgba(111, 179, 184, 0.15);
+  border: 1px solid var(--sys-robotics, #6fb3b8);
+  border-radius: var(--radius-sm, 2px);
+  color: #ffffff;
+  cursor: pointer;
+  transition: all var(--duration-fast, 180ms) ease;
+}
+
+.robotics-auto-btn:hover {
+  background: var(--sys-robotics, #6fb3b8);
+  color: #0c1014;
+  box-shadow: 0 0 14px rgba(111, 179, 184, 0.4);
+}
+
+.robotics-preset-btn {
+  padding: 0.45rem 0.65rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 600;
+  background: rgba(14, 18, 22, 0.7);
+  border: 1px solid rgba(205, 214, 219, 0.15);
+  border-radius: var(--radius-sm, 2px);
+  color: var(--color-text-muted, #9da6aa);
+  cursor: pointer;
+  transition: all var(--duration-fast, 180ms) ease;
+}
+
+.robotics-preset-btn:hover {
+  background: rgba(26, 33, 38, 0.9);
+  color: var(--color-text);
+}
+
+/* ── 3. Robot Vision & Status Readout Card ───────────────────────────── */
+.robotics-vision-card {
+  background: var(--color-panel, #171d21);
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.robotics-vision-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(205, 214, 219, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.robotics-vision-title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.robotics-vision-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  background: rgba(111, 179, 184, 0.12);
+  border: 1px solid rgba(111, 179, 184, 0.35);
+  color: var(--sys-robotics, #6fb3b8);
+  border-radius: var(--radius-sm, 2px);
+}
+
+.robotics-vision-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.robotics-vision-stat {
+  background: rgba(14, 18, 22, 0.65);
+  border: 1px solid rgba(205, 214, 219, 0.1);
+  border-radius: var(--radius-sm, 2px);
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.robotics-vision-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-dim, #697276);
+}
+
+.robotics-vision-value {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.robotics-vision-value--success {
+  color: var(--color-success, #79b89a);
+}
+
+.robotics-vision-value--alert {
+  color: var(--color-signal, #d98a3d);
+}
+
+/* "TRY THIS" Interaction Prompts */
+.robotics-try-this {
+  padding: 0.75rem 1rem;
+  background: rgba(14, 18, 22, 0.75);
+  border-left: 3px solid var(--sys-robotics, #6fb3b8);
+  border-radius: 0 var(--radius-sm, 2px) var(--radius-sm, 2px) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.robotics-try-this__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--sys-robotics, #6fb3b8);
+}
+
+.robotics-try-this__text {
+  font-size: 0.85rem;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.4;
+}

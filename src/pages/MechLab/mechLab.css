@@ -1,0 +1,1376 @@
+/* ══════════════════════════════════════════════════════════════════════
+   MECH LAB — Engineering Exploration Environment Styles
+   Visual Identity: Blueprint Blue, Steel Surfaces, System Colors, Controlled Amber
+   ══════════════════════════════════════════════════════════════════════ */
+
+.mech-lab-shell {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--color-bg, #0d0f11);
+  color: var(--color-text, #edf1f2);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background blueprint grid layer */
+.mech-lab-shell__bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(rgba(93, 156, 236, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(93, 156, 236, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center center;
+  z-index: 0;
+}
+
+.mech-lab-shell__vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(10, 12, 13, 0.75) 100%);
+  z-index: 0;
+}
+
+/* ── Lab Header ──────────────────────────────────────────────────────── */
+.mech-lab-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(14, 18, 22, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(205, 214, 219, 0.14);
+}
+
+.mech-lab-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem clamp(1rem, 3vw, 2.5rem);
+  max-width: 1320px;
+  margin: 0 auto;
+  gap: 1rem;
+}
+
+.mech-lab-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.mech-lab-header__logo-tag {
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  color: var(--color-signal, #d98a3d);
+  padding: 2px 6px;
+  background: rgba(217, 138, 61, 0.1);
+  border: 1px solid rgba(217, 138, 61, 0.3);
+  border-radius: var(--radius-sm, 2px);
+}
+
+.mech-lab-header__title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.mech-lab-header__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-text);
+  line-height: 1.1;
+}
+
+.mech-lab-header__sub {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-dim, #697276);
+}
+
+.mech-lab-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mech-lab-header__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  background: rgba(23, 29, 33, 0.85);
+  border: 1px solid rgba(205, 214, 219, 0.2);
+  border-radius: var(--radius-sm, 2px);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all var(--duration-fast, 180ms) ease;
+}
+
+.mech-lab-header__btn:hover {
+  background: rgba(32, 42, 48, 0.95);
+  border-color: rgba(93, 156, 236, 0.5);
+  color: var(--color-text);
+}
+
+.mech-lab-header__btn--exit {
+  border-color: rgba(217, 138, 61, 0.35);
+  color: var(--color-signal, #d98a3d);
+}
+
+.mech-lab-header__btn--exit:hover {
+  border-color: var(--color-signal, #d98a3d);
+  background: rgba(217, 138, 61, 0.12);
+}
+
+/* ── Main Layout Container ───────────────────────────────────────────── */
+.mech-lab-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  max-width: 1320px;
+  width: 100%;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 3.5vw, 3rem) clamp(1rem, 3vw, 2.5rem);
+}
+
+/* ── Landing Hero ────────────────────────────────────────────────────── */
+.mech-lab-hero {
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.mech-lab-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--color-signal, #d98a3d);
+}
+
+.mech-lab-hero__badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-signal, #d98a3d);
+  box-shadow: 0 0 8px rgba(217, 138, 61, 0.7);
+}
+
+.mech-lab-hero__title {
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  color: var(--color-text);
+  margin: 0 0 0.5rem 0;
+}
+
+.mech-lab-hero__tagline {
+  font-size: clamp(1.25rem, 2.4vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.3;
+}
+
+.mech-lab-hero__subtitle {
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  color: var(--color-text-muted, #9da6aa);
+  max-width: 680px;
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
+}
+
+/* ── Two Large Gateways: EXPLORE vs CHALLENGE ─────────────────────── */
+.mech-lab-gateways {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .mech-lab-gateways {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.mech-lab-gateway {
+  position: relative;
+  background: linear-gradient(135deg, rgba(23, 29, 33, 0.95) 0%, rgba(15, 19, 22, 0.98) 100%);
+  border: 1px solid rgba(205, 214, 219, 0.18);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.75rem;
+  text-decoration: none;
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: transform var(--duration-fast, 180ms) ease,
+              border-color var(--duration-fast, 180ms) ease,
+              box-shadow var(--duration-fast, 180ms) ease;
+}
+
+.mech-lab-gateway--explore:hover {
+  transform: translateY(-4px);
+  border-color: rgba(111, 179, 184, 0.6);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 24px rgba(111, 179, 184, 0.15);
+}
+
+.mech-lab-gateway--challenge:hover {
+  transform: translateY(-4px);
+  border-color: rgba(217, 138, 61, 0.6);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 24px rgba(217, 138, 61, 0.15);
+}
+
+.mech-lab-gateway__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.mech-lab-gateway__pill {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 8px;
+  background: rgba(111, 179, 184, 0.15);
+  border: 1px solid rgba(111, 179, 184, 0.35);
+  color: var(--sys-fluid, #6fb3b8);
+  border-radius: var(--radius-sm, 2px);
+}
+
+.mech-lab-gateway__pill--amber {
+  background: rgba(217, 138, 61, 0.15);
+  border-color: rgba(217, 138, 61, 0.35);
+  color: var(--color-signal, #d98a3d);
+}
+
+.mech-lab-gateway__badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-success, #79b89a);
+}
+
+.mech-lab-gateway__badge--amber {
+  color: var(--color-signal, #d98a3d);
+}
+
+.mech-lab-gateway__title {
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  margin: 0 0 0.85rem 0;
+}
+
+.mech-lab-gateway__body {
+  margin-bottom: 1.5rem;
+}
+
+.mech-lab-gateway__lead {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+}
+
+.mech-lab-gateway__bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.mech-lab-gateway__bullets li {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #9da6aa);
+  position: relative;
+  padding-left: 1.15rem;
+  line-height: 1.4;
+}
+
+.mech-lab-gateway__bullets li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--sys-fluid, #6fb3b8);
+}
+
+.mech-lab-gateway--challenge .mech-lab-gateway__bullets li::before {
+  color: var(--color-signal, #d98a3d);
+}
+
+.mech-lab-gateway__action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(14, 18, 22, 0.8);
+  border: 1px solid rgba(111, 179, 184, 0.3);
+  border-radius: var(--radius-sm, 2px);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  transition: all var(--duration-fast, 180ms) ease;
+}
+
+.mech-lab-gateway--explore:hover .mech-lab-gateway__action {
+  background: var(--sys-fluid, #6fb3b8);
+  border-color: var(--sys-fluid, #6fb3b8);
+  color: #0b0f12;
+}
+
+.mech-lab-gateway__action--amber {
+  border-color: rgba(217, 138, 61, 0.35);
+}
+
+.mech-lab-gateway--challenge:hover .mech-lab-gateway__action--amber {
+  background: var(--color-signal, #d98a3d);
+  border-color: var(--color-signal, #d98a3d);
+  color: #0b0f12;
+}
+
+.mech-lab-gateway__arrow {
+  font-size: 1.1rem;
+  transition: transform 0.15s ease;
+}
+
+.mech-lab-gateway:hover .mech-lab-gateway__arrow {
+  transform: translateX(4px);
+}
+
+/* ── System Selector Grid ────────────────────────────────────────────── */
+.mech-lab-grid-section__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(205, 214, 219, 0.14);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.mech-lab-grid-section__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-text);
+  margin: 0 0 0.25rem 0;
+}
+
+.mech-lab-grid-section__subtitle {
+  font-size: 0.85rem;
+  color: var(--color-text-dim, #697276);
+  margin: 0;
+}
+
+.mech-lab-grid-section__count {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--sys-fluid, #6fb3b8);
+}
+
+.mech-lab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.mech-lab-card__action-lead {
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #ffffff;
+  margin: 0 0 0.45rem 0;
+}
+
+.mech-lab-card__focus-text {
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--color-text-dim, #697276);
+  margin: 0 0 1.25rem 0;
+  flex: 1;
+}
+
+/* ── Individual System Card ──────────────────────────────────────────── */
+.mech-lab-card {
+  position: relative;
+  background: var(--color-panel, #171d21);
+  border: 1px solid rgba(205, 214, 219, 0.14);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform var(--duration-fast, 180ms) ease,
+              border-color var(--duration-fast, 180ms) ease,
+              box-shadow var(--duration-fast, 180ms) ease;
+  overflow: hidden;
+}
+
+/* System Accent Top Line */
+.mech-lab-card__accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--card-color, var(--sys-fluid));
+  opacity: 0.7;
+  transition: opacity 0.2s ease, height 0.2s ease;
+}
+
+.mech-lab-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(205, 214, 219, 0.32);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.mech-lab-card:hover .mech-lab-card__accent-bar {
+  opacity: 1;
+  height: 3px;
+}
+
+.mech-lab-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.mech-lab-card__module-id {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--card-color, var(--color-text-dim));
+}
+
+.mech-lab-card__status {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 2px 6px;
+  background: rgba(121, 184, 154, 0.1);
+  border: 1px solid rgba(121, 184, 154, 0.3);
+  color: var(--color-success, #79b89a);
+  border-radius: var(--radius-sm, 2px);
+}
+
+.mech-lab-card__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--color-text);
+  margin: 0 0 0.35rem 0;
+}
+
+.mech-lab-card__focus {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  color: var(--color-text-dim, #697276);
+  margin-bottom: 0.75rem;
+}
+
+.mech-lab-card__desc {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--color-text-muted, #9da6aa);
+  margin: 0 0 1.25rem 0;
+  flex: 1;
+}
+
+.mech-lab-card__actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.mech-lab-card__action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.65rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  background: rgba(18, 23, 26, 0.85);
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+  color: var(--color-text);
+  transition: all var(--duration-fast, 180ms) ease;
+}
+
+.mech-lab-card__action-btn:hover {
+  background: rgba(30, 37, 42, 0.95);
+  border-color: var(--card-color, var(--sys-fluid));
+  color: var(--card-color, var(--sys-fluid));
+}
+
+.mech-lab-card__action-btn--challenge {
+  border-color: rgba(217, 138, 61, 0.25);
+  color: var(--color-signal, #d98a3d);
+}
+
+.mech-lab-card__action-btn--challenge:hover {
+  background: rgba(217, 138, 61, 0.18);
+  border-color: var(--color-signal, #d98a3d);
+  color: #ffffff;
+}
+
+.mech-lab-card__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.65rem 0.95rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  background: rgba(18, 23, 26, 0.8);
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+  color: var(--color-text);
+  transition: all var(--duration-fast, 180ms) ease;
+}
+
+.mech-lab-card__action:hover {
+  background: rgba(30, 37, 42, 0.95);
+  border-color: var(--card-color, var(--sys-fluid));
+  color: var(--card-color, var(--sys-fluid));
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SYSTEM DETAIL EXPLORATION PAGE (/lab/:systemId)
+   ══════════════════════════════════════════════════════════════════════ */
+
+.mech-lab-system-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── System Header & Switcher Strip ──────────────────────────────────── */
+.lab-system-header {
+  background: var(--color-panel, #171d21);
+  border: 1px solid rgba(205, 214, 219, 0.14);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.25rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.lab-system-header__accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--system-accent-color, var(--sys-fluid));
+}
+
+.lab-system-header__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.lab-system-header__breadcrumbs {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-dim, #697276);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.lab-system-header__breadcrumbs a {
+  color: var(--sys-fluid, #6fb3b8);
+  text-decoration: none;
+}
+
+.lab-system-header__breadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.lab-system-header__badge-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.lab-system-header__level {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-signal, #d98a3d);
+}
+
+.lab-system-header__status {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  background: rgba(121, 184, 154, 0.12);
+  border: 1px solid rgba(121, 184, 154, 0.35);
+  color: var(--color-success, #79b89a);
+  border-radius: var(--radius-sm, 2px);
+}
+
+.lab-system-header__title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.lab-system-header__title {
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  margin: 0 0 0.35rem 0;
+  color: var(--color-text);
+}
+
+.lab-system-header__focus,
+.lab-system-header__tagline {
+  font-size: 0.95rem;
+  color: var(--color-text-muted, #9da6aa);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* ── Mode Switcher: EXPLORE vs CHALLENGE ──────────────────────────────── */
+.lab-mode-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 3px;
+  background: rgba(14, 18, 22, 0.85);
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+}
+
+.lab-mode-switcher__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm, 2px);
+  color: var(--color-text-muted, #9da6aa);
+  cursor: pointer;
+  transition: all var(--duration-fast, 180ms) ease;
+}
+
+.lab-mode-switcher__btn:hover {
+  color: var(--color-text);
+}
+
+.lab-mode-switcher__btn.is-active {
+  background: rgba(111, 179, 184, 0.18);
+  border-color: var(--sys-fluid, #6fb3b8);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(111, 179, 184, 0.2);
+}
+
+.lab-mode-switcher__btn--challenge.is-active {
+  background: rgba(217, 138, 61, 0.2);
+  border-color: var(--color-signal, #d98a3d);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(217, 138, 61, 0.2);
+}
+
+.lab-mode-switcher__icon {
+  font-size: 0.8rem;
+}
+
+/* ── Mode Prompt Card ────────────────────────────────────────────────── */
+.lab-mode-prompt-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(23, 29, 33, 0.95) 0%, rgba(15, 19, 22, 0.98) 100%);
+  border: 1px solid rgba(217, 138, 61, 0.35);
+  border-radius: var(--radius-sm, 2px);
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.lab-mode-prompt-card--muted {
+  border-color: rgba(111, 179, 184, 0.3);
+}
+
+.lab-mode-prompt-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 680px;
+}
+
+.lab-mode-prompt-card__badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-signal, #d98a3d);
+}
+
+.lab-mode-prompt-card--muted .lab-mode-prompt-card__badge {
+  color: var(--sys-fluid, #6fb3b8);
+}
+
+.lab-mode-prompt-card__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.lab-mode-prompt-card__desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #9da6aa);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* ── Generic System Instrument Viewport ──────────────────────────────── */
+.generic-system-instrument {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.generic-instrument-stage-card {
+  background: var(--color-panel, #171d21);
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.generic-instrument-stage-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(205, 214, 219, 0.1);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.generic-instrument-stage-card__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.generic-instrument-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-signal, #d98a3d);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.generic-instrument-title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.generic-instrument-status {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  background: rgba(111, 179, 184, 0.12);
+  border: 1px solid rgba(111, 179, 184, 0.35);
+  color: var(--sys-fluid, #6fb3b8);
+  border-radius: var(--radius-sm, 2px);
+}
+
+.generic-instrument-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* System Quick Switcher Strip */
+.lab-system-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(205, 214, 219, 0.1);
+  scrollbar-width: thin;
+}
+
+.lab-system-switcher::-webkit-scrollbar {
+  height: 4px;
+}
+
+.lab-system-switcher::-webkit-scrollbar-thumb {
+  background: rgba(205, 214, 219, 0.2);
+}
+
+.lab-system-switcher__label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--color-text-dim, #697276);
+  white-space: nowrap;
+  margin-right: 0.4rem;
+}
+
+.lab-system-switcher__pill {
+  padding: 0.3rem 0.65rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  background: rgba(18, 23, 26, 0.8);
+  border: 1px solid rgba(205, 214, 219, 0.12);
+  border-radius: var(--radius-sm, 2px);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  transition: all var(--duration-fast, 180ms) ease;
+}
+
+.lab-system-switcher__pill:hover {
+  background: rgba(30, 37, 42, 0.9);
+  border-color: rgba(205, 214, 219, 0.3);
+  color: var(--color-text);
+}
+
+.lab-system-switcher__pill.is-active {
+  background: rgba(32, 42, 48, 0.95);
+  border-color: var(--pill-color, var(--sys-fluid));
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+/* ── Main Detail Workspace (2 Columns on Desktop) ────────────────────── */
+.lab-system-workspace {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* ── Experiment Panel (Visual / Simulation Stage) ─────────────────────── */
+.lab-experiment-panel {
+  background: var(--color-panel, #171d21);
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lab-experiment-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(205, 214, 219, 0.1);
+  padding-bottom: 0.65rem;
+}
+
+.lab-experiment-panel__label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--system-accent-color, var(--sys-fluid));
+}
+
+.lab-experiment-panel__mode {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-dim, #697276);
+}
+
+/* Visual Stage Blueprint Area */
+.lab-experiment-stage {
+  position: relative;
+  min-height: 280px;
+  background: #0f1316;
+  border: 1px solid rgba(93, 156, 236, 0.25);
+  border-radius: var(--radius-sm, 2px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.4);
+}
+
+.lab-experiment-stage__grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(93, 156, 236, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(93, 156, 236, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+.lab-experiment-stage__reticle {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 1px dashed rgba(93, 156, 236, 0.25);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.lab-experiment-stage__reticle::before,
+.lab-experiment-stage__reticle::after {
+  content: '';
+  position: absolute;
+  background: rgba(93, 156, 236, 0.35);
+}
+
+.lab-experiment-stage__reticle::before {
+  top: 50%;
+  left: -12px;
+  right: -12px;
+  height: 1px;
+}
+
+.lab-experiment-stage__reticle::after {
+  left: 50%;
+  top: -12px;
+  bottom: -12px;
+  width: 1px;
+}
+
+.lab-experiment-stage__schematic {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 440px;
+}
+
+.lab-experiment-stage__icon-box {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 1rem auto;
+  border: 1px solid var(--system-accent-color, var(--sys-fluid));
+  background: rgba(22, 35, 44, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono, monospace);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--system-accent-color, var(--sys-fluid));
+  box-shadow: 0 0 16px rgba(93, 156, 236, 0.15);
+}
+
+.lab-experiment-stage__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+  margin: 0 0 0.35rem 0;
+}
+
+.lab-experiment-stage__note {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--color-text-muted, #9da6aa);
+  margin: 0;
+}
+
+/* Stage Scale Readouts */
+.lab-experiment-stage__axis {
+  position: absolute;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-dim, #697276);
+  pointer-events: none;
+}
+
+.lab-experiment-stage__axis--top-left {
+  top: 8px;
+  left: 10px;
+}
+
+.lab-experiment-stage__axis--bottom-right {
+  bottom: 8px;
+  right: 10px;
+}
+
+/* ── Result Panel ("WHAT CHANGED?") ──────────────────────────────────── */
+.lab-result-panel {
+  background: var(--color-panel, #171d21);
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.lab-result-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(205, 214, 219, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.lab-result-panel__heading {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-signal, #d98a3d);
+}
+
+.lab-result-panel__content {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  padding: 0.75rem 1rem;
+  background: rgba(14, 18, 22, 0.6);
+  border-left: 3px solid var(--system-accent-color, var(--sys-fluid));
+  border-radius: 0 var(--radius-sm, 2px) var(--radius-sm, 2px) 0;
+}
+
+/* ── Control Panel (Sliders & Reset) ─────────────────────────────────── */
+.lab-controls-panel {
+  background: var(--color-panel, #171d21);
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.lab-controls-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(205, 214, 219, 0.1);
+  padding-bottom: 0.65rem;
+}
+
+.lab-controls-panel__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-text);
+}
+
+.lab-controls-panel__reset-btn {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.65rem;
+  background: rgba(22, 28, 33, 0.8);
+  border: 1px solid rgba(205, 214, 219, 0.2);
+  border-radius: var(--radius-sm, 2px);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--duration-fast, 180ms) ease;
+}
+
+.lab-controls-panel__reset-btn:hover {
+  background: rgba(32, 42, 48, 0.9);
+  border-color: rgba(93, 156, 236, 0.4);
+  color: var(--color-text);
+}
+
+.lab-controls-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.lab-control-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.lab-control-item__label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lab-control-item__name {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+}
+
+.lab-control-item__value {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--system-accent-color, var(--sys-fluid));
+  padding: 2px 6px;
+  background: rgba(14, 18, 22, 0.6);
+  border: 1px solid rgba(205, 214, 219, 0.12);
+  border-radius: var(--radius-sm, 2px);
+}
+
+/* Mechanical Slider */
+.lab-control-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #111518;
+  border: 1px solid rgba(205, 214, 219, 0.2);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--duration-fast, 180ms) ease;
+}
+
+.lab-control-slider:hover {
+  border-color: rgba(93, 156, 236, 0.5);
+}
+
+.lab-control-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  background: var(--system-accent-color, var(--sys-fluid));
+  border: 1px solid #ffffff;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  transition: transform 0.1s ease;
+}
+
+.lab-control-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.lab-control-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  background: var(--system-accent-color, var(--sys-fluid));
+  border: 1px solid #ffffff;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+
+.lab-control-item__range-scale {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-dim, #697276);
+}
+
+/* ── Challenge Panel ("TRY A CHALLENGE") ─────────────────────────────── */
+.lab-challenge-panel {
+  background: var(--color-panel, #171d21);
+  border: 1px dashed rgba(217, 138, 61, 0.35);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lab-challenge-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lab-challenge-panel__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-signal, #d98a3d);
+}
+
+.lab-challenge-panel__badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  padding: 2px 6px;
+  background: rgba(217, 138, 61, 0.12);
+  border: 1px solid rgba(217, 138, 61, 0.35);
+  color: var(--color-signal, #d98a3d);
+  border-radius: var(--radius-sm, 2px);
+}
+
+.lab-challenge-panel__desc {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.lab-challenge-panel__sub {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-dim, #697276);
+  margin: 0;
+}
+
+/* ── Responsive Behavior ─────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .lab-system-workspace {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .mech-lab-header__inner {
+    padding: 0.75rem 1rem;
+  }
+
+  .mech-lab-header__title {
+    font-size: 0.85rem;
+  }
+
+  .mech-lab-header__btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.7rem;
+  }
+
+  .mech-lab-hero__title {
+    font-size: 1.85rem;
+  }
+
+  .mech-lab-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-system-header {
+    padding: 1rem;
+  }
+
+  .lab-system-header__title-row {
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .lab-mode-switcher {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .lab-mode-switcher__btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .lab-mode-prompt-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .mech-lab-card__actions-row {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-experiment-stage {
+    min-height: 220px;
+    padding: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mech-lab-card,
+  .mech-lab-card__action,
+  .mech-lab-header__btn,
+  .lab-system-switcher__pill,
+  .lab-control-slider {
+    transition: none !important;
+  }
+}

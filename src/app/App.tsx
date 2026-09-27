@@ -7,10 +7,11 @@ import { MechanicalNavigation } from '../components/navigation/MechanicalNavigat
 import { PageTransition } from '../components/transitions/PageTransition'
 import { InitializationOverlay } from '../components/transitions/InitializationOverlay'
 import { SiteFooter } from '../components/navigation/SiteFooter'
+import { FloatingMechLabTrigger } from '../components/navigation/FloatingMechLabTrigger'
 
 function RoutedApp() {
   const content = useRoutes(routes)
-  return <><a className="skip-link" href="#main-content">SKIP TO SYSTEM</a><MechanicalNavigation /><PageTransition><div id="main-content" className="app-content">{content}<SiteFooter /></div></PageTransition><EngineeringCursor /><InitializationOverlay /></>
+  return <><a className="skip-link" href="#main-content">SKIP TO SYSTEM</a><MechanicalNavigation /><PageTransition><div id="main-content" className="app-content">{content}<SiteFooter /></div></PageTransition><FloatingMechLabTrigger /><EngineeringCursor /><InitializationOverlay /></>
 }
 export default function App() {
   return <AppProviders><div className="app-shell"><AmbientEnvironment /><RoutedApp /></div></AppProviders>

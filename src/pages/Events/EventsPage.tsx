@@ -1,135 +1,409 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { homepageEvents } from '../../data/home'
+import { eventsData } from '../../data/events'
 import type { EventItem } from '../../data/types'
-import { CursorTarget } from '../../components/interaction/CursorTarget'
-import { MechanicalPanel } from '../../components/mechanical/MechanicalPanel'
-import { MechanicalCard } from '../../components/mechanical/MechanicalCard'
-import { MechanicalButton } from '../../components/mechanical/MechanicalButton'
 import { EngineeringGrid } from '../../components/mechanical/EngineeringGrid'
 import { TechnicalDivider } from '../../components/mechanical/TechnicalDivider'
 import { SystemIndicator } from '../../components/telemetry/SystemIndicator'
-import { useMotionSettings } from '../../app/providers/MotionProvider'
+import { MechanicalButton } from '../../components/mechanical/MechanicalButton'
+import { CursorTarget } from '../../components/interaction/CursorTarget'
 import './events.css'
 
-const events = homepageEvents
-const categories = ['ALL', ...Array.from(new Set(events.map((event) => event.category)))]
-
 export function EventsPage() {
-  const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [filter, setFilter] = useState('ALL')
-  const { reducedMotion } = useMotionSettings()
-  const pageRef = useRef<HTMLDivElement>(null)
-  const visibleEvents = useMemo(() => filter === 'ALL' ? events : events.filter((event) => event.category === filter), [filter])
-  const selected = events.find((event) => event.id === selectedId) || null
+  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null)
+  const [activeCategory, setActiveCategory] = useState<string>('ALL')
 
+  // Keyboard accessibility: Close modal on Escape
   useEffect(() => {
-    const page = pageRef.current
-    if (!page) return
-    let raf = 0
-    const update = () => {
-      raf = 0
-      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
-      const progress = Math.min(1, Math.max(0, window.scrollY / max))
-      page.style.setProperty('--events-progress', progress.toFixed(3))
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedEvent(null)
+      }
     }
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
-    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); if (raf) cancelAnimationFrame(raf) }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  return <div ref={pageRef} className="events-page" data-reduced-motion={reducedMotion}>
-    <EngineeringGrid className="events-page__grid" size={40} opacity={0.035} />
-    <div className="events-page__axis" aria-hidden="true"><span>01</span><i /><span>02</span><i /><span>03</span><i /><span>04</span></div>
+  const categories = useMemo(() => {
+    const cats = Array.from(new Set(eventsData.map((e) => e.category)))
+    return ['ALL', ...cats]
+  }, [])
 
-    <section className="events-hero page-container" aria-labelledby="events-title">
-      <div className="events-hero__meta"><span className="page-eyebrow">UPCOMING EVENTS</span><SystemIndicator state="online" label="READY" /></div>
-      <div className="events-hero__content">
-        <div><span className="technical-small">MECHESA // ENGINEERED MOTION</span><h1 id="events-title" className="page-heading">EVENTS.</h1><p className="page-description">Workshops, competitions, and engineering activities. Explore the current schedule and our past events archive.</p></div>
-        <div className="events-hero__instrument"><span className="technical-small">SCHEDULE ACTIVE</span><div className="events-track"><i /><i /><i /><b /></div></div>
-      </div>
-    </section>
+  const featuredEvent = useMemo(() => {
+    return eventsData.find((e) => e.featured) || eventsData.find((e) => e.status === 'upcoming') || null
+  }, [])
 
-    <main>
-      <section className="events-production page-container" aria-labelledby="production-title">
-        <div className="events-section-head"><span className="page-eyebrow">01 // EVENT SCHEDULE</span><h2 id="production-title" className="page-heading">CURRENT OPERATIONS.</h2><p className="page-description">Browse all active and upcoming MechESA events.</p></div>
-        
-        <div className="events-grid">
-          {visibleEvents.map((event, index) => (
-            <CursorTarget key={event.id} label="VIEW" intent="view" className="event-card-target">
-              <div onClick={() => setSelectedId(event.id)}>
-                <MechanicalCard 
-                  className="event-card"
-                  number={`0${index + 1}`} 
-                  category={event.category} 
-                  status={event.status.toUpperCase()} 
-                  title={event.title} 
-                  description={event.description} 
-                  action={<span className="technical-small">{event.date}</span>} 
-                />
-              </div>
-            </CursorTarget>
-          ))}
-          {!visibleEvents.length && <div className="events-empty">NO EVENTS IN CURRENT FILTER.</div>}
-        </div>
-        
-        {selected && (
-          <EventDetailModal event={selected} onClose={() => setSelectedId(null)} />
-        )}
-      </section>
+  const upcomingEvents = useMemo(() => {
+    const upcoming = eventsData.filter((e) => e.status === 'upcoming' || e.status === 'ongoing')
+    if (activeCategory === 'ALL') return upcoming
+    return upcoming.filter((e) => e.category === activeCategory)
+  }, [activeCategory])
 
-      <section className="events-catalog page-container" aria-labelledby="catalog-title">
-        <div className="events-section-head"><span className="page-eyebrow">02 // EVENT CATALOG</span><h2 id="catalog-title" className="page-heading">INDEX THE EVENTS.</h2><p className="page-description">Filter events by their specific engineering discipline.</p></div>
-        <div className="events-filter" role="group" aria-label="Filter events">{categories.map((category) => <button key={category} type="button" className={filter === category ? 'is-active' : ''} aria-pressed={filter === category} onClick={() => setFilter(category)}>{category}<span>{category === 'ALL' ? events.length : events.filter((event) => event.category === category).length}</span></button>)}</div>
-        <div className="events-table" role="list" aria-label="Event catalog">
-          {visibleEvents.map((event, index) => <EventRow key={event.id} event={event} index={index} selected={selectedId === event.id} onSelect={() => setSelectedId(event.id)} />)}
-        </div>
-      </section>
+  const pastEvents = useMemo(() => {
+    const past = eventsData.filter((e) => e.status === 'completed')
+    if (activeCategory === 'ALL') return past
+    return past.filter((e) => e.category === activeCategory)
+  }, [activeCategory])
 
-      <section className="events-archive page-container" aria-labelledby="archive-title">
-        <div className="events-section-head"><span className="page-eyebrow">03 // EVENT ARCHIVE</span><h2 id="archive-title" className="page-heading">PAST ACTIVITY.</h2><p className="page-description">A record of past workshops and engineering initiatives.</p></div>
-        <div className="archive-frame"><div className="archive-frame__head"><span>ARCHIVE / INDEX</span><span>STATUS / COMPLETED</span></div>{events.filter((event) => event.status === 'completed').map((event, index) => <EventRow key={event.id} event={event} index={index} selected={selectedId === event.id} onSelect={() => setSelectedId(event.id)} archive />)}{events.every((event) => event.status !== 'completed') && <div className="events-empty">NO COMPLETED EVENTS.</div>}</div>
-      </section>
-
-      <section className="events-handoff page-container" aria-labelledby="handoff-title">
-        <TechnicalDivider label="NEXT" />
-        <div className="events-handoff__inner"><div><span className="page-eyebrow">EXPLORE MORE</span><h2 id="handoff-title" className="page-heading">TEAM / ASSEMBLY</h2><p className="page-description">Events are produced by people. Continue into the team directory.</p></div><CursorTarget intent="view" label="OPEN"><Link className="mechanical-button mechanical-button--primary label" to="/team">MEET THE TEAM ↗</Link></CursorTarget></div>
-      </section>
-    </main>
-  </div>
-}
-
-function EventDetailModal({ event, onClose }: { event: EventItem; onClose: () => void }) {
   return (
-    <div className="event-detail-modal-overlay" onClick={onClose}>
-      <MechanicalPanel variant="highlighted" className="event-inspector" aria-live="polite" onClick={(e) => e.stopPropagation()}>
-        <div className="event-inspector__top">
-          <span className="page-eyebrow" style={{marginBottom: 0}}>EVENT DETAILS</span>
-          <SystemIndicator state={event.status === 'completed' ? 'idle' : 'active'} label={event.status.toUpperCase()} />
+    <div className="events-page">
+      <EngineeringGrid className="events-page__grid" size={40} opacity={0.03} />
+
+      {/* ─── Hero Section ─── */}
+      <section className="events-hero page-container" aria-labelledby="events-hero-title">
+        <div className="events-hero__meta">
+          <span className="page-eyebrow">MECHESA // CALENDAR & SESSIONS</span>
+          <SystemIndicator state="online" label="ACTIVITIES ACTIVE" />
         </div>
-        <span className="technical-small">CATEGORY / {event.category}</span>
-        <h3 className="heading-md">{event.title}</h3>
-        <p className="body-small" style={{marginTop: '1rem', marginBottom: '1.5rem'}}>{event.description}</p>
-        
-        <div className="event-inspector__data" style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', borderTop: '1px solid var(--color-border)', paddingTop: '1rem', marginBottom: '1.5rem'}}>
-          <div style={{display: 'flex', flexDirection: 'column'}}>
-            <span className="technical-small" style={{color: 'var(--color-text-dim)'}}>DATE</span>
-            <strong style={{fontSize: '1rem'}}>{event.date}</strong>
+        <div className="events-hero__content">
+          <div>
+            <span className="technical-small">STUDENT ASSOCIATION OF MECHANICAL ENGINEERING</span>
+            <h1 id="events-hero-title" className="page-heading">EVENTS.</h1>
+            <p className="events-hero__desc">
+              See what MechESA is organising, hosting and taking part in. Explore upcoming workshops, technical competitions, and past project sessions.
+            </p>
           </div>
-          <div style={{display: 'flex', flexDirection: 'column'}}>
-            <span className="technical-small" style={{color: 'var(--color-text-dim)'}}>STATUS</span>
-            <strong style={{fontSize: '1rem'}}>{event.status.toUpperCase()}</strong>
+          <div className="events-hero__stats">
+            <div className="events-hero__stat-card">
+              <span>SCHEDULED SESSIONS</span>
+              <strong>{eventsData.filter((e) => e.status === 'upcoming').length}</strong>
+            </div>
+            <div className="events-hero__stat-card">
+              <span>RECORDED ARCHIVES</span>
+              <strong>{eventsData.filter((e) => e.status === 'completed').length}</strong>
+            </div>
           </div>
         </div>
-        
-        <MechanicalButton variant="primary" style={{width: '100%'}} onClick={onClose}>CLOSE DETAILS</MechanicalButton>
-      </MechanicalPanel>
+      </section>
+
+      <main className="page-container">
+        {/* ─── 01 Featured Event ─── */}
+        {featuredEvent && (
+          <section className="events-section" aria-labelledby="featured-section-title">
+            <div className="events-section-head">
+              <div className="events-section-head__title-group">
+                <span className="page-eyebrow">01 // SPOTLIGHT</span>
+                <h2 id="featured-section-title">FEATURED EVENT.</h2>
+                <p>The primary upcoming session on the MechESA calendar.</p>
+              </div>
+            </div>
+
+            <FeaturedEventCard event={featuredEvent} onSelect={setSelectedEvent} />
+          </section>
+        )}
+
+        {/* ─── 02 Upcoming Events ─── */}
+        <section className="events-section" aria-labelledby="upcoming-section-title">
+          <div className="events-section-head">
+            <div className="events-section-head__title-group">
+              <span className="page-eyebrow">02 // SCHEDULE</span>
+              <h2 id="upcoming-section-title">UPCOMING EVENTS.</h2>
+              <p>Browse open workshops, interactive sessions, and technical activities.</p>
+            </div>
+
+            {/* Filter controls */}
+            <div className="events-filter-bar" role="group" aria-label="Filter events by category">
+              {categories.map((category) => {
+                const count = category === 'ALL'
+                  ? eventsData.filter((e) => e.status === 'upcoming').length
+                  : eventsData.filter((e) => e.status === 'upcoming' && e.category === category).length
+                return (
+                  <button
+                    key={category}
+                    type="button"
+                    className={`events-filter-btn${activeCategory === category ? ' is-active' : ''}`}
+                    aria-pressed={activeCategory === category}
+                    onClick={() => setActiveCategory(category)}
+                  >
+                    {category}
+                    <span>{count}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {upcomingEvents.length > 0 ? (
+            <div className="events-grid">
+              {upcomingEvents.map((event) => (
+                <EventCard key={event.id} event={event} onSelect={setSelectedEvent} />
+              ))}
+            </div>
+          ) : (
+            <div className="events-empty">
+              <p>NO UPCOMING EVENTS IN THIS CATEGORY AT PRESENT.</p>
+            </div>
+          )}
+        </section>
+
+        {/* ─── 03 Past Events ─── */}
+        <section className="events-section" aria-labelledby="past-section-title">
+          <TechnicalDivider label="HISTORICAL ARCHIVE" />
+          <div className="events-section-head" style={{ marginTop: '2rem' }}>
+            <div className="events-section-head__title-group">
+              <span className="page-eyebrow">03 // ARCHIVE</span>
+              <h2 id="past-section-title">PAST EVENTS.</h2>
+              <p>Record of completed technical workshops, lectures, and activities.</p>
+            </div>
+          </div>
+
+          {pastEvents.length > 0 ? (
+            <div className="events-grid">
+              {pastEvents.map((event) => (
+                <EventCard key={event.id} event={event} isPast onSelect={setSelectedEvent} />
+              ))}
+            </div>
+          ) : (
+            <div className="events-empty">
+              <p>NO COMPLETED EVENTS ARCHIVED CURRENTLY.</p>
+            </div>
+          )}
+        </section>
+
+        {/* ─── Handoff to Team ─── */}
+        <section className="events-section" aria-labelledby="team-handoff-title">
+          <TechnicalDivider label="NEXT" />
+          <div className="events-handoff__inner">
+            <div>
+              <span className="page-eyebrow">ASSOCIATION TEAM</span>
+              <h2 id="team-handoff-title" className="page-heading">MEET THE PEOPLE BEHIND THE EVENTS.</h2>
+              <p>Explore the team, student coordinators, and domains leading MechESA.</p>
+            </div>
+            <CursorTarget intent="link" label="OPEN">
+              <Link className="mechanical-button mechanical-button--primary label" to="/team">
+                MEET THE TEAM ↗
+              </Link>
+            </CursorTarget>
+          </div>
+        </section>
+      </main>
+
+      {/* ─── Event Detail Modal ─── */}
+      {selectedEvent && (
+        <EventDetailModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
+      )}
     </div>
   )
 }
 
-function EventRow({ event, index, selected, onSelect, archive = false }: { event: EventItem; index: number; selected: boolean; onSelect: () => void; archive?: boolean }) {
-  return <CursorTarget intent="view" label="VIEW" className="event-row-cursor"><button type="button" className={`event-row${selected ? ' is-selected' : ''}`} role="listitem" aria-pressed={selected} onClick={onSelect}><span className="event-row__id">{archive ? 'ARC' : String(index + 1).padStart(2, '0')}</span><strong>{event.title}</strong><span>{event.category}</span><span>{event.date}</span><span className="event-row__status"><i />{event.status.toUpperCase()}</span><b aria-hidden="true">↗</b></button></CursorTarget>
+function FeaturedEventCard({
+  event,
+  onSelect,
+}: {
+  event: EventItem
+  onSelect: (e: EventItem) => void
+}) {
+  return (
+    <article className="featured-event-card">
+      <div className="featured-event__media">
+        <div className="featured-event__media-bg" />
+        <span className="featured-event__badge">FEATURED EVENT</span>
+        <div className="featured-event__blueprint-art" aria-hidden="true">
+          <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <circle cx="50" cy="50" r="42" strokeDasharray="3 3" />
+            <circle cx="50" cy="50" r="30" />
+            <circle cx="50" cy="50" r="16" />
+            <path d="M50 8 V92 M8 50 H92" strokeWidth="1" strokeDasharray="2 4" />
+            <path d="M22 22 L78 78 M78 22 L22 78" strokeWidth="0.8" strokeDasharray="2 4" opacity="0.5" />
+          </svg>
+          <span>MECHESA // SPECIFICATION 01</span>
+        </div>
+        <span className="technical-small" style={{ color: 'var(--color-text-dim)', zIndex: 1 }}>
+          STATUS // {event.status.toUpperCase()}
+        </span>
+      </div>
+
+      <div className="featured-event__info">
+        <div>
+          <div className="featured-event__meta-tag">
+            <span>CATEGORY / {event.category}</span>
+            <span>•</span>
+            <span>{event.status === 'upcoming' ? 'UPCOMING' : 'ARCHIVED'}</span>
+          </div>
+
+          <h3 className="featured-event__title">{event.title}</h3>
+
+          <div className="featured-event__meta-row">
+            <span>
+              <strong>DATE:</strong> {event.date}
+            </span>
+            {event.location && (
+              <>
+                <span>•</span>
+                <span>
+                  <strong>VENUE:</strong> {event.location}
+                </span>
+              </>
+            )}
+            {event.organizer && (
+              <>
+                <span>•</span>
+                <span>
+                  <strong>BY:</strong> {event.organizer}
+                </span>
+              </>
+            )}
+          </div>
+
+          <p className="featured-event__desc">{event.description}</p>
+        </div>
+
+        <div className="featured-event__actions">
+          <MechanicalButton variant="primary" onClick={() => onSelect(event)}>
+            VIEW EVENT DETAILS →
+          </MechanicalButton>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+function EventCard({
+  event,
+  isPast = false,
+  onSelect,
+}: {
+  event: EventItem
+  isPast?: boolean
+  onSelect: (e: EventItem) => void
+}) {
+  return (
+    <article className={`event-card${isPast ? ' event-card--past' : ''}`}>
+      <div className="event-card__media">
+        <div className="event-card__media-pattern" />
+        <span className={`event-card__badge${isPast ? ' event-card__badge--past' : ''}`}>
+          {isPast ? 'PAST EVENT' : event.category}
+        </span>
+        <div className="event-card__icon-wrap" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.2">
+            <rect x="6" y="8" width="28" height="24" rx="1" />
+            <line x1="6" y1="16" x2="34" y2="16" />
+            <line x1="12" y1="4" x2="12" y2="8" />
+            <line x1="28" y1="4" x2="28" y2="8" />
+            <circle cx="14" cy="23" r="1.5" fill="currentColor" />
+            <circle cx="20" cy="23" r="1.5" fill="currentColor" />
+            <circle cx="26" cy="23" r="1.5" fill="currentColor" />
+          </svg>
+        </div>
+        <span className="technical-small" style={{ color: 'var(--color-text-dim)', zIndex: 1 }}>
+          {event.date}
+        </span>
+      </div>
+
+      <div className="event-card__body">
+        <span className="event-card__date">
+          {event.category} // {event.status.toUpperCase()}
+        </span>
+        <h3 className="event-card__title">{event.title}</h3>
+        {event.location && <div className="event-card__venue">📍 {event.location}</div>}
+        <p className="event-card__desc">{event.description}</p>
+
+        <div className="event-card__action">
+          <MechanicalButton variant="secondary" onClick={() => onSelect(event)}>
+            VIEW DETAILS →
+          </MechanicalButton>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+function EventDetailModal({
+  event,
+  onClose,
+}: {
+  event: EventItem
+  onClose: () => void
+}) {
+  return (
+    <div
+      className="event-modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-event-title"
+      onClick={onClose}
+    >
+      <div className="event-modal-container" onClick={(e) => e.stopPropagation()}>
+        <header className="event-modal-head">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span className="page-eyebrow" style={{ marginBottom: 0 }}>EVENT INSPECTION</span>
+            <SystemIndicator state={event.status === 'completed' ? 'idle' : 'online'} label={event.status.toUpperCase()} />
+          </div>
+          <button type="button" className="event-modal-close-btn" onClick={onClose} aria-label="Close dialog">
+            ESC / CLOSE ✕
+          </button>
+        </header>
+
+        <div className="event-modal-body">
+          <span className="event-modal-tag">CATEGORY // {event.category}</span>
+          <h2 id="modal-event-title" className="event-modal-title">{event.title}</h2>
+
+          <div className="event-modal-meta-grid">
+            <div className="event-modal-meta-item">
+              <span>DATE</span>
+              <strong>{event.date}</strong>
+            </div>
+            <div className="event-modal-meta-item">
+              <span>STATUS</span>
+              <strong>{event.status.toUpperCase()}</strong>
+            </div>
+            {event.location && (
+              <div className="event-modal-meta-item">
+                <span>VENUE</span>
+                <strong>{event.location}</strong>
+              </div>
+            )}
+            {event.organizer && (
+              <div className="event-modal-meta-item">
+                <span>ORGANIZER</span>
+                <strong>{event.organizer}</strong>
+              </div>
+            )}
+          </div>
+
+          <div className="event-modal-desc-block">
+            <h4 className="technical-small" style={{ color: 'var(--color-text)', marginBottom: '0.5rem' }}>
+              ABOUT THIS EVENT
+            </h4>
+            <p>{event.description}</p>
+          </div>
+
+          {event.photos && event.photos.length > 0 && (
+            <div className="event-modal-gallery">
+              <h4 className="technical-small" style={{ color: 'var(--color-text)', marginBottom: '0.5rem' }}>
+                SESSION PHOTOS
+              </h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '0.5rem' }}>
+                {event.photos.map((photo, i) => (
+                  <img
+                    key={i}
+                    src={photo}
+                    alt={`${event.title} photo ${i + 1}`}
+                    style={{ width: '100%', height: '80px', objectFit: 'cover', border: '1px solid var(--color-border)' }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div style={{ padding: '1rem', border: '1px solid var(--color-border)', background: 'var(--color-bg-deep)' }}>
+            <span className="technical-small" style={{ color: 'var(--color-text-dim)' }}>
+              REGISTRATION & ACCESS
+            </span>
+            <p style={{ margin: '0.35rem 0 0', fontSize: '0.88rem', color: 'var(--color-text-muted)' }}>
+              {event.status === 'completed'
+                ? 'This event has concluded. Stay tuned for future editions through MechESA.'
+                : 'Registration status: Opening soon via official institute channels.'}
+            </p>
+          </div>
+        </div>
+
+        <footer className="event-modal-foot">
+          <MechanicalButton variant="secondary" onClick={onClose}>
+            CLOSE
+          </MechanicalButton>
+        </footer>
+      </div>
+    </div>
+  )
 }

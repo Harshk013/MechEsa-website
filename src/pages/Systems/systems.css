@@ -59,7 +59,7 @@
 }
 
 .systems-hero__title {
-  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-size: var(--text-hero, clamp(3.5rem, 7vw, 7.5rem));
   font-weight: 900;
   letter-spacing: -.05em;
   line-height: .88;
@@ -199,7 +199,7 @@
 }
 
 .systems-lab__system-name {
-  font-size: clamp(1.6rem, 4vw, 3rem);
+  font-size: var(--text-h2, clamp(2.25rem, 4vw, 4.5rem));
   font-weight: 800;
   letter-spacing: -.04em;
   line-height: 1;
@@ -276,7 +276,7 @@
 }
 
 .systems-preview-card__title {
-  font-size: clamp(2.8rem, 7vw, 6rem);
+  font-size: var(--text-h2, clamp(2.25rem, 4vw, 4.5rem));
   font-weight: 900;
   letter-spacing: -.06em;
   line-height: .88;

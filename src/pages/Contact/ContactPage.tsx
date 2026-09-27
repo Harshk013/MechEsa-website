@@ -1,173 +1,347 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { contactChannels, contactFlowNodes, type ContactChannel } from '../../data/contact'
-import { CursorTarget } from '../../components/interaction/CursorTarget'
 import { EngineeringGrid } from '../../components/mechanical/EngineeringGrid'
-import { MechanicalButton } from '../../components/mechanical/MechanicalButton'
-import { MechanicalPanel } from '../../components/mechanical/MechanicalPanel'
-import { MeasurementMark } from '../../components/mechanical/MeasurementMark'
-import { TechnicalCorner } from '../../components/mechanical/TechnicalCorner'
 import { TechnicalDivider } from '../../components/mechanical/TechnicalDivider'
-import { TechnicalLabel } from '../../components/typography/TechnicalLabel'
 import { SystemIndicator } from '../../components/telemetry/SystemIndicator'
-import { useMotionSettings } from '../../app/providers/MotionProvider'
+import { MechanicalButton } from '../../components/mechanical/MechanicalButton'
+import { CursorTarget } from '../../components/interaction/CursorTarget'
 import './contact.css'
 
-type FormValues = { name: string; email: string; subject: string; message: string }
-type FormErrors = Partial<Record<keyof FormValues, string>>
-type SubmitState = 'IDLE' | 'VALIDATING' | 'TRANSMITTING' | 'PREPARED' | 'ERROR'
+interface FormValues {
+  name: string
+  email: string
+  subject: string
+  message: string
+}
 
-const initialValues: FormValues = { name: '', email: '', subject: '', message: '' }
+type FormErrors = Partial<Record<keyof FormValues, string>>
+
+const initialValues: FormValues = {
+  name: '',
+  email: '',
+  subject: '',
+  message: '',
+}
 
 export function ContactPage() {
-  const pageRef = useRef<HTMLDivElement>(null)
-  const [selectedChannel, setSelectedChannel] = useState(contactChannels[0]?.id ?? '')
   const [values, setValues] = useState<FormValues>(initialValues)
   const [errors, setErrors] = useState<FormErrors>({})
-  const [submitState, setSubmitState] = useState<SubmitState>('IDLE')
-  const { reducedMotion } = useMotionSettings()
+  const [isValidated, setIsValidated] = useState<boolean>(false)
 
-  useEffect(() => {
-    const page = pageRef.current
-    if (!page) return
-    let raf = 0
-    const update = () => {
-      raf = 0
-      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
-      const progress = Math.min(1, Math.max(0, window.scrollY / max))
-      page.style.setProperty('--contact-progress', progress.toFixed(3))
+  const validate = (): boolean => {
+    const nextErrors: FormErrors = {}
+    if (!values.name.trim()) {
+      nextErrors.name = 'Full name is required.'
     }
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-      if (raf) cancelAnimationFrame(raf)
+    if (!values.email.trim()) {
+      nextErrors.email = 'Email address is required.'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) {
+      nextErrors.email = 'Please provide a valid email format (e.g. name@domain.com).'
     }
-  }, [])
+    if (!values.message.trim()) {
+      nextErrors.message = 'Please include a message.'
+    } else if (values.message.trim().length < 10) {
+      nextErrors.message = 'Message must be at least 10 characters.'
+    }
 
-  useEffect(() => {
-    if (submitState !== 'TRANSMITTING') return
-    const timer = window.setTimeout(() => setSubmitState('PREPARED'), reducedMotion ? 80 : 850)
-    return () => window.clearTimeout(timer)
-  }, [submitState, reducedMotion])
-
-  const validate = () => {
-    const next: FormErrors = {}
-    if (!values.name.trim()) next.name = 'Name is required.'
-    if (!values.email.trim()) next.email = 'Email is required.'
-    else if (!/^\S+@\S+\.\S+$/.test(values.email.trim())) next.email = 'Enter a valid email address.'
-    if (!values.message.trim()) next.message = 'Message is required.'
-    setErrors(next)
-    return Object.keys(next).length === 0
+    setErrors(nextErrors)
+    return Object.keys(nextErrors).length === 0
   }
 
-  useEffect(() => {
-    if (submitState !== 'VALIDATING') return
-    const timer = window.setTimeout(() => {
-      if (!validate()) {
-        setSubmitState('ERROR')
-        return
-      }
-      setSubmitState('TRANSMITTING')
-    }, reducedMotion ? 0 : 120)
-    return () => window.clearTimeout(timer)
-  }, [submitState, reducedMotion])
-
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setSubmitState('VALIDATING')
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (validate()) {
+      setIsValidated(true)
+    }
   }
 
-  const updateField = (field: keyof FormValues, value: string) => {
-    setValues((current) => ({ ...current, [field]: value }))
-    if (errors[field]) setErrors((current) => ({ ...current, [field]: undefined }))
-    if (submitState === 'ERROR' || submitState === 'PREPARED') setSubmitState('IDLE')
+  const handleChange = (field: keyof FormValues, value: string) => {
+    setValues((prev) => ({ ...prev, [field]: value }))
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }))
+    }
+    if (isValidated) {
+      setIsValidated(false)
+    }
   }
 
-  const resetPrepared = () => {
+  const handleReset = () => {
     setValues(initialValues)
     setErrors({})
-    setSubmitState('IDLE')
+    setIsValidated(false)
   }
 
-  return (
-    <div ref={pageRef} className="contact-page" data-reduced-motion={reducedMotion} data-contact-state={submitState} data-selected-channel={selectedChannel}>
-      <EngineeringGrid className="contact-page__grid" size={40} opacity={0.032} />
-      <div className="contact-page__axis" aria-hidden="true"><span>07</span><i /><b /></div>
+  const mailtoUrl = `mailto:?subject=${encodeURIComponent(
+    values.subject ? `[MechESA Inquiry] ${values.subject}` : '[MechESA Inquiry] Contact Form Message'
+  )}&body=${encodeURIComponent(
+    `From: ${values.name} (${values.email})\n\nMessage:\n${values.message}`
+  )}`
 
-      <section className="contact-hero page-container" aria-labelledby="contact-title">
-        <div className="contact-hero__meta"><span className="page-eyebrow">COMMUNICATION</span><SystemIndicator state={submitState === 'ERROR' ? 'warning' : submitState === 'TRANSMITTING' ? 'processing' : 'online'} label={submitState === 'TRANSMITTING' ? 'SENDING' : 'READY'} /></div>
-        <div className="contact-hero__layout">
-          <div className="contact-hero__copy"><span className="technical-small">MECHESA // ENGINEERED MOTION</span><h1 id="contact-title" className="page-heading">OPEN THE<br />CHANNEL.</h1><p className="page-description">Have a question, collaboration idea, project inquiry or want to connect with MechESA? Send us a message.</p></div>
-          <TerminalInstrument state={submitState} />
+  return (
+    <div className="contact-page">
+      <EngineeringGrid className="contact-page__grid" size={40} opacity={0.03} />
+
+      {/* ─── Hero Section ─── */}
+      <section className="contact-hero page-container" aria-labelledby="contact-hero-title">
+        <div className="contact-hero__meta">
+          <span className="page-eyebrow">MECHESA // COMMUNICATION & INQUIRIES</span>
+          <SystemIndicator state="online" label="COMMUNICATION READY" />
         </div>
-        <div className="contact-hero__foot"><MeasurementMark value="TERMINAL / CT—01" /><span className="technical-small">COMMUNICATION / CONTROL</span><MeasurementMark value="REF / 07" orientation="vertical" /></div>
+        <div className="contact-hero__content">
+          <div>
+            <span className="technical-small">STUDENT ASSOCIATION // IIT INDORE</span>
+            <h1 id="contact-hero-title" className="page-heading">
+              GET IN TOUCH.
+            </h1>
+            <p className="contact-hero__desc">
+              Have questions about upcoming workshops, student technical projects, department collaborations, or wanting to connect with the MechESA team? Reach out below.
+            </p>
+          </div>
+          <div className="contact-hero__status-card">
+            <span>OFFICIAL DESK</span>
+            <strong>MECHESA COUNCIL</strong>
+            <span style={{ color: 'var(--color-text-dim)', fontSize: '9px' }}>
+              DEPT. OF MECHANICAL ENGINEERING // IIT INDORE
+            </span>
+          </div>
+        </div>
       </section>
 
-      <main>
-        <section className="contact-channels page-container contact-section" aria-labelledby="channels-title">
-          <div className="contact-section-head"><span className="page-eyebrow">01 // AVAILABLE CHANNELS</span><h2 id="channels-title" className="page-heading">GET IN TOUCH.</h2><p className="page-description">Reach out to us through our official channels.</p></div>
-          <div className="channel-matrix" role="list" aria-label="Available communication channels">
-            {contactChannels.map((channel) => <ContactChannelNode key={channel.id} channel={channel} selected={selectedChannel === channel.id} onSelect={() => setSelectedChannel(channel.id)} />)}
+      <main className="page-container">
+        <div className="contact-main-layout">
+          {/* ─── Contact Directory ─── */}
+          <aside className="contact-info-panel" aria-labelledby="contact-directory-title">
+            <div className="contact-info-panel__intro">
+              <span className="page-eyebrow">01 // DIRECTORY</span>
+              <h2 id="contact-directory-title">CHANNELS & DESK.</h2>
+              <p>Direct routes to the MechESA team and department coordinators.</p>
+            </div>
+
+            <div className="contact-channel-list">
+              <div className="contact-channel-card">
+                <div className="contact-channel-card__head">
+                  <span>CHANNEL // 01</span>
+                  <SystemIndicator state="online" label="OFFICIAL" />
+                </div>
+                <h3>Official Email</h3>
+                <p>
+                  Official MechESA inquiries, student submissions, and formal correspondence.
+                </p>
+                <div className="contact-channel-card__meta">
+                  <span>ENDPOINT // mechesa@iiti.ac.in (Council Desk)</span>
+                </div>
+              </div>
+
+              <div className="contact-channel-card">
+                <div className="contact-channel-card__head">
+                  <span>CHANNEL // 02</span>
+                  <SystemIndicator state="idle" label="LOCATION" />
+                </div>
+                <h3>Physical Department</h3>
+                <p>
+                  Department of Mechanical Engineering, Chromium Building / Workshops, IIT Indore, Simrol, Khandwa Road, Indore 453552.
+                </p>
+                <div className="contact-channel-card__meta">
+                  <span>CAMPUS // IIT INDORE (SIMROL)</span>
+                </div>
+              </div>
+
+              <div className="contact-channel-card">
+                <div className="contact-channel-card__head">
+                  <span>CHANNEL // 03</span>
+                  <SystemIndicator state="idle" label="PUBLICATIONS" />
+                </div>
+                <h3>Articles & Projects</h3>
+                <p>
+                  Want to submit an engineering log or career reflection? Submit through our form or reach out to division heads directly.
+                </p>
+                <div className="contact-channel-card__meta">
+                  <span>REVIEW // MECHESA EDITORIAL</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* ─── Contact Form ─── */}
+          <section className="contact-form-panel" aria-labelledby="contact-form-title">
+            <div className="contact-form-panel__head">
+              <div>
+                <span className="page-eyebrow" style={{ marginBottom: 0 }}>
+                  02 // DIRECT MESSAGE
+                </span>
+                <h2 id="contact-form-title" style={{ margin: '0.4rem 0 0', fontSize: '1.75rem' }}>
+                  SEND A MESSAGE.
+                </h2>
+              </div>
+              <SystemIndicator
+                state={isValidated ? 'processing' : 'online'}
+                label={isValidated ? 'VALIDATED' : 'READY'}
+              />
+            </div>
+
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="contact-form-grid">
+                <div className={`contact-field${errors.name ? ' has-error' : ''}`}>
+                  <label htmlFor="contact-name">
+                    FULL NAME <span>REQUIRED</span>
+                  </label>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    placeholder="e.g. Aditi Sharma"
+                    value={values.name}
+                    onChange={(e) => handleChange('name', e.target.value)}
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={errors.name ? 'contact-name-error' : undefined}
+                    autoComplete="name"
+                  />
+                  {errors.name && (
+                    <span id="contact-name-error" className="contact-field__error" role="alert">
+                      {errors.name}
+                    </span>
+                  )}
+                </div>
+
+                <div className={`contact-field${errors.email ? ' has-error' : ''}`}>
+                  <label htmlFor="contact-email">
+                    EMAIL ADDRESS <span>REQUIRED</span>
+                  </label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    placeholder="e.g. aditi@iiti.ac.in"
+                    value={values.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                    autoComplete="email"
+                  />
+                  {errors.email && (
+                    <span id="contact-email-error" className="contact-field__error" role="alert">
+                      {errors.email}
+                    </span>
+                  )}
+                </div>
+
+                <div className="contact-field contact-field--full">
+                  <label htmlFor="contact-subject">
+                    SUBJECT <span>OPTIONAL</span>
+                  </label>
+                  <input
+                    id="contact-subject"
+                    name="subject"
+                    type="text"
+                    placeholder="e.g. Workshop inquiry / Project collaboration"
+                    value={values.subject}
+                    onChange={(e) => handleChange('subject', e.target.value)}
+                    autoComplete="off"
+                  />
+                </div>
+
+                <div className={`contact-field contact-field--full${errors.message ? ' has-error' : ''}`}>
+                  <label htmlFor="contact-message">
+                    MESSAGE <span>REQUIRED</span>
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    rows={5}
+                    placeholder="Write your message, feedback, or inquiry here..."
+                    value={values.message}
+                    onChange={(e) => handleChange('message', e.target.value)}
+                    aria-invalid={Boolean(errors.message)}
+                    aria-describedby={errors.message ? 'contact-message-error' : undefined}
+                  />
+                  {errors.message && (
+                    <span id="contact-message-error" className="contact-field__error" role="alert">
+                      {errors.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {!isValidated && (
+                <div className="contact-form__submit-bar">
+                  <p className="contact-form__submit-note">
+                    Required fields: Full Name, Valid Email, and Message.
+                  </p>
+                  <MechanicalButton variant="primary" type="submit">
+                    VERIFY & PREPARE MESSAGE →
+                  </MechanicalButton>
+                </div>
+              )}
+            </form>
+
+            {/* ─── Honest Validation / Prepared State Notice ─── */}
+            {isValidated && (
+              <div className="contact-submission-notice" role="status" aria-live="polite">
+                <div className="contact-submission-notice__top">
+                  <span className="technical-small" style={{ color: 'var(--color-blueprint)' }}>
+                    PAYLOAD VALIDATED // READY TO TRANSMIT
+                  </span>
+                  <SystemIndicator state="processing" label="ACTION REQUIRED" />
+                </div>
+                <h3>MESSAGE READY FOR MECHESA DESK</h3>
+                <p>
+                  Your message has been verified and structured locally. Since this website runs without a live backend email relay server, your message was not transmitted via an API. To ensure your message reaches MechESA, click below to open your email client pre-filled with this message.
+                </p>
+                <div className="contact-submission-notice__actions">
+                  <a
+                    href={mailtoUrl}
+                    className="mechanical-button mechanical-button--primary label"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    SEND VIA EMAIL CLIENT (MAILTO) ↗
+                  </a>
+                  <MechanicalButton variant="secondary" onClick={handleReset}>
+                    RESET / EDIT MESSAGE
+                  </MechanicalButton>
+                </div>
+              </div>
+            )}
+          </section>
+        </div>
+
+        {/* ─── Quick Route Links ─── */}
+        <section className="contact-handoff" aria-labelledby="contact-handoff-title">
+          <TechnicalDivider label="SYSTEM ROUTES" />
+          <div style={{ marginTop: '2rem' }}>
+            <span className="page-eyebrow">EXPLORE MORE OF MECHESA</span>
+            <h2 id="contact-handoff-title" className="page-heading">
+              KEEP EXPLORING.
+            </h2>
           </div>
-          <MechanicalPanel variant="technical" className="channel-inspector" aria-live="polite"><div><TechnicalLabel prefix="CHANNEL INSPECTOR">{selectedChannel || 'NONE'}</TechnicalLabel><h3>{contactChannels.find((channel) => channel.id === selectedChannel)?.title ?? 'NO CHANNEL'}</h3></div><div className="channel-inspector__detail"><SystemIndicator state="idle" label={contactChannels.find((channel) => channel.id === selectedChannel)?.status ?? 'CONTENT / READY'} /><p>{contactChannels.find((channel) => channel.id === selectedChannel)?.description}</p></div></MechanicalPanel>
-        </section>
-
-        <section className="contact-terminal page-container contact-section" aria-labelledby="terminal-title">
-          <TechnicalDivider label="02 / MESSAGE TERMINAL" />
-          <div className="terminal-layout">
-            <div className="terminal-intro"><span className="page-eyebrow">CONTACT FORM</span><h2 id="terminal-title" className="page-heading">SEND A<br />MESSAGE.</h2><p className="page-description">Complete the required fields below.</p></div>
-            <MessageTerminal values={values} errors={errors} state={submitState} onSubmit={submit} onChange={updateField} onReset={resetPrepared} />
+          <div className="contact-handoff__grid">
+            <CursorTarget intent="link" label="OPEN">
+              <Link to="/" className="contact-handoff-link">
+                <span>RETURN TO HOME</span>
+                <b>↗</b>
+              </Link>
+            </CursorTarget>
+            <CursorTarget intent="link" label="OPEN">
+              <Link to="/events" className="contact-handoff-link">
+                <span>EXPLORE EVENTS</span>
+                <b>↗</b>
+              </Link>
+            </CursorTarget>
+            <CursorTarget intent="link" label="OPEN">
+              <Link to="/team" className="contact-handoff-link">
+                <span>MEET THE TEAM</span>
+                <b>↗</b>
+              </Link>
+            </CursorTarget>
+            <CursorTarget intent="link" label="OPEN">
+              <Link to="/blogs" className="contact-handoff-link">
+                <span>READ STORIES</span>
+                <b>↗</b>
+              </Link>
+            </CursorTarget>
           </div>
-        </section>
-
-        <section className="contact-routing page-container contact-section" aria-labelledby="routing-title">
-          <div className="contact-section-head"><TechnicalLabel prefix="04">SIGNAL ROUTING</TechnicalLabel><h2 id="routing-title">FROM PAYLOAD<br />TO RESPONSE.</h2><p>CONCEPTUAL MESSAGE FLOW — this diagram describes the interface metaphor, not a claimed MechESA organizational workflow.</p></div>
-          <SignalRouting active={submitState === 'TRANSMITTING' || submitState === 'PREPARED'} reducedMotion={reducedMotion} />
-        </section>
-
-        <section className="contact-ack page-container contact-section" aria-labelledby="ack-title">
-          <MechanicalPanel variant="blueprint" className={`ack-panel${submitState === 'PREPARED' ? ' is-prepared' : ''}`}>
-            <TechnicalCorner />
-            <div className="ack-panel__copy"><span className="page-eyebrow">STATUS</span><h2 id="ack-title" className="page-heading">{submitState === 'PREPARED' ? 'MESSAGE SENT.' : 'READY FOR HUMAN CONNECTION.'}</h2><p>{submitState === 'PREPARED' ? 'Your message has been sent successfully.' : 'Our communication channels are open.'}</p></div>
-            <SystemIndicator state={submitState === 'PREPARED' ? 'active' : 'idle'} label={submitState === 'PREPARED' ? 'SENT' : 'READY'} />
-          </MechanicalPanel>
-        </section>
-
-        <section className="contact-handoff page-container contact-section" aria-labelledby="handoff-title">
-          <TechnicalDivider label="NEXT" />
-          <div className="contact-handoff__inner"><div><span className="page-eyebrow">EXPLORE MORE</span><h2 id="handoff-title" className="page-heading">KEEP<br />MOVING.</h2><p className="page-description">Continue through the MechESA website.</p></div><nav className="contact-handoff__routes" aria-label="MechESA system routes"><HandoffLink to="/" label="RETURN TO HOME" /><HandoffLink to="/events" label="EXPLORE EVENTS" /><HandoffLink to="/team" label="MEET THE TEAM" /><HandoffLink to="/blogs" label="READ ENGINEERING LOGS" /></nav></div>
         </section>
       </main>
     </div>
   )
-}
-
-function TerminalInstrument({ state }: { state: SubmitState }) {
-  return <div className={`terminal-instrument terminal-instrument--${state.toLowerCase()}`} aria-hidden="true"><div className="terminal-instrument__frame"><span className="terminal-reg tl" /><span className="terminal-reg tr" /><span className="terminal-reg bl" /><span className="terminal-reg br" /><div className="terminal-instrument__top"><span>TERMINAL ID / CT—01</span><span>ROUTE / MECHESA</span></div><div className="terminal-instrument__core"><div className="terminal-dial"><i /><b /><span>07</span></div><div className="terminal-signal"><span /><span /><span /><span /></div></div><div className="terminal-instrument__bottom"><span>CHANNEL / 01</span><span>{state === 'TRANSMITTING' ? 'SIGNAL / ROUTING' : state === 'PREPARED' ? 'PAYLOAD / READY' : 'STATUS / STANDBY'}</span></div></div></div>
-}
-
-function ContactChannelNode({ channel, selected, onSelect }: { channel: ContactChannel; selected: boolean; onSelect: () => void }) {
-  return <CursorTarget intent="view" label="VIEW" className="channel-node-wrap"><button type="button" className={`channel-node${selected ? ' is-selected' : ''}`} onClick={onSelect} aria-pressed={selected} aria-label={`Inspect ${channel.title} channel`}><span className="channel-node__index">CHANNEL / {channel.index}</span><span className="channel-node__signal" aria-hidden="true"><i /></span><strong>{channel.title}</strong><small>{channel.label}</small><b>{channel.destination}</b><em>{channel.status}</em><span className="channel-node__line" aria-hidden="true" /></button></CursorTarget>
-}
-
-function MessageTerminal({ values, errors, state, onSubmit, onChange, onReset }: { values: FormValues; errors: FormErrors; state: SubmitState; onSubmit: (event: FormEvent<HTMLFormElement>) => void; onChange: (field: keyof FormValues, value: string) => void; onReset: () => void }) {
-  const disabled = state === 'TRANSMITTING' || state === 'VALIDATING'
-  return <MechanicalPanel variant="technical" className="message-terminal"><TechnicalCorner /><div className="message-terminal__head"><span className="page-eyebrow" style={{marginBottom: 0}}>MESSAGE TERMINAL</span><SystemIndicator state={state === 'ERROR' ? 'warning' : state === 'TRANSMITTING' ? 'processing' : state === 'PREPARED' ? 'active' : 'idle'} label={state === 'ERROR' ? 'INVALID' : state === 'TRANSMITTING' ? 'SENDING' : state === 'PREPARED' ? 'SENT' : 'READY'} /></div><form onSubmit={onSubmit} noValidate aria-describedby="terminal-status"><div className="form-grid"><Field id="name" label="NAME" value={values.name} error={errors.name} disabled={disabled} onChange={(value) => onChange('name', value)} autoComplete="name" /><Field id="email" label="EMAIL" value={values.email} error={errors.email} disabled={disabled} onChange={(value) => onChange('email', value)} autoComplete="email" inputMode="email" /><Field id="subject" label="SUBJECT" value={values.subject} error={errors.subject} disabled={disabled} onChange={(value) => onChange('subject', value)} autoComplete="off" /><Field id="message" label="MESSAGE" value={values.message} error={errors.message} disabled={disabled} onChange={(value) => onChange('message', value)} multiline autoComplete="off" /></div><div className="message-terminal__submit"><p id="terminal-status" aria-live="polite">{state === 'ERROR' ? 'Correct the highlighted fields and retry.' : state === 'TRANSMITTING' ? 'Sending message...' : state === 'PREPARED' ? 'Message sent.' : 'Required fields: NAME / EMAIL / MESSAGE'}</p>{state === 'PREPARED' ? <MechanicalButton variant="secondary" type="button" onClick={onReset}>SEND ANOTHER MESSAGE</MechanicalButton> : <MechanicalButton variant="primary" type="submit" disabled={disabled}>{state === 'TRANSMITTING' ? 'SENDING...' : 'SEND MESSAGE →'}</MechanicalButton>}</div></form></MechanicalPanel>
-}
-
-function Field({ id, label, value, error, disabled, onChange, multiline = false, autoComplete, inputMode }: { id: keyof FormValues; label: string; value: string; error?: string; disabled: boolean; onChange: (value: string) => void; multiline?: boolean; autoComplete?: string; inputMode?: 'email' | 'text' }) {
-  const errorId = `${id}-error`
-  return <div className={`terminal-field${error ? ' has-error' : ''}`}><label htmlFor={id}>{label}<span>{id === 'subject' ? 'OPTIONAL' : 'REQUIRED'}</span></label>{multiline ? <textarea id={id} name={id} value={value} disabled={disabled} aria-invalid={Boolean(error)} aria-describedby={error ? errorId : undefined} onChange={(event) => onChange(event.target.value)} rows={6} autoComplete={autoComplete} /> : <input id={id} name={id} type={id === 'email' ? 'email' : 'text'} value={value} disabled={disabled} aria-invalid={Boolean(error)} aria-describedby={error ? errorId : undefined} onChange={(event) => onChange(event.target.value)} autoComplete={autoComplete} inputMode={inputMode} />}{error && <span className="terminal-field__error" id={errorId} role="alert">{error}</span>}</div>
-}
-
-function SignalRouting({ active, reducedMotion }: { active: boolean; reducedMotion: boolean }) {
-  return <div className={`signal-routing${active ? ' is-active' : ''}${reducedMotion ? ' is-static' : ''}`} aria-label="Conceptual message flow"><div className="signal-routing__line" aria-hidden="true"><span /></div>{contactFlowNodes.map((node, index) => <div className="flow-node" key={node.id}><div className="flow-node__plate"><span>{node.index}</span><i aria-hidden="true" /><strong>{node.title}</strong></div><p>{node.description}</p>{index < contactFlowNodes.length - 1 && <b aria-hidden="true">→</b>}</div>)}</div>
-}
-
-function HandoffLink({ to, label }: { to: string; label: string }) {
-  return <CursorTarget intent="link" label="OPEN"><Link to={to} className="handoff-link"><span>{label}</span><b>↗</b></Link></CursorTarget>
 }

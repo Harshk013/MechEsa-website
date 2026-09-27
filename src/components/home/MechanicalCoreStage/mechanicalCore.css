@@ -17,7 +17,7 @@
 .core-stage__reticle span { position: absolute; inset: 8px; border: 1px solid var(--color-accent-line); border-radius: 50%; }
 .core-stage__reticle i { position: absolute; left: 50%; top: -5px; width: 1px; height: 4px; background: var(--color-accent); }
 .core-stage__webgl-fallback { position: absolute; inset: 0; display: grid; place-content: center; gap: 10px; text-align: center; background: radial-gradient(circle at 50% 50%, rgba(201,208,211,.08), transparent 55%), var(--color-bg-deep); border: 1px solid var(--color-border); }
-.core-stage__webgl-fallback strong { font-size: clamp(1.5rem, 4vw, 3rem); letter-spacing: -.04em; }
+.core-stage__webgl-fallback strong { font-size: var(--text-h3, clamp(1.5rem, 2vw, 2.5rem)); letter-spacing: -.04em; }
 .core-stage__webgl-fallback span { color: var(--color-text-dim); }
 .core-stage__telemetry { position: absolute; left: 18px; top: 18px; z-index: 5; display: grid; grid-template-columns: repeat(2, minmax(92px, 1fr)); gap: 5px; width: 205px; pointer-events: none; }
 .core-stage__telemetry > div { display: grid; gap: 4px; padding: 8px 9px; border: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-bg-deep) 82%, transparent); backdrop-filter: blur(8px); }

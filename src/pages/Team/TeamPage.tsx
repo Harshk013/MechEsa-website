@@ -1,440 +1,370 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { teamMembersData, teamDomains } from '../../data/team'
 import type { TeamMember } from '../../data/types'
-import { homepageTeam } from '../../data/home'
-import { CursorTarget } from '../../components/interaction/CursorTarget'
-import { MechanicalPanel } from '../../components/mechanical/MechanicalPanel'
+import { EngineeringGrid } from '../../components/mechanical/EngineeringGrid'
 import { TechnicalDivider } from '../../components/mechanical/TechnicalDivider'
 import { SystemIndicator } from '../../components/telemetry/SystemIndicator'
-import { EngineeringGrid } from '../../components/mechanical/EngineeringGrid'
-import { useMotionSettings } from '../../app/providers/MotionProvider'
+import { MechanicalButton } from '../../components/mechanical/MechanicalButton'
+import { CursorTarget } from '../../components/interaction/CursorTarget'
 import './team.css'
 
 export function TeamPage() {
-  const [selectedId, setSelectedId] = useState<string | null>(homepageTeam[0]?.id ?? null)
-  const pageRef = useRef<HTMLDivElement>(null)
-  const { reducedMotion } = useMotionSettings()
+  const [selectedDomain, setSelectedDomain] = useState<string>('ALL')
+  const [inspectedMember, setInspectedMember] = useState<TeamMember | null>(null)
 
+  // Keyboard accessibility: Close modal on Escape
   useEffect(() => {
-    const page = pageRef.current
-    if (!page) return
-    let raf = 0
-
-    const update = () => {
-      raf = 0
-      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
-      const progress = Math.min(1, Math.max(0, window.scrollY / max))
-      page.style.setProperty('--team-progress', progress.toFixed(3))
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setInspectedMember(null)
+      }
     }
-
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update)
-    }
-
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
-
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-      if (raf) cancelAnimationFrame(raf)
-    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setSelectedId(null)
+  const filteredMembers = useMemo(() => {
+    if (selectedDomain === 'ALL') return teamMembersData
+    return teamMembersData.filter((m) => m.domain === selectedDomain)
+  }, [selectedDomain])
+
+  // Group members by domain for structured display
+  const domainGroups = useMemo(() => {
+    const groups: { domain: string; title: string; subtitle: string; members: TeamMember[] }[] = []
+
+    if (selectedDomain === 'ALL') {
+      const coreMembers = teamMembersData.filter((m) => m.isCore || m.domain === 'CORE TEAM')
+      if (coreMembers.length > 0) {
+        groups.push({
+          domain: 'CORE TEAM',
+          title: 'OVERALL LEADERSHIP & CORE COUNCIL',
+          subtitle: 'Leading association initiatives, academic coordination, and executive decisions.',
+          members: coreMembers,
+        })
+      }
+
+      const operationsMembers = teamMembersData.filter((m) => m.domain === 'OPERATIONS' && !m.isCore)
+      if (operationsMembers.length > 0) {
+        groups.push({
+          domain: 'OPERATIONS',
+          title: 'OPERATIONS & TECHNICAL DIVISION',
+          subtitle: 'Technical workshops, labs logistics, event operations, and project mentoring.',
+          members: operationsMembers,
+        })
+      }
+
+      const creativeMembers = teamMembersData.filter((m) => m.domain === 'CREATIVES' && !m.isCore)
+      if (creativeMembers.length > 0) {
+        groups.push({
+          domain: 'CREATIVES',
+          title: 'CREATIVES & MEDIA DIVISION',
+          subtitle: 'Visual identity, publications, design systems, and association outreach.',
+          members: creativeMembers,
+        })
+      }
+
+      // Any remaining members
+      const others = teamMembersData.filter(
+        (m) => m.domain !== 'CORE TEAM' && m.domain !== 'OPERATIONS' && m.domain !== 'CREATIVES' && !m.isCore
+      )
+      if (others.length > 0) {
+        groups.push({
+          domain: 'MEMBERS',
+          title: 'ASSOCIATION CONTRIBUTORS',
+          subtitle: 'Student contributors and coordinators.',
+          members: others,
+        })
+      }
+    } else {
+      groups.push({
+        domain: selectedDomain,
+        title: `${selectedDomain} MEMBERS`,
+        subtitle: `Contributors active in ${selectedDomain}.`,
+        members: filteredMembers,
+      })
     }
 
-    window.addEventListener('keydown', onKeyDown)
-
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [])
+    return groups
+  }, [selectedDomain, filteredMembers])
 
   return (
-    <div ref={pageRef} className="team-page" data-reduced-motion={reducedMotion}>
-      <TeamHero />
-      <AssemblyFloor
-        members={homepageTeam}
-        selectedId={selectedId}
-        onSelect={setSelectedId}
-        reducedMotion={reducedMotion}
-      />
-      <TeamDirectory
-        members={homepageTeam}
-        selectedId={selectedId}
-        onSelect={setSelectedId}
-      />
-      <TeamHandoff />
+    <div className="team-page">
+      <EngineeringGrid className="team-page__grid" size={40} opacity={0.03} />
+
+      {/* ─── Hero Section ─── */}
+      <section className="team-hero page-container" aria-labelledby="team-hero-title">
+        <div className="team-hero__meta">
+          <span className="page-eyebrow">MECHESA // DIRECTORY & LEADERSHIP</span>
+          <SystemIndicator state="online" label="COUNCIL ACTIVE" />
+        </div>
+        <div className="team-hero__content">
+          <div>
+            <span className="technical-small">DEPARTMENT OF MECHANICAL ENGINEERING // IIT INDORE</span>
+            <h1 id="team-hero-title" className="page-heading">THE TEAM.</h1>
+            <p className="team-hero__desc">
+              The students, faculty, and engineers who keep MechESA moving. Meet the council heads, coordinators, and contributors across our operational divisions.
+            </p>
+          </div>
+          <div className="team-hero__roster-badge">
+            <span>COUNCIL ROSTER</span>
+            <strong>{teamMembersData.length} ACTIVE MEMBERS</strong>
+            <span style={{ color: 'var(--color-text-dim)', fontSize: '9px' }}>
+              DIVISIONS // CORE • OPERATIONS • CREATIVES
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <main className="page-container">
+        {/* ─── Domain Navigation Bar ─── */}
+        <nav className="team-nav-bar" aria-label="Team divisions filter">
+          {teamDomains.map((domain) => {
+            const count = domain === 'ALL'
+              ? teamMembersData.length
+              : teamMembersData.filter((m) => m.domain === domain).length
+            return (
+              <button
+                key={domain}
+                type="button"
+                className={`team-nav-btn${selectedDomain === domain ? ' is-active' : ''}`}
+                aria-pressed={selectedDomain === domain}
+                onClick={() => setSelectedDomain(domain)}
+              >
+                {domain}
+                <span>{count}</span>
+              </button>
+            )
+          })}
+        </nav>
+
+        {/* ─── Domain Groups ─── */}
+        {domainGroups.map((group) => (
+          <section key={group.domain} className="team-domain-section" aria-labelledby={`domain-${group.domain}`}>
+            <div className="team-domain-header">
+              <div>
+                <span className="page-eyebrow" style={{ marginBottom: '0.25rem' }}>
+                  DIVISION // {group.domain}
+                </span>
+                <h2 id={`domain-${group.domain}`}>{group.title}</h2>
+                <p>{group.subtitle}</p>
+              </div>
+              <span className="technical-small" style={{ color: 'var(--color-text-dim)' }}>
+                {group.members.length} {group.members.length === 1 ? 'MEMBER' : 'MEMBERS'}
+              </span>
+            </div>
+
+            <div className="team-grid">
+              {group.members.map((member) => (
+                <MemberCard
+                  key={member.id}
+                  member={member}
+                  onInspect={() => setInspectedMember(member)}
+                />
+              ))}
+            </div>
+          </section>
+        ))}
+
+        {/* ─── Handoff to Blogs ─── */}
+        <section className="events-section" aria-labelledby="blogs-handoff-title">
+          <TechnicalDivider label="NEXT" />
+          <div className="events-handoff__inner">
+            <div>
+              <span className="page-eyebrow">ENGINEERING STORIES</span>
+              <h2 id="blogs-handoff-title" className="page-heading">
+                WHAT THE TEAM BUILDS BECOMES KNOWLEDGE.
+              </h2>
+              <p>Explore articles, project logs, and career experiences written by students.</p>
+            </div>
+            <CursorTarget intent="link" label="OPEN">
+              <Link className="mechanical-button mechanical-button--primary label" to="/blogs">
+                READ STORIES ↗
+              </Link>
+            </CursorTarget>
+          </div>
+        </section>
+      </main>
+
+      {/* ─── Member Detail Modal ─── */}
+      {inspectedMember && (
+        <MemberDetailModal
+          member={inspectedMember}
+          onClose={() => setInspectedMember(null)}
+        />
+      )}
     </div>
   )
 }
 
-function TeamHero() {
-  return (
-    <section className="team-hero" aria-labelledby="team-page-title">
-      <EngineeringGrid className="team-hero__grid" size={30} opacity={0.035} />
-
-      <div className="page-container team-hero__inner">
-        <div className="team-hero__topline">
-          <span className="page-eyebrow">MEET THE TEAM</span>
-          <SystemIndicator state="online" label="ACTIVE" />
-        </div>
-
-        <div className="team-hero__copy">
-          <span className="technical-small">MECHESA // ENGINEERED MOTION</span>
-          <h1 id="team-page-title" className="page-heading">
-            <span>TEAM</span>
-            <em>ASSEMBLY</em>
-          </h1>
-          <p className="page-description">The students, faculty, and engineers who keep MechESA moving.</p>
-        </div>
-
-        <AssemblySchematic className="team-hero__schematic" />
-
-        <div className="team-hero__datum" aria-hidden="true">
-          <i />
-          <span>DATUM / A—01</span>
-          <i />
-          <span>AXIS / PEOPLE → SYSTEM</span>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function AssemblyFloor({
-  members,
-  selectedId,
-  onSelect,
-  reducedMotion,
-}: {
-  members: TeamMember[]
-  selectedId: string | null
-  onSelect: (id: string) => void
-  reducedMotion: boolean
-}) {
-  return (
-    <section className="team-assembly-floor" aria-labelledby="assembly-title">
-      <div className="page-container">
-        <div className="team-section-head">
-          <span className="page-eyebrow">01 // THE CORE TEAM</span>
-          <h2 id="assembly-title" className="page-heading">THE ASSEMBLY.</h2>
-          <p className="page-description">
-            Interact with the organizational chart to inspect member roles and specializations.
-          </p>
-        </div>
-
-        <div className="assembly-layout">
-          <div
-            className="assembly-board"
-            style={{ '--team-count': members.length } as CSSProperties}
-          >
-            <AssemblyFrame />
-
-            <div className="assembly-board__core" aria-hidden="true">
-              <span>MECHESA</span>
-              <strong>CORE / PEOPLE</strong>
-              <i />
-            </div>
-
-            <div className="assembly-board__connections" aria-hidden="true">
-              {members.map((member, index) => (
-                <span
-                  key={member.id}
-                  style={{ '--member-index': index } as CSSProperties}
-                />
-              ))}
-            </div>
-
-            <div className="assembly-board__nodes">
-              {members.map((member, index) => (
-                <TeamAssemblyNode
-                  key={member.id}
-                  member={member}
-                  index={index}
-                  selected={selectedId === member.id}
-                  reducedMotion={reducedMotion}
-                  onSelect={() => onSelect(member.id)}
-                />
-              ))}
-            </div>
-
-            <div className="assembly-board__markers" aria-hidden="true">
-              <span>01</span>
-              <span>02</span>
-              <span>03</span>
-              <span>04</span>
-            </div>
-          </div>
-
-          <TeamInspector
-            member={members.find((member) => member.id === selectedId)}
-            onClose={() => onSelect('')}
-          />
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function TeamAssemblyNode({
+function MemberCard({
   member,
-  index,
-  selected,
-  reducedMotion,
-  onSelect,
+  onInspect,
 }: {
   member: TeamMember
-  index: number
-  selected: boolean
-  reducedMotion: boolean
-  onSelect: () => void
+  onInspect: () => void
 }) {
   return (
-    <CursorTarget
-      intent="view"
-      label="VIEW"
-      className={`team-assembly-node-wrap team-assembly-node-wrap--${index + 1}`}
-    >
-      <button
-        type="button"
-        className={`team-assembly-node${selected ? ' is-selected' : ''}${reducedMotion ? ' is-static' : ''}`}
-        aria-pressed={selected}
-        aria-label={`View ${member.name}, ${member.role}`}
-        onClick={onSelect}
-      >
-        <span className="team-assembly-node__index">0{index + 1}</span>
-        <span className="team-assembly-node__bolt" aria-hidden="true" />
+    <article className="member-card">
+      <div className="member-card__photo-frame">
+        {member.image ? (
+          <img src={member.image} alt={member.name} className="member-card__photo" />
+        ) : (
+          <div className="member-card__avatar-placeholder" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.2">
+              <circle cx="20" cy="14" r="7" />
+              <path d="M6 34 C6 26, 12 23, 20 23 C28 23, 34 26, 34 34" />
+            </svg>
+            <span>MECHESA // MEMBER</span>
+          </div>
+        )}
+        <span className="member-card__corner-bracket" aria-hidden="true">＋</span>
+      </div>
 
-        <span className="team-assembly-node__body">
-          <span className="technical-small">{member.year ?? 'YEAR / TBD'}</span>
-          <strong>{member.name}</strong>
-          <span>{member.role}</span>
+      <div className="member-card__info">
+        <span className="member-card__domain-tag">
+          {member.domain || 'MECHESA'}
         </span>
+        <h3 className="member-card__name">{member.name}</h3>
+        <p className="member-card__role">{member.role}</p>
 
-        <span className="team-assembly-node__anchor" aria-hidden="true">
-          ＋
-        </span>
-      </button>
-    </CursorTarget>
+        <div className="member-card__meta-details">
+          <span>{member.year || 'IIT INDORE'}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            {member.socials && Object.keys(member.socials).length > 0 && (
+              <div className="member-card__socials">
+                {member.socials.linkedin && (
+                  <a
+                    href={member.socials.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="member-card__social-link"
+                    aria-label={`${member.name} LinkedIn Profile`}
+                  >
+                    in
+                  </a>
+                )}
+                {member.socials.instagram && (
+                  <a
+                    href={member.socials.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="member-card__social-link"
+                    aria-label={`${member.name} Instagram`}
+                  >
+                    ig
+                  </a>
+                )}
+                {member.socials.github && (
+                  <a
+                    href={member.socials.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="member-card__social-link"
+                    aria-label={`${member.name} GitHub`}
+                  >
+                    gh
+                  </a>
+                )}
+              </div>
+            )}
+            <button
+              type="button"
+              className="technical-small"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--color-accent)',
+                cursor: 'pointer',
+                padding: '2px 4px',
+              }}
+              onClick={onInspect}
+              aria-label={`View details for ${member.name}`}
+            >
+              DETAILS →
+            </button>
+          </div>
+        </div>
+      </div>
+    </article>
   )
 }
 
-function TeamInspector({
+function MemberDetailModal({
   member,
   onClose,
 }: {
-  member?: TeamMember
+  member: TeamMember
   onClose: () => void
 }) {
   return (
-    <MechanicalPanel
-      variant="highlighted"
-      className="team-page-inspector"
-      aria-live="polite"
+    <div
+      className="member-modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="member-modal-name"
+      onClick={onClose}
     >
-      <div className="team-page-inspector__head">
-        <span className="page-eyebrow" style={{marginBottom: 0}}>MEMBER DETAIL</span>
-
-        {member && (
+      <div className="member-modal-container" onClick={(e) => e.stopPropagation()}>
+        <header className="member-modal-head">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span className="page-eyebrow" style={{ marginBottom: 0 }}>MEMBER PROFILE</span>
+            <SystemIndicator state="online" label="ACTIVE" />
+          </div>
           <button
             type="button"
-            className="team-page-inspector__close"
+            className="event-modal-close-btn"
             onClick={onClose}
-            aria-label="Close member inspector"
+            aria-label="Close dialog"
           >
-            ESC
+            ESC / CLOSE ✕
           </button>
-        )}
-      </div>
+        </header>
 
-      {member ? (
-        <>
-          <span className="technical-small">
-            TEAM / {member.id.replace('member-', '').padStart(3, '0')}
-          </span>
-
-          <h3>{member.name}</h3>
-
-          <p className="team-page-inspector__role">{member.role}</p>
-
-          <TechnicalDivider label="DETAILS" />
-
-          <div className="team-page-inspector__data">
-            <span>
-              YEAR
-              <strong>{member.year ?? 'YEAR / TBD'}</strong>
-            </span>
-          </div>
-
-          {member.specialization && (
-            <>
-              <TechnicalDivider label="SPECIALIZATION" />
-              <p className="body-small">{member.specialization}</p>
-            </>
-          )}
-        </>
-      ) : (
-        <div className="team-page-inspector__empty">
-          <span className="technical-small">NO MEMBER SELECTED</span>
-          <p className="body-small">
-            Select an assembly node or directory row to inspect available member data.
-          </p>
-        </div>
-      )}
-    </MechanicalPanel>
-  )
-}
-
-function TeamDirectory({
-  members,
-  selectedId,
-  onSelect,
-}: {
-  members: TeamMember[]
-  selectedId: string | null
-  onSelect: (id: string) => void
-}) {
-  return (
-    <section className="team-directory" aria-labelledby="directory-title">
-      <div className="page-container">
-        <div className="team-section-head team-section-head--directory">
-          <span className="page-eyebrow">02 // TEAM DIRECTORY</span>
-          <h2 id="directory-title" className="page-heading">ALL MEMBERS.</h2>
-          <p className="page-description">
-            A comprehensive list of all MechESA contributors.
-          </p>
-        </div>
-
-        <div
-          className="team-directory__table"
-          role="list"
-          aria-label="Team directory"
-        >
-          <div className="team-directory__header" aria-hidden="true">
-            <span>INDEX</span>
-            <span>MEMBER</span>
-            <span>ROLE</span>
-            <span>YEAR</span>
-            <span>STATE</span>
-          </div>
-
-          {members.map((member, index) => (
-            <CursorTarget
-              key={member.id}
-              intent="view"
-              label="VIEW"
-              className="team-directory__cursor"
-            >
-              <button
-                type="button"
-                className={`team-directory__row${selectedId === member.id ? ' is-selected' : ''}`}
-                role="listitem"
-                aria-pressed={selectedId === member.id}
-                onClick={() => onSelect(member.id)}
-              >
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <strong>{member.name}</strong>
-                <span>{member.role}</span>
-                <span>{member.year ?? 'YEAR / TBD'}</span>
-
-                <span className="team-directory__state">
-                  <i />
-                  {selectedId === member.id ? 'SELECTED' : 'READY'}
-                </span>
-              </button>
-            </CursorTarget>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function TeamHandoff() {
-  return (
-    <section className="team-handoff" aria-labelledby="team-handoff-title">
-      <div className="page-container">
-        <TechnicalDivider label="NEXT" />
-
-        <div className="team-handoff__inner">
+        <div className="member-modal-body">
           <div>
-            <span className="page-eyebrow">READ THE BLOG</span>
-
-            <h2 id="team-handoff-title" className="page-heading">
-              WHAT THE TEAM BUILDS
-              <br />
-              <em>BECOMES KNOWLEDGE.</em>
-            </h2>
-
-            <p className="page-description">
-              Continue from people and roles into the documentation of engineering work.
+            <span className="technical-small" style={{ color: 'var(--color-accent)' }}>
+              {member.domain || 'MECHESA'} // {member.id.toUpperCase()}
+            </span>
+            <h2 id="member-modal-name" className="member-modal-name">{member.name}</h2>
+            <p style={{ margin: '0.35rem 0 0', color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
+              {member.role}
             </p>
           </div>
 
-          <CursorTarget intent="link" label="OPEN">
-            <Link to="/blogs" className="mechanical-button mechanical-button--primary label">
-              OPEN LOGS ↗
-            </Link>
-          </CursorTarget>
+          <div className="member-modal-grid">
+            <div className="member-modal-grid-item">
+              <span>DIVISION / DOMAIN</span>
+              <strong>{member.domain || 'CORE TEAM'}</strong>
+            </div>
+            <div className="member-modal-grid-item">
+              <span>BATCH / YEAR</span>
+              <strong>{member.year || 'YEAR / TBD'}</strong>
+            </div>
+            {member.specialization && (
+              <div className="member-modal-grid-item" style={{ gridColumn: '1 / -1' }}>
+                <span>FOCUS & SPECIALIZATION</span>
+                <strong>{member.specialization}</strong>
+              </div>
+            )}
+          </div>
+
+          <div style={{ padding: '1rem', border: '1px solid var(--color-border)', background: 'var(--color-bg-deep)' }}>
+            <span className="technical-small" style={{ color: 'var(--color-text-dim)' }}>
+              ASSOCIATION AFFILIATION
+            </span>
+            <p style={{ margin: '0.35rem 0 0', fontSize: '0.88rem', color: 'var(--color-text-muted)' }}>
+              Mechanical Engineering Students' Association (MechESA), Indian Institute of Technology Indore.
+            </p>
+          </div>
         </div>
+
+        <footer className="member-modal-foot">
+          <MechanicalButton variant="secondary" onClick={onClose}>
+            CLOSE
+          </MechanicalButton>
+        </footer>
       </div>
-    </section>
-  )
-}
-
-function AssemblyFrame({ className = '' }: { className?: string }) {
-  return (
-    <div className={`assembly-frame ${className}`} aria-hidden="true">
-      <i />
-      <i />
-      <i />
-      <i />
-      <span />
-      <span />
-      <span />
-      <span />
-    </div>
-  )
-}
-
-function AssemblySchematic({ className = '' }: { className?: string }) {
-  return (
-    <div className={`assembly-schematic ${className}`} aria-hidden="true">
-      <div className="assembly-schematic__frame">
-        <span />
-        <span />
-        <span />
-        <span />
-      </div>
-
-      <div className="assembly-schematic__core">
-        <i />
-        <b />
-        <span>CORE</span>
-      </div>
-
-      <div className="assembly-schematic__line assembly-schematic__line--a" />
-      <div className="assembly-schematic__line assembly-schematic__line--b" />
-      <div className="assembly-schematic__line assembly-schematic__line--c" />
-
-      <div className="assembly-schematic__node assembly-schematic__node--a">01</div>
-      <div className="assembly-schematic__node assembly-schematic__node--b">02</div>
-      <div className="assembly-schematic__node assembly-schematic__node--c">03</div>
-
-      <span className="assembly-schematic__label assembly-schematic__label--a">
-        ROLE / INPUT
-      </span>
-
-      <span className="assembly-schematic__label assembly-schematic__label--b">
-        ROLE / BUILD
-      </span>
-
-      <span className="assembly-schematic__label assembly-schematic__label--c">
-        ROLE / OUTPUT
-      </span>
     </div>
   )
 }

@@ -4,19 +4,19 @@
 }
 
 /* Reduced semantic heading scale */
-.display { font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -.05em; font-weight: 650; }
-.heading-xl { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.05; letter-spacing: -.03em; font-weight: 650; }
-.heading-lg { font-size: clamp(1.5rem, 3.5vw, 2.5rem); line-height: 1.1; letter-spacing: -.02em; font-weight: 650; }
-.heading-md { font-size: clamp(1.2rem, 2vw, 1.5rem); line-height: 1.15; letter-spacing: -.01em; font-weight: 620; }
+.display { font-size: var(--text-hero, clamp(3.5rem, 7vw, 7.5rem)); line-height: 1; letter-spacing: -.05em; font-weight: 650; }
+.heading-xl { font-size: var(--text-h1, clamp(3rem, 5.5vw, 6rem)); line-height: 1.05; letter-spacing: -.03em; font-weight: 650; }
+.heading-lg { font-size: var(--text-h2, clamp(2.25rem, 4vw, 4.5rem)); line-height: 1.1; letter-spacing: -.02em; font-weight: 650; }
+.heading-md { font-size: var(--text-h3, clamp(1.5rem, 2vw, 2.5rem)); line-height: 1.15; letter-spacing: -.01em; font-weight: 620; }
 
-.body { font-size: 1rem; line-height: 1.65; }
-.body-small { font-size: .875rem; line-height: 1.55; }
-.technical { font-family: var(--font-mono); font-size: .8rem; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; }
-.technical-small { font-family: var(--font-mono); font-size: .68rem; line-height: 1.4; letter-spacing: .11em; text-transform: uppercase; }
-.label { font-family: var(--font-mono); font-size: .72rem; line-height: 1.2; letter-spacing: .13em; text-transform: uppercase; }
+.body { font-size: var(--text-body, 1.125rem); line-height: 1.65; }
+.body-small { font-size: var(--text-body-small, 1rem); line-height: 1.55; }
+.technical { font-family: var(--font-mono); font-size: var(--text-technical, 0.85rem); line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; }
+.technical-small { font-family: var(--font-mono); font-size: var(--text-technical-small, 0.75rem); line-height: 1.4; letter-spacing: .11em; text-transform: uppercase; }
+.label { font-family: var(--font-mono); font-size: var(--text-technical, 0.85rem); line-height: 1.2; letter-spacing: .13em; text-transform: uppercase; }
 .telemetry { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: .04em; }
 
 /* Consistent Global Page Header System */
-.page-eyebrow { font-family: var(--font-mono); font-size: 0.7rem; line-height: 1.4; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-dim); display: block; margin-bottom: 1rem; }
-.page-heading { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1; letter-spacing: -.04em; font-weight: 650; margin: 0 0 1.25rem 0; color: var(--color-text); }
-.page-description { font-size: clamp(1rem, 1.5vw, 1.15rem); line-height: 1.6; color: var(--color-text-muted); max-width: 680px; margin: 0; }
+.page-eyebrow { font-family: var(--font-mono); font-size: var(--text-technical-small, 0.75rem); line-height: 1.4; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-dim); display: block; margin-bottom: 1rem; }
+.page-heading { font-size: var(--text-h1, clamp(3rem, 5.5vw, 6rem)); line-height: 1; letter-spacing: -.04em; font-weight: 650; margin: 0 0 1.25rem 0; color: var(--color-text); }
+.page-description { font-size: var(--text-body, 1.125rem); line-height: 1.6; color: var(--color-text-muted); max-width: 680px; margin: 0; }
