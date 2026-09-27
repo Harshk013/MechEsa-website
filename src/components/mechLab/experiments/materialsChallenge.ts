@@ -6,7 +6,7 @@ import {
   calculateMaterialsAnalysis,
   type SpecimenParams,
   SPECIMEN_LIMITS,
-} from './materialsModel'
+} from './materialsModel.ts'
 
 export const MATERIALS_LEVELS = [
   {

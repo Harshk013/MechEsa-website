@@ -90,19 +90,24 @@ export const labSystemsData: LabSystemConfig[] = [
     title: 'Mechatronics',
     shortLabel: 'MECHATRONICS',
     colorToken: 'var(--sys-mechatronics)',
-    status: 'IN DEVELOPMENT',
-    exploreDescription: 'Control motion, sensors and actuators.',
-    focus: 'Electro-mechanical feedback loops and position stabilization.',
+    status: 'AVAILABLE',
+    exploreDescription: 'Command linear servo motion, tune PID gains, and analyze feedback dynamics.',
+    focus: 'Electro-mechanical feedback loops, PID motion control, and disturbance rejection.',
     parameters: [
-      { id: 'proportionalGain', label: 'Proportional Gain (Kp)', min: 0.1, max: 10, default: 2.5, unit: '', step: 0.1 },
-      { id: 'derivativeGain', label: 'Derivative Gain (Kd)', min: 0.01, max: 2, default: 0.4, unit: '', step: 0.02 },
+      { id: 'targetPositionMm', label: 'Target Setpoint (r)', min: 0, max: 100, default: 58, unit: 'mm', step: 1 },
+      { id: 'proportionalGainKp', label: 'Proportional Gain (Kp)', min: 0.5, max: 15.0, default: 3.5, unit: 'V/mm', step: 0.1 },
+      { id: 'derivativeGainKd', label: 'Derivative Gain (Kd)', min: 0.0, max: 3.0, default: 0.6, unit: 'V·s/mm', step: 0.05 },
+      { id: 'integralGainKi', label: 'Integral Gain (Ki)', min: 0.0, max: 5.0, default: 0.8, unit: 'V/(mm·s)', step: 0.1 },
+      { id: 'disturbanceLoadN', label: 'Disturbance Load (F_dist)', min: 0, max: 50, default: 0, unit: 'N', step: 1 },
     ],
-    defaultResult: 'Increasing Kp accelerates system response time, while Kd dampens transient overshoot.',
-    challengePlaceholder: 'Eliminate steady-state overshoot without inducing oscillation.',
+    defaultResult: 'Closed-loop servo positioning: Kp=3.5, Kd=0.6, Ki=0.8. Optimal underdamped response with zero steady-state droop.',
+    challengePlaceholder: 'Eliminate steady-state error and tune damping to meet qualification targets.',
     calculateResult: (p) => {
-      const dampRatio = (p.derivativeGain * 1.5).toFixed(2)
-      const response = p.proportionalGain > 6 ? 'Aggressive rise time with potential ripple.' : 'Controlled, stable convergence to setpoint.'
-      return `Loop tuning: Kp=${p.proportionalGain}, Kd=${p.derivativeGain}. Effective damping ratio ~${dampRatio}. ${response}`
+      const kp = p.proportionalGainKp ?? p.proportionalGain ?? 3.5
+      const kd = p.derivativeGainKd ?? p.derivativeGain ?? 0.6
+      const dampRatio = (kd * 1.5).toFixed(2)
+      const response = kp > 6 ? 'Aggressive rise time with potential ripple.' : 'Controlled, stable convergence to setpoint.'
+      return `Loop tuning: Kp=${kp}, Kd=${kd}. Effective damping ratio ~${dampRatio}. ${response}`
     },
   },
   {

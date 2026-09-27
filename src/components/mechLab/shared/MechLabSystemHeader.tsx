@@ -15,12 +15,7 @@ export function MechLabSystemHeader({
   onModeChange,
 }: MechLabSystemHeaderProps) {
   const { setIntent, clearIntent } = usePointer()
-  const isFullExperiment =
-    system.id === 'thermodynamics' ||
-    system.id === 'robotics' ||
-    system.id === 'fluid' ||
-    system.id === 'automotive' ||
-    system.id === 'design'
+  const systemIndex = labSystemsData.findIndex((s) => s.id === system.id) + 1
 
   return (
     <div
@@ -42,16 +37,14 @@ export function MechLabSystemHeader({
         </nav>
 
         <div className="lab-system-header__badge-group">
-          <span className="lab-system-header__level">ENGINEERING LEVEL 01 / 08</span>
+          <span className="lab-system-header__level">
+            ENGINEERING SYSTEM 0{systemIndex || 1} / 08
+          </span>
           <span
             className="lab-system-header__status"
-            style={
-              isFullExperiment
-                ? { color: 'var(--color-success)', borderColor: 'rgba(121, 184, 154, 0.4)' }
-                : { color: 'var(--color-signal)', borderColor: 'rgba(217, 138, 61, 0.4)' }
-            }
+            style={{ color: 'var(--color-success)', borderColor: 'rgba(121, 184, 154, 0.4)' }}
           >
-            {isFullExperiment ? '● FULL EXPERIMENT' : '● INTERACTIVE STUDY'}
+            ● FULL EXPERIMENT
           </span>
         </div>
       </div>
@@ -99,12 +92,6 @@ export function MechLabSystemHeader({
         <span className="lab-system-switcher__label">SYSTEMS:</span>
         {labSystemsData.map((s) => {
           const isCurrent = s.id === system.id
-          const hasFull =
-            s.id === 'thermodynamics' ||
-            s.id === 'robotics' ||
-            s.id === 'fluid' ||
-            s.id === 'automotive' ||
-            s.id === 'design'
           return (
             <Link
               key={s.id}
@@ -116,7 +103,7 @@ export function MechLabSystemHeader({
               aria-current={isCurrent ? 'page' : undefined}
             >
               {s.shortLabel}
-              {hasFull && ' ●'}
+              {' ●'}
             </Link>
           )
         })}

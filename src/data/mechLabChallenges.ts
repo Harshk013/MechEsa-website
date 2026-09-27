@@ -1,7 +1,8 @@
 import type { LabChallenge, ChallengeEvaluation } from './mechLabTypes'
-import { THERMODYNAMICS_CHALLENGE, THERMODYNAMICS_LEVELS } from '../components/mechLab/experiments/thermodynamicsChallenge'
-import { MATERIALS_FLAGSHIP_CHALLENGE, MATERIALS_LEVELS } from '../components/mechLab/experiments/materialsChallenge'
-import { MANUFACTURING_FLAGSHIP_CHALLENGE, MANUFACTURING_LEVELS } from '../components/mechLab/experiments/manufacturingChallenge'
+import { THERMODYNAMICS_CHALLENGE, THERMODYNAMICS_LEVELS } from '../components/mechLab/experiments/thermodynamicsChallenge.ts'
+import { MATERIALS_FLAGSHIP_CHALLENGE, MATERIALS_LEVELS } from '../components/mechLab/experiments/materialsChallenge.ts'
+import { MANUFACTURING_FLAGSHIP_CHALLENGE, MANUFACTURING_LEVELS } from '../components/mechLab/experiments/manufacturingChallenge.ts'
+import { MECHATRONICS_FLAGSHIP_CHALLENGE, MECHATRONICS_LEVELS } from '../components/mechLab/experiments/mechatronicsChallenge.ts'
 
 export const SYSTEM_CHALLENGES: Record<string, LabChallenge<any, any>> = {
   thermodynamics: {
@@ -253,134 +254,14 @@ export const SYSTEM_CHALLENGES: Record<string, LabChallenge<any, any>> = {
   },
 
   mechatronics: {
-    id: 'mech-actuator',
-    systemId: 'mechatronics',
-    title: 'CLOSED-LOOP POSITIONING',
-    description: 'Command the actuator carriage target and verify that the closed-loop feedback loop tracks with minimal error.',
-    hint: 'Feedback sensors constantly measure actual position and adjust motor duty to minimize tracking error.',
-    levels: [
-      {
-        levelNumber: 1,
-        levelTitle: 'Mid-Stroke Position',
-        objective: 'Command target position between 45% and 65% of actuator travel.',
-        hint: 'Move the target slider to the center tracking region.',
-        targets: [
-          {
-            id: 'mch-pos1',
-            label: 'TARGET SETPOINT',
-            targetDisplay: '45% – 65%',
-            isMet: (p) => (p?.targetPosition ?? 0) >= 45 && (p?.targetPosition ?? 0) <= 65,
-            currentDisplay: (p) => `${p?.targetPosition ?? 0}%`,
-          },
-        ],
-      },
-      {
-        levelNumber: 2,
-        levelTitle: 'Tight Error Tracking',
-        objective: 'Maintain tracking error <= 3% while keeping actuator duty above 40%.',
-        hint: 'Smooth commands allow the closed-loop controller to track the setpoint accurately.',
-        targets: [
-          {
-            id: 'mch-err2',
-            label: 'TRACKING ERROR',
-            targetDisplay: '≤ 3%',
-            isMet: (p) => {
-              const val = p?.targetPosition ?? 0
-              const sensed = Math.max(0, Math.min(100, val - 4 + (val > 78 ? 2 : 0)))
-              return Math.abs(val - sensed) <= 3
-            },
-            currentDisplay: (p) => {
-              const val = p?.targetPosition ?? 0
-              const sensed = Math.max(0, Math.min(100, val - 4 + (val > 78 ? 2 : 0)))
-              return `${Math.abs(val - sensed)}%`
-            },
-          },
-        ],
-      },
-      {
-        levelNumber: 3,
-        levelTitle: 'Full-Stroke Precision',
-        objective: 'Command a high target position (>= 80%) with tracking error <= 2%.',
-        hint: 'At high stroke, actuator duty approaches saturation.',
-        targets: [
-          {
-            id: 'mch-full3',
-            label: 'HIGH TARGET',
-            targetDisplay: '≥ 80%',
-            isMet: (p) => (p?.targetPosition ?? 0) >= 80,
-            currentDisplay: (p) => `${p?.targetPosition ?? 0}%`,
-          },
-          {
-            id: 'mch-err3',
-            label: 'TRACKING ERROR',
-            targetDisplay: '≤ 2%',
-            isMet: (p) => {
-              const val = p?.targetPosition ?? 0
-              const sensed = Math.max(0, Math.min(100, val - 4 + (val > 78 ? 2 : 0)))
-              return Math.abs(val - sensed) <= 2
-            },
-            currentDisplay: (p) => {
-              const val = p?.targetPosition ?? 0
-              const sensed = Math.max(0, Math.min(100, val - 4 + (val > 78 ? 2 : 0)))
-              return `${Math.abs(val - sensed)}%`
-            },
-          },
-        ],
-      },
-    ],
-    targets: [
-      {
-        id: 'mch-err',
-        label: 'TRACKING ERROR',
-        targetDisplay: '≤ 3%',
-        isMet: (p) => {
-          const val = p?.targetPosition ?? 0
-          const sensed = Math.max(0, Math.min(100, val - 4 + (val > 78 ? 2 : 0)))
-          return Math.abs(val - sensed) <= 3
-        },
-        currentDisplay: (p) => {
-          const val = p?.targetPosition ?? 0
-          const sensed = Math.max(0, Math.min(100, val - 4 + (val > 78 ? 2 : 0)))
-          return `${Math.abs(val - sensed)}%`
-        },
-      },
-    ],
-    evaluate: (params, _result, level = 1): ChallengeEvaluation => {
-      const val = params?.targetPosition ?? 0
-      const sensed = Math.max(0, Math.min(100, val - 4 + (val > 78 ? 2 : 0)))
-      const err = Math.abs(val - sensed)
-      if (level === 1) {
-        const passed = val >= 45 && val <= 65
-        return {
-          isPassed: passed,
-          status: passed ? 'TARGET ACHIEVED' : 'NOT QUITE',
-          feedbackMessage: passed
-            ? 'Mid-stroke positioning converged safely.'
-            : 'Target position is outside the 45%–65% window.',
-          engineeringInsight: 'Closed-loop feedback eliminates steady-state drift in mechanical drives.',
-        }
-      }
-      if (level === 2) {
-        const passed = err <= 3
-        return {
-          isPassed: passed,
-          status: passed ? 'TARGET ACHIEVED' : 'NOT QUITE',
-          feedbackMessage: passed
-            ? `Tracking error is ${err}%. High precision position convergence!`
-            : `Tracking error is ${err}% (> 3%). Adjust command setpoint.`,
-          engineeringInsight: 'PID controllers compute correction from proportional, integral, and derivative errors.',
-        }
-      }
-      const passed = val >= 80 && err <= 2
-      return {
-        isPassed: passed,
-        status: passed ? 'TARGET ACHIEVED' : 'NOT QUITE',
-        feedbackMessage: passed
-          ? `Full-stroke settlement achieved with tight ${err}% tracking error!`
-          : `Command >= 80% with error <= 2% to achieve mission success.`,
-        engineeringInsight: 'Actuator saturation occurs when control signal exceeds motor voltage limits.',
-      }
-    },
+    ...MECHATRONICS_FLAGSHIP_CHALLENGE,
+    levels: MECHATRONICS_LEVELS.map((lvl) => ({
+      levelNumber: lvl.levelNumber,
+      levelTitle: lvl.levelTitle,
+      objective: lvl.objective,
+      hint: lvl.hint,
+      targets: MECHATRONICS_FLAGSHIP_CHALLENGE.targets,
+    })),
   },
 
   automotive: {

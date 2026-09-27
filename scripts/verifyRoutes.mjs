@@ -19,6 +19,8 @@ const routes = [
   'http://localhost:5173/lab/manufacturing?mode=explore',
   'http://localhost:5173/lab/manufacturing?mode=challenge',
   'http://localhost:5173/lab/mechatronics',
+  'http://localhost:5173/lab/mechatronics?mode=explore',
+  'http://localhost:5173/lab/mechatronics?mode=challenge',
   'http://localhost:5173/lab/automotive',
   'http://localhost:5173/lab/automotive?mode=explore',
   'http://localhost:5173/lab/automotive?mode=challenge',

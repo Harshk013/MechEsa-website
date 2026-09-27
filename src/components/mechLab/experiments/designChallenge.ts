@@ -6,7 +6,7 @@ import {
   calculateBeamAnalysis,
   type BeamParams,
   BEAM_LIMITS,
-} from './designModel'
+} from './designModel.ts'
 
 export const DESIGN_LEVELS = [
   {

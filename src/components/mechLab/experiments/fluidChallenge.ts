@@ -6,7 +6,7 @@ import {
   calculateFluidState,
   type FluidParams,
   FLUID_PARAM_LIMITS,
-} from './fluidModel'
+} from './fluidModel.ts'
 
 export const FLUID_LEVELS = [
   {

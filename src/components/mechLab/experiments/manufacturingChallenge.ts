@@ -7,7 +7,7 @@ import {
   type ManufacturingParams,
   MANUFACTURING_LIMITS,
   DEFAULT_MANUFACTURING_PARAMS,
-} from './manufacturingModel'
+} from './manufacturingModel.ts'
 
 export const MANUFACTURING_LEVELS = [
   {

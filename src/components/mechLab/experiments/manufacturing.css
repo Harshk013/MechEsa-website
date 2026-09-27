@@ -6,74 +6,160 @@
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
-  margin-bottom: 2rem;
 }
 
-/* ── CNC Machine Tool Enclosure & Stage ───────────────────────────────── */
-.mfg-stage-card {
-  position: relative;
-  background: radial-gradient(circle at 50% 30%, #151a24 0%, #090c10 100%);
+/* ── Upper Presets Bar ────────────────────────────────────────────────── */
+.mfg-explore-presets-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: rgba(18, 24, 32, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm, 3px);
+  padding: 0.65rem 1.25rem;
+  flex-wrap: wrap;
+}
+
+.mfg-explore-presets-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted, #94a3b8);
+}
+
+.mfg-explore-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sys-manufacturing, #f59e0b);
+  box-shadow: 0 0 8px var(--sys-manufacturing, #f59e0b);
+}
+
+.mfg-presets-list {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.mfg-preset-btn {
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  padding: 0.35rem 0.65rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.mfg-stage-header {
+.mfg-preset-btn:hover {
+  background: rgba(245, 158, 11, 0.18);
+  border-color: var(--sys-manufacturing, #f59e0b);
+  color: #ffffff;
+}
+
+/* ── Main Hero Stage Grid ────────────────────────────────────────────── */
+.mfg-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.95fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .mfg-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Left Column: CNC Stage Canvas Card ──────────────────────────────── */
+.mfg-stage-card {
+  background: var(--color-surface-card, #12151b);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm, 4px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+.mfg-stage-card__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1.25rem;
-  background: rgba(15, 23, 42, 0.85);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  font-family: var(--font-mono, monospace);
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  color: #94a3b8;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .mfg-stage-title-wrap {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
 .mfg-stage-badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.15rem 0.5rem;
+  padding: 0.18rem 0.55rem;
   background: rgba(245, 158, 11, 0.15);
   border: 1px solid rgba(245, 158, 11, 0.4);
   color: #fbbf24;
-  border-radius: 4px;
+  border-radius: 3px;
+  font-family: var(--font-mono, monospace);
   font-weight: 700;
   font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+
+.mfg-stage-subtitle {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.74rem;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
 }
 
 .mfg-stage-status-indicator {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
 }
 
 .mfg-stage-led {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #22c55e;
-  box-shadow: 0 0 10px #22c55e;
+  box-shadow: 0 0 8px #22c55e;
   animation: mfgPulse 2s infinite ease-in-out;
 }
 
 .mfg-stage-led.is-warning {
   background: #f59e0b;
-  box-shadow: 0 0 10px #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
 }
 
 .mfg-stage-led.is-overload {
   background: #ef4444;
-  box-shadow: 0 0 12px #ef4444;
+  box-shadow: 0 0 10px #ef4444;
   animation: mfgFlash 0.5s infinite;
+}
+
+.mfg-stage-status-text {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #cbd5e1;
 }
 
 @keyframes mfgPulse {
@@ -86,96 +172,102 @@
   50% { opacity: 0.2; }
 }
 
-/* ── Interactive Machining Canvas Stage ───────────────────────────────── */
-.mfg-canvas-viewport {
+/* ── Viewport Canvas Wrapper ─────────────────────────────────────────── */
+.mfg-canvas-wrapper {
+  background: #090d12;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
   position: relative;
-  width: 100%;
-  height: 380px;
+  overflow: hidden;
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: center center;
+  min-height: 280px;
+  max-height: 350px;
 }
 
 .mfg-svg-canvas {
   width: 100%;
-  height: 100%;
-  max-width: 840px;
-  overflow: visible;
+  height: auto;
+  max-height: 340px;
+  display: block;
 }
 
-/* ── Live Digital Readout (DRO) HUD Overlays ──────────────────────────── */
-.mfg-hud-bar {
+/* ── Stage Under-Canvas HUD Telemetry Strip ───────────────────────────── */
+.mfg-stage-hud {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  background: rgba(10, 14, 20, 0.95);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+  gap: 0.65rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  padding: 0.75rem;
 }
 
-.mfg-hud-card {
+.mfg-hud-cell {
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 6px;
-  padding: 0.6rem 0.8rem;
-  transition: border-color 0.2s, background 0.2s;
+  gap: 0.2rem;
+  padding: 0.45rem 0.55rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 3px;
 }
 
-.mfg-hud-card:hover {
-  border-color: rgba(245, 158, 11, 0.3);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.mfg-hud-label {
+.mfg-hud-cell__label {
   font-family: var(--font-mono, monospace);
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   color: #94a3b8;
   letter-spacing: 0.04em;
-  margin-bottom: 0.25rem;
+  white-space: nowrap;
 }
 
-.mfg-hud-value {
+.mfg-hud-cell__val {
   font-family: var(--font-mono, monospace);
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #f8fafc;
-  display: flex;
-  align-items: baseline;
-  gap: 0.3rem;
 }
 
-.mfg-hud-unit {
-  font-size: 0.75rem;
-  color: #64748b;
+.mfg-hud-cell__val small {
+  font-size: 0.7rem;
   font-weight: 400;
-}
-
-.mfg-hud-subtext {
-  font-size: 0.68rem;
   color: #64748b;
-  margin-top: 0.2rem;
+  margin-left: 0.15rem;
 }
 
-/* Spindle Load Bar */
+.mfg-hud-cell__val--ok {
+  color: #22c55e;
+}
+
+.mfg-hud-cell__val--warn {
+  color: #f59e0b;
+}
+
+.mfg-hud-cell__val--fail {
+  color: #ef4444;
+}
+
+.mfg-hud-cell__sub {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  color: #64748b;
+}
+
+/* Spindle Load Meter */
 .mfg-load-meter {
   width: 100%;
-  height: 6px;
+  height: 4px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
+  border-radius: 2px;
   overflow: hidden;
-  margin-top: 0.35rem;
+  margin-top: 0.2rem;
 }
 
 .mfg-load-fill {
   height: 100%;
-  border-radius: 3px;
+  border-radius: 2px;
   transition: width 0.25s ease-out, background-color 0.25s;
 }
 
@@ -191,112 +283,143 @@
   background: linear-gradient(90deg, #f97316, #ef4444);
 }
 
-/* ── Workpiece Material Selection Cards ───────────────────────────────── */
-.mfg-materials-selector {
+/* ── Right Column: Controls Card ─────────────────────────────────────── */
+.mfg-controls-card {
+  background: var(--color-surface-card, #12151b);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm, 4px);
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1.15rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
 }
 
-.mfg-selector-title {
+.mfg-controls-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.mfg-controls-title {
   font-family: var(--font-mono, monospace);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.mfg-reset-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mfg-reset-btn:hover {
+  border-color: rgba(245, 158, 11, 0.5);
+  color: #ffffff;
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.mfg-control-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.mfg-control-section__label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  color: var(--color-text-muted, #94a3b8);
 }
 
+.mfg-control-section__active-val {
+  color: var(--sys-manufacturing, #f59e0b);
+  font-weight: 700;
+}
+
+/* Material Selector Grid */
 .mfg-materials-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.45rem;
 }
 
 .mfg-material-btn {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0.85rem;
-  background: rgba(18, 24, 38, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+  padding: 0.55rem 0.65rem;
+  background: rgba(18, 24, 38, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
   cursor: pointer;
   text-align: left;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
+  transition: all 0.15s ease;
 }
 
 .mfg-material-btn:hover {
-  border-color: rgba(245, 158, 11, 0.5);
-  transform: translateY(-2px);
-  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(30, 41, 59, 0.8);
 }
 
 .mfg-material-btn.is-active {
-  border-color: #f59e0b;
-  background: rgba(245, 158, 11, 0.1);
-  box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
-}
-
-.mfg-material-btn.is-active::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 4px;
-  background: #f59e0b;
+  border-color: var(--sys-manufacturing, #f59e0b);
+  background: rgba(245, 158, 11, 0.12);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
 }
 
 .mfg-material-name {
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.76rem;
   color: #f1f5f9;
-  margin-bottom: 0.2rem;
 }
 
 .mfg-material-kc {
   font-family: var(--font-mono, monospace);
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   color: #38bdf8;
-  margin-bottom: 0.35rem;
+  margin-top: 0.15rem;
 }
 
-.mfg-material-desc {
-  font-size: 0.72rem;
-  line-height: 1.35;
-  color: #94a3b8;
-}
-
-/* ── Tooling Selection Bar ────────────────────────────────────────────── */
+/* Tooling Selector */
 .mfg-tools-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-top: 0.4rem;
+  gap: 0.45rem;
 }
 
 .mfg-tool-btn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.85rem;
-  background: rgba(15, 23, 42, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
+  gap: 0.4rem;
+  padding: 0.35rem 0.65rem;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
   color: #cbd5e1;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .mfg-tool-btn:hover {
-  border-color: rgba(56, 189, 248, 0.5);
-  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(56, 189, 248, 0.4);
+  background: rgba(30, 41, 59, 0.8);
 }
 
 .mfg-tool-btn.is-active {
@@ -306,266 +429,151 @@
   font-weight: 700;
 }
 
-/* ── Parameter Controls Deck ──────────────────────────────────────────── */
-.mfg-controls-panel {
+/* Sliders Stack */
+.mfg-sliders-stack {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  padding: 1.25rem;
+  gap: 0.75rem;
 }
 
-.mfg-sliders-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
-}
-
-.mfg-control-group {
+.mfg-slider-group {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.25rem;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 3px;
+  padding: 0.5rem 0.65rem;
 }
 
-.mfg-control-header {
+.mfg-slider-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-size: 0.8rem;
+  font-size: 0.74rem;
 }
 
-.mfg-control-label {
+.mfg-slider-name {
   font-family: var(--font-mono, monospace);
   color: #cbd5e1;
   font-weight: 600;
+  font-size: 0.72rem;
 }
 
-.mfg-control-val {
+.mfg-slider-val {
   font-family: var(--font-mono, monospace);
   font-weight: 700;
-  color: #f59e0b;
+  color: var(--sys-manufacturing, #f59e0b);
+  font-size: 0.78rem;
 }
 
 .mfg-slider {
   width: 100%;
-  accent-color: #f59e0b;
+  accent-color: var(--sys-manufacturing, #f59e0b);
   cursor: pointer;
+  height: 4px;
 }
 
-.mfg-control-meta {
+.mfg-slider-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   color: #64748b;
   font-family: var(--font-mono, monospace);
 }
 
-/* Coolant Toggle Switch */
+/* Flood Coolant Row */
 .mfg-coolant-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.03);
+  padding: 0.6rem 0.85rem;
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 6px;
+  border-radius: 3px;
+  gap: 0.5rem;
 }
 
 .mfg-coolant-label {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.82rem;
-  font-weight: 600;
+  flex-direction: column;
+  gap: 0.1rem;
+  font-size: 0.74rem;
+  font-weight: 700;
   color: #e2e8f0;
+}
+
+.mfg-coolant-sub {
+  font-size: 0.65rem;
+  font-weight: 400;
+  color: #64748b;
 }
 
 .mfg-coolant-toggle-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.85rem;
-  border-radius: 4px;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 3px;
   font-family: var(--font-mono, monospace);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
   background: rgba(148, 163, 184, 0.15);
   border: 1px solid rgba(148, 163, 184, 0.3);
   color: #94a3b8;
+  white-space: nowrap;
 }
 
 .mfg-coolant-toggle-btn.is-active {
-  background: rgba(56, 189, 248, 0.2);
+  background: rgba(56, 189, 248, 0.15);
   border-color: #38bdf8;
   color: #38bdf8;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
 }
 
-/* ── Quick Presets Bar ────────────────────────────────────────────────── */
-.mfg-presets-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: rgba(10, 14, 20, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 6px;
-  font-size: 0.75rem;
-}
-
-.mfg-presets-label {
-  font-family: var(--font-mono, monospace);
-  font-weight: 700;
-  color: #64748b;
-  margin-right: 0.3rem;
-}
-
-.mfg-preset-chip {
-  padding: 0.3rem 0.7rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  color: #cbd5e1;
-  font-size: 0.72rem;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.mfg-preset-chip:hover {
-  background: rgba(245, 158, 11, 0.15);
-  border-color: rgba(245, 158, 11, 0.4);
-  color: #fbbf24;
-}
-
-/* ── Deep-Dive Equations & Technical Data Grids ───────────────────────── */
-.mfg-deep-dive-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-@media (max-width: 900px) {
-  .mfg-deep-dive-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.mfg-equations-card,
-.mfg-technical-data-card {
-  background: rgba(15, 23, 42, 0.85);
+/* ── Dynamic Reaction Cards (What's Happening) ────────────────────────── */
+.design-dynamic-card {
+  background: rgba(18, 24, 38, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  padding: 1.5rem;
+  border-radius: var(--radius-sm, 4px);
+  padding: 1.25rem;
+  position: relative;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.2s, transform 0.2s;
 }
 
-.mfg-equations-card__head,
-.mfg-technical-data-card__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+.design-dynamic-card--highlight {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.05);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.08);
 }
 
-.mfg-equations-card__title,
-.mfg-technical-data-card__title {
+.design-dynamic-card__step {
   font-family: var(--font-mono, monospace);
-  font-size: 0.88rem;
+  font-size: 0.72rem;
+  color: var(--sys-manufacturing, #f59e0b);
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.design-dynamic-card__label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #f8fafc;
+  color: var(--color-text-muted, #94a3b8);
+  margin-bottom: 0.65rem;
+  display: block;
 }
 
-.mfg-equations-card__badge {
-  font-size: 0.68rem;
-  font-family: var(--font-mono, monospace);
-  color: #f59e0b;
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  padding: 0.15rem 0.45rem;
-  border-radius: 4px;
-}
-
-.mfg-technical-data-card__toggle-btn {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #94a3b8;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.7rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.mfg-technical-data-card__toggle-btn:hover {
-  color: #f8fafc;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.mfg-equations-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.mfg-equation-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.mfg-equation-item:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.mfg-equation-item__title {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: #38bdf8;
-  letter-spacing: 0.02em;
-}
-
-.mfg-equation-item__desc {
-  font-size: 0.78rem;
-  line-height: 1.45;
-  color: #94a3b8;
-}
-
-/* Technical Data Key-Value Table */
-.mfg-tech-table {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.mfg-tech-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.45rem 0.6rem;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 4px;
-  font-size: 0.8rem;
-}
-
-.mfg-tech-row span {
-  color: #94a3b8;
-}
-
-.mfg-tech-row strong {
-  font-family: var(--font-mono, monospace);
-  color: #f1f5f9;
+.design-dynamic-card__content {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--color-text-main, #f0f2f5);
+  margin: 0;
 }

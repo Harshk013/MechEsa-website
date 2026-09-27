@@ -6,7 +6,7 @@ import {
   calculateAutomotivePerformance,
   type AutomotiveParams,
   AUTOMOTIVE_LIMITS,
-} from './automotiveModel'
+} from './automotiveModel.ts'
 
 export const AUTOMOTIVE_LEVELS = [
   {

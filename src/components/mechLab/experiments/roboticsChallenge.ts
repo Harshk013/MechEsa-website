@@ -2,7 +2,7 @@ import type { LabChallenge, ChallengeEvaluation } from '../../../data/mechLabTyp
 import {
   ROBOTICS_LEVEL_TARGETS,
   calculateRoboticsKinematics,
-} from './roboticsModel'
+} from './roboticsModel.ts'
 
 export interface RoboticsChallengeParams {
   shoulderAngle: number

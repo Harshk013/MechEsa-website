@@ -1810,3 +1810,110 @@
     transition: none !important;
   }
 }
+
+/* ── Canonical Mech Lab "WHAT'S HAPPENING?" Reaction Section ─────────────── */
+.thermo-dynamic-grid {
+  background: var(--color-panel, #171d21);
+  border: 1px solid rgba(205, 214, 219, 0.16);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+}
+
+.thermo-dynamic-grid__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.thermo-dynamic-grid__badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--color-signal, #d98a3d);
+  text-transform: uppercase;
+}
+
+.thermo-dynamic-grid__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--color-text, #ffffff);
+  margin: 0;
+}
+
+.thermo-dynamic-grid__subtitle {
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--color-text-dim, #9da6aa);
+  margin: 0;
+}
+
+.thermo-dynamic-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+@media (max-width: 900px) {
+  .thermo-dynamic-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.design-dynamic-card {
+  background: rgba(14, 18, 22, 0.7);
+  border: 1px solid rgba(205, 214, 219, 0.12);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  position: relative;
+  min-height: 130px;
+  box-sizing: border-box;
+}
+
+.design-dynamic-card--highlight {
+  border-left: 3px solid var(--color-signal, #d98a3d);
+  border-color: rgba(217, 138, 61, 0.35);
+  background: rgba(217, 138, 61, 0.06);
+}
+
+.design-dynamic-card__step {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  color: var(--color-text-dim, #697276);
+  font-weight: 800;
+}
+
+.design-dynamic-card__label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-signal, #d98a3d);
+  text-transform: uppercase;
+}
+
+.design-dynamic-card__content {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--color-text, #f0f2f5);
+  margin: 0;
+  flex-grow: 1;
+}
+
+.design-dynamic-card__content--changed {
+  color: var(--color-signal, #d98a3d);
+  font-weight: 500;
+}

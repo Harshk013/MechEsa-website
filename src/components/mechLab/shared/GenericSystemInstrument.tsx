@@ -134,38 +134,38 @@ export function GenericSystemInstrument({
       {mode === 'explore' && (
         <>
           {/* "WHAT'S HAPPENING?" Real-Time Dynamic Reaction */}
-          <section className="thermo-dynamic-reaction" aria-labelledby="generic-reaction-title">
-            <div className="thermo-dynamic-reaction__header">
-              <span className="thermo-dynamic-reaction__badge" aria-hidden="true">●</span>
-              <h3 id="generic-reaction-title" className="thermo-dynamic-reaction__title">
+          <section className="thermo-dynamic-grid" aria-labelledby="generic-reaction-title">
+            <div className="thermo-dynamic-grid__head">
+              <span className="thermo-dynamic-grid__badge">LIVE SYSTEM REACTION</span>
+              <h3 id="generic-reaction-title" className="thermo-dynamic-grid__title">
                 WHAT&apos;S HAPPENING?
               </h3>
-              <span className="thermo-dynamic-reaction__subtitle">
+              <p className="thermo-dynamic-grid__subtitle">
                 Physical consequence of parameter changes in {system.title}
-              </span>
+              </p>
             </div>
 
-            <div className="thermo-dynamic-reaction__cards">
-              <div className="thermo-dynamic-card">
-                <span className="thermo-dynamic-card__step">01</span>
-                <span className="thermo-dynamic-card__label">INTERACTION:</span>
-                <p className="thermo-dynamic-card__content thermo-dynamic-card__content--changed">
+            <div className="thermo-dynamic-cards">
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">01</span>
+                <span className="design-dynamic-card__label">YOU CHANGED:</span>
+                <p className="design-dynamic-card__content design-dynamic-card__content--changed">
                   {explanation.whatChanged}
                 </p>
               </div>
 
-              <div className="thermo-dynamic-card thermo-dynamic-card--highlight">
-                <span className="thermo-dynamic-card__step">02</span>
-                <span className="thermo-dynamic-card__label">WHAT HAPPENED:</span>
-                <p className="thermo-dynamic-card__content">
+              <div className="design-dynamic-card design-dynamic-card--highlight">
+                <span className="design-dynamic-card__step">02</span>
+                <span className="design-dynamic-card__label">THE SYSTEM RESPONDED:</span>
+                <p className="design-dynamic-card__content">
                   {explanation.whatHappened}
                 </p>
               </div>
 
-              <div className="thermo-dynamic-card">
-                <span className="thermo-dynamic-card__step">03</span>
-                <span className="thermo-dynamic-card__label">WHY? (PHYSICAL CAUSE):</span>
-                <p className="thermo-dynamic-card__content">
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">03</span>
+                <span className="design-dynamic-card__label">WHY? (PHYSICAL PRINCIPLE):</span>
+                <p className="design-dynamic-card__content">
                   {explanation.why}
                 </p>
               </div>

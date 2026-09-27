@@ -82,6 +82,17 @@ import {
   MANUFACTURING_FLAGSHIP_CHALLENGE,
   MANUFACTURING_LEVELS,
 } from '../../components/mechLab/experiments/manufacturingChallenge'
+import { MechatronicsExperimentView } from '../../components/mechLab/experiments/MechatronicsExperimentView'
+import {
+  calculateMechatronicsAnalysis,
+  getMechatronicsDynamicExplanation,
+  DEFAULT_MECHATRONICS_PARAMS,
+  type MechatronicsParams,
+} from '../../components/mechLab/experiments/mechatronicsModel'
+import {
+  MECHATRONICS_FLAGSHIP_CHALLENGE,
+  MECHATRONICS_LEVELS,
+} from '../../components/mechLab/experiments/mechatronicsChallenge'
 import { MechLabHint } from '../../components/mechLab/shared/MechLabHint'
 
 // ── Active Thermodynamics Reference Experiment Experience ─────────────
@@ -238,38 +249,38 @@ function ActiveThermodynamicsLab({ system, mode, onSwitchMode }: ActiveThermoPro
       {/* ── Mode 1: EXPLORE FLOW ── */}
       {mode === 'explore' && (
         <>
-          <section className="thermo-dynamic-reaction" aria-labelledby="dynamic-reaction-title">
-            <div className="thermo-dynamic-reaction__header">
-              <span className="thermo-dynamic-reaction__badge" aria-hidden="true">●</span>
-              <h2 id="dynamic-reaction-title" className="thermo-dynamic-reaction__title">
+          <section className="thermo-dynamic-grid" aria-label="Live physical explanation of parameter changes">
+            <div className="thermo-dynamic-grid__head">
+              <span className="thermo-dynamic-grid__badge">LIVE THERMODYNAMIC REACTION</span>
+              <h2 className="thermo-dynamic-grid__title">
                 WHAT&apos;S HAPPENING?
               </h2>
-              <span className="thermo-dynamic-reaction__subtitle">
+              <p className="thermo-dynamic-grid__subtitle">
                 Real-time physical reaction to your parameter changes
-              </span>
+              </p>
             </div>
 
-            <div className="thermo-dynamic-reaction__cards">
-              <div className="thermo-dynamic-card">
-                <span className="thermo-dynamic-card__step">01</span>
-                <span className="thermo-dynamic-card__label">YOU CHANGED:</span>
-                <p className="thermo-dynamic-card__content thermo-dynamic-card__content--changed">
+            <div className="thermo-dynamic-cards">
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">01</span>
+                <span className="design-dynamic-card__label">YOU CHANGED:</span>
+                <p className="design-dynamic-card__content design-dynamic-card__content--changed">
                   {explanation.whatChanged}
                 </p>
               </div>
 
-              <div className="thermo-dynamic-card thermo-dynamic-card--highlight">
-                <span className="thermo-dynamic-card__step">02</span>
-                <span className="thermo-dynamic-card__label">WHAT HAPPENED:</span>
-                <p className="thermo-dynamic-card__content">
+              <div className="design-dynamic-card design-dynamic-card--highlight">
+                <span className="design-dynamic-card__step">02</span>
+                <span className="design-dynamic-card__label">THE ENGINE RESPONDED:</span>
+                <p className="design-dynamic-card__content">
                   {explanation.whatHappened}
                 </p>
               </div>
 
-              <div className="thermo-dynamic-card">
-                <span className="thermo-dynamic-card__step">03</span>
-                <span className="thermo-dynamic-card__label">WHY? (PHYSICAL CAUSE):</span>
-                <p className="thermo-dynamic-card__content">
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">03</span>
+                <span className="design-dynamic-card__label">WHY? (PHYSICAL PRINCIPLE):</span>
+                <p className="design-dynamic-card__content">
                   {explanation.why}
                 </p>
               </div>
@@ -387,7 +398,7 @@ function ActiveThermodynamicsLab({ system, mode, onSwitchMode }: ActiveThermoPro
               )}
             </div>
 
-            <div className="thermo-challenge-section__actions">
+            <div className="thermo-challenge-section__actions" style={{ gap: '0.75rem' }}>
               <button
                 type="button"
                 className="thermo-challenge-reset-button"
@@ -397,6 +408,22 @@ function ActiveThermodynamicsLab({ system, mode, onSwitchMode }: ActiveThermoPro
               >
                 RESET CHALLENGE PARAMETERS
               </button>
+              {challengeEval.isPassed && activeChallengeLevel < 3 && (
+                <button
+                  type="button"
+                  className="mechanical-button mechanical-button--primary"
+                  onClick={() => setActiveChallengeLevel((prev) => Math.min(3, prev + 1))}
+                  onPointerEnter={() => setIntent('button', 'NEXT LEVEL')}
+                  onPointerLeave={clearIntent}
+                >
+                  NEXT LEVEL →
+                </button>
+              )}
+              {challengeEval.isPassed && activeChallengeLevel === 3 && (
+                <div className="thermo-challenge-complete-banner">
+                  ★ ALL 3 THERMODYNAMICS MISSIONS MASTERED! POWER SYSTEMS ENGINEER ACHIEVED ★
+                </div>
+              )}
             </div>
           </section>
 
@@ -653,38 +680,38 @@ function ActiveRoboticsLab({ system, mode, onSwitchMode }: ActiveRoboticsProps) 
       {mode === 'explore' && (
         <>
           {/* Section 2: "WHAT'S HAPPENING?" Real-Time Dynamic Reaction */}
-          <section className="thermo-dynamic-reaction" aria-labelledby="robotics-reaction-title">
-            <div className="thermo-dynamic-reaction__header">
-              <span className="thermo-dynamic-reaction__badge" aria-hidden="true">●</span>
-              <h2 id="robotics-reaction-title" className="thermo-dynamic-reaction__title">
+          <section className="thermo-dynamic-grid" aria-label="Live physical explanation of robot kinematics">
+            <div className="thermo-dynamic-grid__head">
+              <span className="thermo-dynamic-grid__badge">LIVE ROBOTICS REACTION</span>
+              <h2 className="thermo-dynamic-grid__title">
                 WHAT&apos;S HAPPENING?
               </h2>
-              <span className="thermo-dynamic-reaction__subtitle">
+              <p className="thermo-dynamic-grid__subtitle">
                 Physical consequence of moving the robot joints
-              </span>
+              </p>
             </div>
 
-            <div className="thermo-dynamic-reaction__cards">
-              <div className="thermo-dynamic-card">
-                <span className="thermo-dynamic-card__step">01</span>
-                <span className="thermo-dynamic-card__label">YOU MOVED:</span>
-                <p className="thermo-dynamic-card__content thermo-dynamic-card__content--changed">
+            <div className="thermo-dynamic-cards">
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">01</span>
+                <span className="design-dynamic-card__label">YOU CHANGED:</span>
+                <p className="design-dynamic-card__content design-dynamic-card__content--changed">
                   {explanation.whatChanged}
                 </p>
               </div>
 
-              <div className="thermo-dynamic-card thermo-dynamic-card--highlight">
-                <span className="thermo-dynamic-card__step">02</span>
-                <span className="thermo-dynamic-card__label">THE ROBOT MOVED:</span>
-                <p className="thermo-dynamic-card__content">
+              <div className="design-dynamic-card design-dynamic-card--highlight">
+                <span className="design-dynamic-card__step">02</span>
+                <span className="design-dynamic-card__label">THE ROBOT RESPONDED:</span>
+                <p className="design-dynamic-card__content">
                   {explanation.whatHappened}
                 </p>
               </div>
 
-              <div className="thermo-dynamic-card">
-                <span className="thermo-dynamic-card__step">03</span>
-                <span className="thermo-dynamic-card__label">WHY? (PHYSICAL CAUSE):</span>
-                <p className="thermo-dynamic-card__content">
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">03</span>
+                <span className="design-dynamic-card__label">WHY? (PHYSICAL PRINCIPLE):</span>
+                <p className="design-dynamic-card__content">
                   {explanation.why}
                 </p>
               </div>
@@ -846,6 +873,12 @@ function ActiveRoboticsLab({ system, mode, onSwitchMode }: ActiveRoboticsProps) 
                 >
                   NEXT MISSION (LVL {activeChallengeLevel + 1}) →
                 </button>
+              )}
+
+              {challengeEval.isPassed && activeChallengeLevel === 3 && (
+                <div className="thermo-challenge-complete-banner">
+                  ★ ALL 3 ROBOTICS MISSIONS MASTERED! MECHATRONIC ROBOTICS SPECIALIST ACHIEVED ★
+                </div>
               )}
             </div>
           </section>
@@ -1069,38 +1102,38 @@ function ActiveFluidLab({ system, mode, onSwitchMode }: ActiveFluidProps) {
       {/* ── Mode 1: EXPLORE FLOW (Sandbox, "What Do You Notice?", Challenge Prompt) ── */}
       {mode === 'explore' && (
         <>
-          <section className="fluid-dynamic-reaction" aria-labelledby="dynamic-reaction-title">
-            <div className="fluid-dynamic-reaction__header">
-              <span className="fluid-dynamic-reaction__badge" aria-hidden="true">●</span>
-              <h2 id="dynamic-reaction-title" className="fluid-dynamic-reaction__title">
-                WHAT DO YOU NOTICE?
+          <section className="thermo-dynamic-grid" aria-label="Live physical explanation of flow dynamics">
+            <div className="thermo-dynamic-grid__head">
+              <span className="thermo-dynamic-grid__badge">LIVE FLUID REACTION</span>
+              <h2 className="thermo-dynamic-grid__title">
+                WHAT&apos;S HAPPENING?
               </h2>
-              <span className="fluid-dynamic-reaction__subtitle">
+              <p className="thermo-dynamic-grid__subtitle">
                 Real-time physical reaction to your pipe changes
-              </span>
+              </p>
             </div>
 
-            <div className="fluid-dynamic-reaction__cards">
-              <div className="fluid-dynamic-card">
-                <span className="fluid-dynamic-card__step">01</span>
-                <span className="fluid-dynamic-card__label">YOU CHANGED:</span>
-                <p className="fluid-dynamic-card__content fluid-dynamic-card__content--changed">
+            <div className="thermo-dynamic-cards">
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">01</span>
+                <span className="design-dynamic-card__label">YOU CHANGED:</span>
+                <p className="design-dynamic-card__content design-dynamic-card__content--changed">
                   {explanation.whatChanged}
                 </p>
               </div>
 
-              <div className="fluid-dynamic-card fluid-dynamic-card--highlight">
-                <span className="fluid-dynamic-card__step">02</span>
-                <span className="fluid-dynamic-card__label">THE FLOW RESPONDED:</span>
-                <p className="fluid-dynamic-card__content">
+              <div className="design-dynamic-card design-dynamic-card--highlight">
+                <span className="design-dynamic-card__step">02</span>
+                <span className="design-dynamic-card__label">THE FLOW RESPONDED:</span>
+                <p className="design-dynamic-card__content">
                   {explanation.whatHappened}
                 </p>
               </div>
 
-              <div className="fluid-dynamic-card">
-                <span className="fluid-dynamic-card__step">03</span>
-                <span className="fluid-dynamic-card__label">WHY? (PHYSICAL CAUSE):</span>
-                <p className="fluid-dynamic-card__content">
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">03</span>
+                <span className="design-dynamic-card__label">WHY? (PHYSICAL PRINCIPLE):</span>
+                <p className="design-dynamic-card__content">
                   {explanation.why}
                 </p>
               </div>
@@ -1608,38 +1641,38 @@ function ActiveAutomotiveLab({ system, mode, onSwitchMode }: ActiveAutomotivePro
       {/* ── Mode 1: EXPLORE FLOW (Sandbox, "What's Happening?", Deep Dive) ── */}
       {mode === 'explore' && (
         <>
-          <section className="auto-dynamic-reaction" aria-labelledby="dynamic-reaction-title">
-            <div className="auto-dynamic-reaction__header">
-              <span className="auto-dynamic-reaction__badge" aria-hidden="true">●</span>
-              <h2 id="dynamic-reaction-title" className="auto-dynamic-reaction__title">
+          <section className="thermo-dynamic-grid" aria-label="Live physical explanation of vehicle dynamics">
+            <div className="thermo-dynamic-grid__head">
+              <span className="thermo-dynamic-grid__badge">LIVE AUTOMOTIVE REACTION</span>
+              <h2 className="thermo-dynamic-grid__title">
                 WHAT&apos;S HAPPENING?
               </h2>
-              <span className="auto-dynamic-reaction__subtitle">
+              <p className="thermo-dynamic-grid__subtitle">
                 Real-time physical reaction to your vehicle setup
-              </span>
+              </p>
             </div>
 
-            <div className="auto-dynamic-reaction__cards">
-              <div className="auto-dynamic-card">
-                <span className="auto-dynamic-card__step">01</span>
-                <span className="auto-dynamic-card__label">YOU CHANGED:</span>
-                <p className="auto-dynamic-card__content auto-dynamic-card__content--changed">
+            <div className="thermo-dynamic-cards">
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">01</span>
+                <span className="design-dynamic-card__label">YOU CHANGED:</span>
+                <p className="design-dynamic-card__content design-dynamic-card__content--changed">
                   {explanation.whatChanged}
                 </p>
               </div>
 
-              <div className="auto-dynamic-card auto-dynamic-card--highlight">
-                <span className="auto-dynamic-card__step">02</span>
-                <span className="auto-dynamic-card__label">THE CAR RESPONDED:</span>
-                <p className="auto-dynamic-card__content">
+              <div className="design-dynamic-card design-dynamic-card--highlight">
+                <span className="design-dynamic-card__step">02</span>
+                <span className="design-dynamic-card__label">THE CAR RESPONDED:</span>
+                <p className="design-dynamic-card__content">
                   {explanation.whatHappened}
                 </p>
               </div>
 
-              <div className="auto-dynamic-card">
-                <span className="auto-dynamic-card__step">03</span>
-                <span className="auto-dynamic-card__label">WHY? (PHYSICAL CAUSE):</span>
-                <p className="auto-dynamic-card__content">
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">03</span>
+                <span className="design-dynamic-card__label">WHY? (PHYSICAL PRINCIPLE):</span>
+                <p className="design-dynamic-card__content">
                   {explanation.why}
                 </p>
               </div>
@@ -2164,18 +2197,16 @@ function ActiveDesignLab({ system, mode, onSwitchMode }: ActiveDesignProps) {
       {/* ── Mode 1: EXPLORE FLOW (Sandbox, "What's Happening?", Deep Dive) ── */}
       {mode === 'explore' && (
         <>
-          <section className="design-dynamic-reaction" aria-labelledby="dynamic-reaction-title">
-            <div className="design-dynamic-reaction__header">
-              <span className="design-dynamic-reaction__badge" aria-hidden="true">●</span>
-              <h2 id="dynamic-reaction-title" className="design-dynamic-reaction__title">
-                WHAT&apos;S HAPPENING?
-              </h2>
-              <span className="design-dynamic-reaction__subtitle">
-                Real-time structural reaction to your geometry and loading
-              </span>
+          <section className="thermo-dynamic-grid" aria-label="Live physical explanation of structural changes">
+            <div className="thermo-dynamic-grid__head">
+              <span className="thermo-dynamic-grid__badge">LIVE STRUCTURAL REACTION</span>
+              <h2 className="thermo-dynamic-grid__title">WHAT&apos;S HAPPENING?</h2>
+              <p className="thermo-dynamic-grid__subtitle">
+                Adjust beam span, cross-section geometry, load, or material to observe bending moment, peak stress, and deflection shift in real time.
+              </p>
             </div>
 
-            <div className="design-dynamic-reaction__cards">
+            <div className="thermo-dynamic-cards">
               <div className="design-dynamic-card">
                 <span className="design-dynamic-card__step">01</span>
                 <span className="design-dynamic-card__label">YOU CHANGED:</span>
@@ -2194,7 +2225,7 @@ function ActiveDesignLab({ system, mode, onSwitchMode }: ActiveDesignProps) {
 
               <div className="design-dynamic-card">
                 <span className="design-dynamic-card__step">03</span>
-                <span className="design-dynamic-card__label">WHY? (PHYSICAL CAUSE):</span>
+                <span className="design-dynamic-card__label">WHY? (PHYSICAL PRINCIPLE):</span>
                 <p className="design-dynamic-card__content">
                   {explanation.why}
                 </p>
@@ -2784,7 +2815,7 @@ function ActiveMaterialsLab({ system, mode, onSwitchMode }: ActiveMaterialsProps
 
               <div className="design-dynamic-card">
                 <span className="design-dynamic-card__step">03</span>
-                <span className="design-dynamic-card__label">WHY? (PHYSICAL LAW):</span>
+                <span className="design-dynamic-card__label">WHY? (PHYSICAL PRINCIPLE):</span>
                 <p className="design-dynamic-card__content">
                   {explanation.why}
                 </p>
@@ -3349,23 +3380,20 @@ function ActiveManufacturingLab({ system, mode, onSwitchMode }: ActiveManufactur
             <div className="thermo-dynamic-cards">
               <div className="design-dynamic-card">
                 <span className="design-dynamic-card__step">01</span>
-                <span className="design-dynamic-card__badge">PARAMETER INPUT</span>
-                <h3 className="design-dynamic-card__title">YOU CHANGED</h3>
-                <p className="design-dynamic-card__body">{dynamicExp.whatChanged}</p>
+                <span className="design-dynamic-card__label">YOU CHANGED:</span>
+                <p className="design-dynamic-card__content">{dynamicExp.whatChanged}</p>
               </div>
 
-              <div className="design-dynamic-card">
+              <div className="design-dynamic-card design-dynamic-card--highlight">
                 <span className="design-dynamic-card__step">02</span>
-                <span className="design-dynamic-card__badge">PHYSICAL RESULT</span>
-                <h3 className="design-dynamic-card__title">THE PROCESS RESPONDED</h3>
-                <p className="design-dynamic-card__body">{dynamicExp.whatHappened}</p>
+                <span className="design-dynamic-card__label">THE PROCESS RESPONDED:</span>
+                <p className="design-dynamic-card__content">{dynamicExp.whatHappened}</p>
               </div>
 
               <div className="design-dynamic-card">
                 <span className="design-dynamic-card__step">03</span>
-                <span className="design-dynamic-card__badge">MANUFACTURING PRINCIPLE</span>
-                <h3 className="design-dynamic-card__title">WHY?</h3>
-                <p className="design-dynamic-card__body">{dynamicExp.why}</p>
+                <span className="design-dynamic-card__label">WHY? (PHYSICAL PRINCIPLE):</span>
+                <p className="design-dynamic-card__content">{dynamicExp.why}</p>
               </div>
             </div>
           </section>
@@ -3869,6 +3897,631 @@ function ActiveManufacturingLab({ system, mode, onSwitchMode }: ActiveManufactur
   )
 }
 
+// ── Active Mechatronics Flagship Experiment Experience ────────────────
+interface ActiveMechatronicsProps {
+  system: LabSystemConfig
+  mode: 'explore' | 'challenge'
+  onSwitchMode: (mode: 'explore' | 'challenge') => void
+}
+
+function ActiveMechatronicsLab({ system, mode, onSwitchMode }: ActiveMechatronicsProps) {
+  const { setIntent, clearIntent } = usePointer()
+
+  const [params, setParams] = useState<MechatronicsParams>(DEFAULT_MECHATRONICS_PARAMS)
+  const [prevParams, setPrevParams] = useState<MechatronicsParams>(DEFAULT_MECHATRONICS_PARAMS)
+  const [activeChallengeLevel, setActiveChallengeLevel] = useState<number>(1)
+  const [showMoreData, setShowMoreData] = useState<boolean>(false)
+
+  const analysis = useMemo(() => calculateMechatronicsAnalysis(params), [params])
+
+  const dynamicExp = useMemo(
+    () => getMechatronicsDynamicExplanation(params, prevParams),
+    [params, prevParams]
+  )
+
+  const challengeEval = useMemo(
+    () => MECHATRONICS_FLAGSHIP_CHALLENGE.evaluate(params, analysis, activeChallengeLevel),
+    [params, analysis, activeChallengeLevel]
+  )
+
+  const handleParamChange = (
+    targetMm: number,
+    kp: number,
+    kd: number,
+    ki: number,
+    disturbanceN: number
+  ) => {
+    setPrevParams(params)
+    setParams({
+      targetPositionMm: targetMm,
+      targetPosition: targetMm,
+      proportionalGainKp: kp,
+      proportionalGain: kp,
+      derivativeGainKd: kd,
+      derivativeGain: kd,
+      integralGainKi: ki,
+      disturbanceLoadN: disturbanceN,
+    })
+  }
+
+  const handleReset = () => {
+    setPrevParams(params)
+    setParams(DEFAULT_MECHATRONICS_PARAMS)
+  }
+
+  return (
+    <div className="mech-lab-system-page">
+      <MechLabSystemHeader
+        system={system}
+        mode={mode}
+        onModeChange={onSwitchMode}
+      />
+
+      {/* ── Section 1: Mechatronics Linear Stage & Simulation ── */}
+      <section aria-label="Closed-loop linear servo stage simulator and PID controller">
+        <MechatronicsExperimentView
+          targetPositionMm={params.targetPositionMm}
+          proportionalGainKp={params.proportionalGainKp}
+          derivativeGainKd={params.derivativeGainKd}
+          integralGainKi={params.integralGainKi}
+          disturbanceLoadN={params.disturbanceLoadN}
+          onParamChange={handleParamChange}
+          onReset={handleReset}
+          activeLevel={activeChallengeLevel}
+          isChallengeMode={mode === 'challenge'}
+        />
+      </section>
+
+      {/* ── Section 2: Explore Mode — "WHAT'S HAPPENING?" ── */}
+      {mode === 'explore' && (
+        <>
+          <section className="thermo-dynamic-grid" aria-label="Live physical explanation of closed-loop servo dynamics">
+            <div className="thermo-dynamic-grid__head">
+              <span className="thermo-dynamic-grid__badge">LIVE CLOSED-LOOP REACTION</span>
+              <h2 className="thermo-dynamic-grid__title">WHAT&apos;S HAPPENING?</h2>
+              <p className="thermo-dynamic-grid__subtitle">
+                Command target coordinates or adjust PID gains to see how servo bandwidth, damping, overshoot, and disturbance rejection behave in real time.
+              </p>
+            </div>
+
+            <div className="thermo-dynamic-cards">
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">01</span>
+                <span className="design-dynamic-card__label">YOU CHANGED:</span>
+                <p className="design-dynamic-card__content">{dynamicExp.whatChanged}</p>
+              </div>
+
+              <div className="design-dynamic-card design-dynamic-card--highlight">
+                <span className="design-dynamic-card__step">02</span>
+                <span className="design-dynamic-card__label">THE SYSTEM RESPONDED:</span>
+                <p className="design-dynamic-card__content">{dynamicExp.whatHappened}</p>
+              </div>
+
+              <div className="design-dynamic-card">
+                <span className="design-dynamic-card__step">03</span>
+                <span className="design-dynamic-card__label">WHY? (PHYSICAL PRINCIPLE):</span>
+                <p className="design-dynamic-card__content">{dynamicExp.why}</p>
+              </div>
+            </div>
+          </section>
+
+          <div className="lab-mode-prompt-card">
+            <div className="lab-mode-prompt-card__content">
+              <span className="lab-mode-prompt-card__badge">READY TO QUALIFY?</span>
+              <h3 className="lab-mode-prompt-card__title">
+                Test your servo tuning intuition under real mission loads
+              </h3>
+              <p className="lab-mode-prompt-card__desc">
+                Switch to Challenge Mode to test your closed-loop position accuracy, overshoot dampening, and disturbance rejection against standardized criteria.
+              </p>
+            </div>
+            <button
+              type="button"
+              className="mechanical-button mechanical-button--primary"
+              onClick={() => onSwitchMode('challenge')}
+              onPointerEnter={() => setIntent('button', 'CHALLENGE')}
+              onPointerLeave={clearIntent}
+            >
+              START MECHATRONICS CHALLENGE →
+            </button>
+          </div>
+        </>
+      )}
+
+      {/* ── Section 3: Challenge Mode ── */}
+      {mode === 'challenge' && (
+        <>
+          <section className="thermo-challenge-section" aria-labelledby="mechatronics-challenge-heading">
+            <div className="thermo-challenge-section__head">
+              <div>
+                <div className="thermo-challenge-section__eyebrow">
+                  MISSION PROGRESSION · LEVEL {activeChallengeLevel} OF 3
+                </div>
+                <h2 id="mechatronics-challenge-heading" className="thermo-challenge-section__title">
+                  {MECHATRONICS_FLAGSHIP_CHALLENGE.title}
+                </h2>
+                <p className="thermo-challenge-section__desc">
+                  {MECHATRONICS_FLAGSHIP_CHALLENGE.description}
+                </p>
+              </div>
+
+              <div
+                className={`thermo-challenge-section__status-badge ${
+                  challengeEval.isPassed ? 'is-passed' : 'is-unmet'
+                }`}
+              >
+                {challengeEval.isPassed ? 'TARGET REACHED ✓' : challengeEval.status}
+              </div>
+            </div>
+
+            {/* Level Switcher (LVL 1, LVL 2, LVL 3) */}
+            <div className="thermo-challenge-levels" role="tablist" aria-label="Challenge progression levels">
+              {MECHATRONICS_LEVELS.map((lvl) => (
+                <button
+                  key={lvl.levelNumber}
+                  type="button"
+                  className={`thermo-challenge-level-btn${activeChallengeLevel === lvl.levelNumber ? ' is-active' : ''}`}
+                  onClick={() => setActiveChallengeLevel(lvl.levelNumber)}
+                  role="tab"
+                  aria-selected={activeChallengeLevel === lvl.levelNumber}
+                >
+                  <span className="thermo-challenge-level-btn__num">LVL {lvl.levelNumber}</span>
+                  <span className="thermo-challenge-level-btn__name">{lvl.levelTitle}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Current Level Objective Note */}
+            <div className="thermo-challenge-level-brief">
+              <strong>Mission:</strong> {MECHATRONICS_LEVELS[activeChallengeLevel - 1].objective}
+              <MechLabHint hint={MECHATRONICS_LEVELS[activeChallengeLevel - 1].hint} />
+            </div>
+
+            {/* Target Criteria Live Metrics */}
+            <div className="thermo-challenge-criteria-grid">
+              {activeChallengeLevel === 1 && (
+                <>
+                  <div className={`thermo-challenge-target-card${params.targetPositionMm >= 45 && params.targetPositionMm <= 65 ? ' is-met' : ' is-unmet'}`}>
+                    <div className="thermo-challenge-target-card__top">
+                      <span className="thermo-challenge-target-card__name">TARGET SETPOINT (r)</span>
+                      <span className="thermo-challenge-target-card__indicator">
+                        {params.targetPositionMm >= 45 && params.targetPositionMm <= 65 ? 'MET ✓' : 'NOT MET ✕'}
+                      </span>
+                    </div>
+                    <div className="thermo-challenge-target-card__val">
+                      {params.targetPositionMm} <small style={{ fontSize: '0.85rem' }}>mm</small>
+                    </div>
+                    <div className="thermo-challenge-target-card__requirement">
+                      Target: <strong>45 mm – 65 mm</strong>
+                    </div>
+                  </div>
+
+                  <div className={`thermo-challenge-target-card${analysis.trackingErrorMm <= 2.0 ? ' is-met' : ' is-unmet'}`}>
+                    <div className="thermo-challenge-target-card__top">
+                      <span className="thermo-challenge-target-card__name">TRACKING ERROR |e|</span>
+                      <span className="thermo-challenge-target-card__indicator">
+                        {analysis.trackingErrorMm <= 2.0 ? 'TIGHT ✓' : 'EXCESSIVE ✕'}
+                      </span>
+                    </div>
+                    <div className="thermo-challenge-target-card__val">
+                      {analysis.trackingErrorMm.toFixed(2)} <small style={{ fontSize: '0.85rem' }}>mm</small>
+                    </div>
+                    <div className="thermo-challenge-target-card__requirement">
+                      Target: <strong>≤ 2.00 mm</strong>
+                    </div>
+                  </div>
+
+                  <div className={`thermo-challenge-target-card${analysis.dampingRatio >= 0.5 ? ' is-met' : ' is-unmet'}`}>
+                    <div className="thermo-challenge-target-card__top">
+                      <span className="thermo-challenge-target-card__name">DAMPING RATIO (ζ)</span>
+                      <span className="thermo-challenge-target-card__indicator">
+                        {analysis.dampingRatio >= 0.5 ? 'STABLE ✓' : 'RINGING ✕'}
+                      </span>
+                    </div>
+                    <div className="thermo-challenge-target-card__val">
+                      {analysis.dampingRatio}
+                    </div>
+                    <div className="thermo-challenge-target-card__requirement">
+                      Target: <strong>Stable convergence</strong>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {activeChallengeLevel === 2 && (
+                <>
+                  <div className={`thermo-challenge-target-card${analysis.peakOvershootPercent <= 12.0 ? ' is-met' : ' is-unmet'}`}>
+                    <div className="thermo-challenge-target-card__top">
+                      <span className="thermo-challenge-target-card__name">PEAK OVERSHOOT (Mp)</span>
+                      <span className="thermo-challenge-target-card__indicator">
+                        {analysis.peakOvershootPercent <= 12.0 ? 'CONTROLLED ✓' : 'RINGING ✕'}
+                      </span>
+                    </div>
+                    <div className="thermo-challenge-target-card__val">
+                      {analysis.peakOvershootPercent}%
+                    </div>
+                    <div className="thermo-challenge-target-card__requirement">
+                      Target: <strong>≤ 12.0%</strong>
+                    </div>
+                  </div>
+
+                  <div className={`thermo-challenge-target-card${analysis.settlingTimeSec <= 0.80 ? ' is-met' : ' is-unmet'}`}>
+                    <div className="thermo-challenge-target-card__top">
+                      <span className="thermo-challenge-target-card__name">SETTLING TIME (ts)</span>
+                      <span className="thermo-challenge-target-card__indicator">
+                        {analysis.settlingTimeSec <= 0.80 ? 'RAPID ✓' : 'SLUGGISH ✕'}
+                      </span>
+                    </div>
+                    <div className="thermo-challenge-target-card__val">
+                      {analysis.settlingTimeSec.toFixed(2)} <small style={{ fontSize: '0.85rem' }}>s</small>
+                    </div>
+                    <div className="thermo-challenge-target-card__requirement">
+                      Target: <strong>≤ 0.80 s</strong>
+                    </div>
+                  </div>
+
+                  <div className={`thermo-challenge-target-card${analysis.trackingErrorMm <= 1.5 ? ' is-met' : ' is-unmet'}`}>
+                    <div className="thermo-challenge-target-card__top">
+                      <span className="thermo-challenge-target-card__name">STEADY ERROR |e|</span>
+                      <span className="thermo-challenge-target-card__indicator">
+                        {analysis.trackingErrorMm <= 1.5 ? 'MET ✓' : 'NOT MET ✕'}
+                      </span>
+                    </div>
+                    <div className="thermo-challenge-target-card__val">
+                      {analysis.trackingErrorMm.toFixed(2)} <small style={{ fontSize: '0.85rem' }}>mm</small>
+                    </div>
+                    <div className="thermo-challenge-target-card__requirement">
+                      Target: <strong>≤ 1.50 mm</strong>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {activeChallengeLevel === 3 && (
+                <>
+                  <div className={`thermo-challenge-target-card${params.disturbanceLoadN >= 25 ? ' is-met' : ' is-unmet'}`}>
+                    <div className="thermo-challenge-target-card__top">
+                      <span className="thermo-challenge-target-card__name">DISTURBANCE LOAD</span>
+                      <span className="thermo-challenge-target-card__indicator">
+                        {params.disturbanceLoadN >= 25 ? 'MET ✓' : 'NOT MET ✕'}
+                      </span>
+                    </div>
+                    <div className="thermo-challenge-target-card__val">
+                      {params.disturbanceLoadN} <small style={{ fontSize: '0.85rem' }}>N</small>
+                    </div>
+                    <div className="thermo-challenge-target-card__requirement">
+                      Target: <strong>≥ 25 N</strong>
+                    </div>
+                  </div>
+
+                  <div className={`thermo-challenge-target-card${analysis.trackingErrorMm <= 1.8 ? ' is-met' : ' is-unmet'}`}>
+                    <div className="thermo-challenge-target-card__top">
+                      <span className="thermo-challenge-target-card__name">STEADY DROOP |e|</span>
+                      <span className="thermo-challenge-target-card__indicator">
+                        {analysis.trackingErrorMm <= 1.8 ? 'REJECTED ✓' : 'DROOP ✕'}
+                      </span>
+                    </div>
+                    <div className="thermo-challenge-target-card__val">
+                      {analysis.trackingErrorMm.toFixed(2)} <small style={{ fontSize: '0.85rem' }}>mm</small>
+                    </div>
+                    <div className="thermo-challenge-target-card__requirement">
+                      Target: <strong>≤ 1.80 mm</strong>
+                    </div>
+                  </div>
+
+                  <div className={`thermo-challenge-target-card${analysis.controlEffortVolts <= 24.0 ? ' is-met' : ' is-unmet'}`}>
+                    <div className="thermo-challenge-target-card__top">
+                      <span className="thermo-challenge-target-card__name">ACTUATOR EFFORT</span>
+                      <span className="thermo-challenge-target-card__indicator">
+                        {analysis.controlEffortVolts <= 24.0 ? 'SAFE ✓' : 'SATURATED ✕'}
+                      </span>
+                    </div>
+                    <div className="thermo-challenge-target-card__val">
+                      {analysis.controlEffortVolts.toFixed(1)} <small style={{ fontSize: '0.85rem' }}>V</small>
+                    </div>
+                    <div className="thermo-challenge-target-card__requirement">
+                      Target: <strong>≤ 24.0 V (No saturation)</strong>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Dynamic Guidance & Live Insight */}
+            <div className={`thermo-challenge-feedback-box${challengeEval.isPassed ? ' is-passed' : ''}`}>
+              <p className="thermo-challenge-feedback-box__message">
+                {challengeEval.feedbackMessage}
+              </p>
+              {challengeEval.engineeringInsight && (
+                <p className="thermo-challenge-feedback-box__insight">
+                  {challengeEval.engineeringInsight}
+                </p>
+              )}
+            </div>
+
+            {/* Action Bar */}
+            <div className="thermo-challenge-section__actions" style={{ gap: '0.75rem' }}>
+              <button
+                type="button"
+                className="thermo-challenge-reset-button"
+                onClick={handleReset}
+                onPointerEnter={() => setIntent('button', 'RESET CHALLENGE')}
+                onPointerLeave={clearIntent}
+              >
+                RESET CHALLENGE
+              </button>
+              {challengeEval.isPassed && activeChallengeLevel < 3 && (
+                <button
+                  type="button"
+                  className="mechanical-button mechanical-button--primary"
+                  onClick={() => setActiveChallengeLevel((prev) => Math.min(3, prev + 1))}
+                  onPointerEnter={() => setIntent('button', 'NEXT LEVEL')}
+                  onPointerLeave={clearIntent}
+                >
+                  NEXT LEVEL →
+                </button>
+              )}
+              {challengeEval.isPassed && activeChallengeLevel === 3 && (
+                <div className="thermo-challenge-complete-banner">
+                  ★ ALL 3 MECHATRONICS MISSIONS MASTERED! CONTROL SYSTEMS ENGINEER CERTIFIED ★
+                </div>
+              )}
+            </div>
+          </section>
+
+          <div className="lab-mode-prompt-card lab-mode-prompt-card--muted">
+            <div className="lab-mode-prompt-card__content">
+              <span className="lab-mode-prompt-card__badge">SANDBOX PLAY</span>
+              <h3 className="lab-mode-prompt-card__title">
+                Want to tune the linear stage freely?
+              </h3>
+              <p className="lab-mode-prompt-card__desc">
+                Switch to Explore Mode to test setpoints, PID gains, and step responses without mission constraints.
+              </p>
+            </div>
+            <button
+              type="button"
+              className="mechanical-button"
+              onClick={() => onSwitchMode('explore')}
+              onPointerEnter={() => setIntent('button', 'EXPLORE')}
+              onPointerLeave={clearIntent}
+            >
+              SWITCH TO EXPLORE SANDBOX →
+            </button>
+          </div>
+        </>
+      )}
+
+      {/* ── Section 4: Progressive Disclosure — "SEE THE ENGINEERING" ── */}
+      <section className="mechatronics-deep-dive-grid" aria-label="Control theory equations and mechatronics data">
+        <div className="mechatronics-equations-panel">
+          <div className="mechatronics-panel-head">
+            <h2 className="mechatronics-panel-title">SEE THE ENGINEERING</h2>
+            <span className="mechatronics-panel-badge">FEEDBACK &amp; CONTROL THEORY</span>
+          </div>
+
+          <p className="thermo-equations-card__intro" style={{ margin: 0 }}>
+            These governing equations dictate feedback summation, PID control effort, and 2nd-order electro-mechanical dynamics:
+          </p>
+
+          <div className="mechatronics-equations-list">
+            <div className="mechatronics-equation-card">
+              <span className="mechatronics-equation-title">Kinematic Tracking Error (Feedback Summation)</span>
+              <div className="math-equation" role="math" aria-label="e of t equals r of t minus y of t">
+                <span className="math-symbol">e(t)</span>
+                <span className="math-op">=</span>
+                <span className="math-symbol">r(t)</span>
+                <span className="math-op">−</span>
+                <span className="math-symbol">y(t)</span>
+              </div>
+              <p className="mechatronics-equation-desc">
+                Discrepancy between commanded setpoint reference r(t) and optical linear encoder feedback position y(t).
+              </p>
+            </div>
+
+            <div className="mechatronics-equation-card">
+              <span className="mechatronics-equation-title">PID Controller Control Law (Actuator Effort)</span>
+              <div className="math-equation" role="math" aria-label="u of t equals Kp e plus Ki integral e plus Kd de dt">
+                <span className="math-symbol">u(t)</span>
+                <span className="math-op">=</span>
+                <span className="math-symbol">K</span><span className="math-sub">p</span>
+                <span className="math-op">·</span>
+                <span className="math-symbol">e(t)</span>
+                <span className="math-op">+</span>
+                <span className="math-symbol">K</span><span className="math-sub">i</span>
+                <span className="math-op">·</span>
+                <span>∫</span>
+                <span className="math-symbol">e(τ)</span><span className="math-symbol">dτ</span>
+                <span className="math-op">+</span>
+                <span className="math-symbol">K</span><span className="math-sub">d</span>
+                <span className="math-op">·</span>
+                <div className="math-fraction">
+                  <span className="math-fraction__num"><span className="math-symbol">de(t)</span></span>
+                  <span className="math-fraction__den"><span className="math-symbol">dt</span></span>
+                </div>
+              </div>
+              <p className="mechatronics-equation-desc">
+                Three-term control law computing motor command voltage: proportional to current error, integral to accumulated historical droop, and derivative to rate of approach.
+              </p>
+            </div>
+
+            <div className="mechatronics-equation-card">
+              <span className="mechatronics-equation-title">Closed-Loop Second-Order Dynamic Response</span>
+              <div className="math-equation" role="math" aria-label="s squared plus 2 zeta omega_n s plus omega_n squared equals 0">
+                <span className="math-symbol">s²</span>
+                <span className="math-op">+</span>
+                <span>2</span><span className="math-symbol">ζ</span><span className="math-symbol">ω</span><span className="math-sub">n</span><span className="math-symbol">s</span>
+                <span className="math-op">+</span>
+                <span className="math-symbol">ω</span><span className="math-sub">n</span><span>²</span>
+                <span className="math-op">=</span>
+                <span>0</span>
+              </div>
+              <p className="mechatronics-equation-desc">
+                Characteristic polynomial governing carriage motion. Natural frequency ω_n dictates response bandwidth, while damping ratio ζ governs overshoot.
+              </p>
+            </div>
+
+            <div className="mechatronics-equation-card">
+              <span className="mechatronics-equation-title">Natural Frequency &amp; Damping Ratio from Physical Constants</span>
+              <div className="math-equation" role="math" aria-label="omega_n and zeta formulas">
+                <span className="math-symbol">ω</span><span className="math-sub">n</span>
+                <span className="math-op">=</span>
+                <span>√</span><span>(</span>
+                <div className="math-fraction">
+                  <span className="math-fraction__num"><span className="math-symbol">K</span><span className="math-sub">m</span><span className="math-op">·</span><span className="math-symbol">K</span><span className="math-sub">p</span></span>
+                  <span className="math-fraction__den"><span className="math-symbol">m</span></span>
+                </div>
+                <span>)</span>
+                <span className="math-op">,</span>
+                <span style={{ marginLeft: '0.6rem' }} className="math-symbol">ζ</span>
+                <span className="math-op">=</span>
+                <div className="math-fraction">
+                  <span className="math-fraction__num"><span className="math-symbol">c</span><span className="math-op">+</span><span className="math-symbol">K</span><span className="math-sub">m</span><span className="math-symbol">K</span><span className="math-sub">d</span></span>
+                  <span className="math-fraction__den"><span>2</span><span className="math-op">·</span><span>√</span><span>(</span><span className="math-symbol">m</span><span className="math-symbol">K</span><span className="math-sub">m</span><span className="math-symbol">K</span><span className="math-sub">p</span><span>)</span></span>
+                </div>
+              </div>
+              <p className="mechatronics-equation-desc">
+                Physical mass m and viscous rail damping c are augmented electronically by controller gains Kp and Kd.
+              </p>
+            </div>
+
+            <div className="mechatronics-equation-card">
+              <span className="mechatronics-equation-title">Peak Percent Overshoot (Transient Ringing)</span>
+              <div className="math-equation" role="math" aria-label="Mp percent formula">
+                <span className="math-symbol">M</span><span className="math-sub">p</span>
+                <span className="math-op">=</span>
+                <span>100</span><span className="math-op">·</span>
+                <span>exp</span><span>(</span>
+                <div className="math-fraction">
+                  <span className="math-fraction__num"><span className="math-op">−</span><span>π</span><span className="math-symbol">ζ</span></span>
+                  <span className="math-fraction__den"><span>√</span><span>(</span><span>1</span><span className="math-op">−</span><span className="math-symbol">ζ²</span><span>)</span></span>
+                </div>
+                <span>)</span>
+                <span>%</span>
+              </div>
+              <p className="mechatronics-equation-desc">
+                Predicts the maximum percentage the carriage travels beyond its target before settling. Increasing Kd pushes ζ toward 0.707 to minimize Mp.
+              </p>
+            </div>
+
+            <div className="mechatronics-equation-card">
+              <span className="mechatronics-equation-title">Steady-State Disturbance Droop Elimination</span>
+              <div className="math-equation" role="math" aria-label="e_ss equals F_dist over K_m K_p">
+                <span className="math-symbol">e</span><span className="math-sub">ss</span>
+                <span className="math-op">=</span>
+                <div className="math-fraction">
+                  <span className="math-fraction__num"><span className="math-symbol">F</span><span className="math-sub">dist</span></span>
+                  <span className="math-fraction__den"><span className="math-symbol">K</span><span className="math-sub">m</span><span className="math-op">·</span><span className="math-symbol">K</span><span className="math-sub">p</span></span>
+                </div>
+                <span className="math-op">⟹</span>
+                <span className="math-symbol">e</span><span className="math-sub">ss</span>
+                <span className="math-op">→</span>
+                <span>0</span>
+                <span style={{ fontSize: '0.8rem', marginLeft: '0.4rem', color: '#9da6aa' }}>(with K_i &gt; 0)</span>
+              </div>
+              <p className="mechatronics-equation-desc">
+                External cutting or payload loads cause proportional droop. Adding integral gain Ki provides infinite DC loop gain, eliminating steady-state offset completely.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Engineering Telemetry Data ── */}
+        <div className="mechatronics-data-panel">
+          <div className="mechatronics-panel-head">
+            <h2 className="mechatronics-panel-title">ENGINEERING DATA</h2>
+            <span className="mechatronics-panel-badge">REAL-TIME TELEMETRY</span>
+          </div>
+
+          <table className="mechatronics-telemetry-table" aria-label="Mechatronic simulation telemetry data">
+            <tbody>
+              <tr>
+                <td>Target Setpoint (r)</td>
+                <td>{analysis.targetPositionMm} mm</td>
+              </tr>
+              <tr>
+                <td>Actual Carriage Position (y)</td>
+                <td>{analysis.actualPositionMm} mm</td>
+              </tr>
+              <tr>
+                <td>Tracking Error (|e|)</td>
+                <td>{analysis.trackingErrorMm} mm</td>
+              </tr>
+              <tr>
+                <td>Control Effort (u)</td>
+                <td>{analysis.controlEffortVolts} V ({analysis.actuatorDutyPercent}% duty)</td>
+              </tr>
+              <tr>
+                <td>Natural Frequency (ω_n)</td>
+                <td>{analysis.naturalFrequencyRadS} rad/s ({analysis.naturalFrequencyHz} Hz)</td>
+              </tr>
+              <tr>
+                <td>Damping Ratio (ζ)</td>
+                <td>{analysis.dampingRatio} ({analysis.systemStability})</td>
+              </tr>
+              <tr>
+                <td>Peak Overshoot (Mp)</td>
+                <td>{analysis.peakOvershootPercent}%</td>
+              </tr>
+              <tr>
+                <td>Rise Time (tr)</td>
+                <td>{analysis.riseTimeSec} s</td>
+              </tr>
+              <tr>
+                <td>Settling Time (ts, 2%)</td>
+                <td>{analysis.settlingTimeSec} s</td>
+              </tr>
+              <tr>
+                <td>External Disturbance Load (F_L)</td>
+                <td>{params.disturbanceLoadN} N</td>
+              </tr>
+              <tr>
+                <td>Stability Classification</td>
+                <td>{analysis.stabilityRating}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <button
+            type="button"
+            className="thermo-data-toggle"
+            onClick={() => setShowMoreData((prev) => !prev)}
+            aria-expanded={showMoreData}
+          >
+            <span>{showMoreData ? '▲ HIDE' : '▼ VIEW'} SYSTEM CONSTANTS &amp; ASSUMPTIONS</span>
+          </button>
+
+          {showMoreData && (
+            <div className="thermo-assumptions-box">
+              <span className="thermo-assumptions-box__title">MECHATRONIC PLANT SPECIFICATION</span>
+              <div className="thermo-assumptions-list">
+                <div className="thermo-assumption-item">
+                  <strong className="thermo-assumption-item__title">Linear Carriage Mass</strong>
+                  <p className="thermo-assumption-item__statement">
+                    Total payload plus aluminum carriage assembly m = 1.25 kg riding on low-friction recirculating linear ball guides.
+                  </p>
+                </div>
+                <div className="thermo-assumption-item">
+                  <strong className="thermo-assumption-item__title">Ballscrew &amp; Motor Torque Constant</strong>
+                  <p className="thermo-assumption-item__statement">
+                    Precision ground C5 ballscrew (5 mm lead) driven by a 24V brushed DC servo with Km = 14.0 N/V effective axial thrust conversion.
+                  </p>
+                </div>
+                <div className="thermo-assumption-item">
+                  <strong className="thermo-assumption-item__title">Optical Linear Encoder Feedback</strong>
+                  <p className="thermo-assumption-item__statement">
+                    Sub-micron resolution glass scale with optical readhead transmitting position directly to the DSP loop running at 1 kHz update rate.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  )
+}
+
 // ── Main Page Router Component ─────────────────────────────────────────
 export function MechLabSystemPage() {
   const { systemId } = useParams<{ systemId: string }>()
@@ -3950,6 +4603,12 @@ export function MechLabSystemPage() {
           mode={mode}
           onSwitchMode={handleModeChange}
         />
+      ) : system.id === 'mechatronics' ? (
+        <ActiveMechatronicsLab
+          system={system}
+          mode={mode}
+          onSwitchMode={handleModeChange}
+        />
       ) : (
         <div className="mech-lab-system-page">
           <MechLabSystemHeader
@@ -3967,3 +4626,4 @@ export function MechLabSystemPage() {
     </MechLabShell>
   )
 }
+

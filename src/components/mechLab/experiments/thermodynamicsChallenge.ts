@@ -2,8 +2,8 @@ import type {
   LabChallenge,
   ThermodynamicsCycleData,
 } from '../../../data/mechLabTypes'
-import type { ThermoParams } from './thermodynamicsModel'
-import { DEFAULT_THERMO_PARAMS } from './thermodynamicsModel'
+import type { ThermoParams } from './thermodynamicsModel.ts'
+import { DEFAULT_THERMO_PARAMS } from './thermodynamicsModel.ts'
 
 export interface ThermoChallengeLevel {
   levelNumber: number
