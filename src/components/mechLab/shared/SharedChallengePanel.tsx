@@ -1,5 +1,6 @@
 import { usePointer } from '../../interaction/PointerProvider'
 import type { LabChallenge } from '../../../data/mechLabTypes'
+import { MechLabHint } from './MechLabHint'
 
 interface SharedChallengePanelProps {
   challenge: LabChallenge<any, any>
@@ -74,10 +75,8 @@ export function SharedChallengePanel({
       {/* Current Level Objective Note */}
       {activeLevelObj && (
         <div className="thermo-challenge-level-brief">
-          <strong>Mission:</strong> {activeLevelObj.objective}{' '}
-          <span className="thermo-challenge-level-brief__hint">
-            (Hint: {activeLevelObj.hint})
-          </span>
+          <strong>Mission:</strong> {activeLevelObj.objective}
+          <MechLabHint hint={activeLevelObj.hint || challenge.hint} />
         </div>
       )}
 

@@ -37,7 +37,6 @@ export function AutomotiveExperimentView({
   activeLevel = 1,
   isChallengeMode = false,
   onSwitchMode,
-  onLevelChange,
 }: AutomotiveExperimentViewProps) {
   const { setIntent, clearIntent } = usePointer()
 
@@ -67,7 +66,6 @@ export function AutomotiveExperimentView({
   const [liveRpm, setLiveRpm] = useState<number>(900)
   const [currentPhase, setCurrentPhase] = useState<'IDLE' | 'ACCEL' | 'CORNER' | 'BRAKE' | 'COMPLETE'>('IDLE')
   const [runOutcome, setRunOutcome] = useState<string>('READY FOR RUN')
-  const [showHint, setShowHint] = useState<boolean>(false)
 
   // Sandbox interactive states (throttle revving, brake clamping)
   const [isThrottling, setIsThrottling] = useState<boolean>(false)
@@ -214,92 +212,26 @@ export function AutomotiveExperimentView({
     <div className="auto-container">
       {/* ── Mode-Specific Upper Deck ─────────────────────────────── */}
       {isChallengeMode ? (
-        <div className="auto-challenge-mission-deck" aria-label="Automotive Challenge Mission Briefing">
-          <div className="auto-mission-header">
-            <div className="auto-mission-title-group">
-              <span className="auto-mission-badge">
-                MISSION // LEVEL 0{activeLevel} OF 03
-              </span>
-              <h2 className="auto-mission-heading">
-                {currentLevelInfo.levelTitle.toUpperCase()}
-              </h2>
-              <p className="auto-mission-objective">{currentLevelInfo.objective}</p>
-            </div>
-
-            {/* Level Selector Pills */}
-            <div className="auto-mission-level-pills" role="tablist" aria-label="Mission levels">
-              {AUTOMOTIVE_LEVELS.map((lvl) => (
-                <button
-                  key={lvl.levelNumber}
-                  type="button"
-                  role="tab"
-                  aria-selected={activeLevel === lvl.levelNumber}
-                  className={`auto-level-pill${activeLevel === lvl.levelNumber ? ' is-active' : ''}`}
-                  onClick={() => onLevelChange?.(lvl.levelNumber)}
-                >
-                  <span className="auto-level-pill__dot" aria-hidden="true" />
-                  <span>LVL 0{lvl.levelNumber}</span>
-                </button>
-              ))}
-            </div>
+        <div className="auto-challenge-mission-strip" aria-label="Automotive Challenge Mission Briefing">
+          <div className="auto-mission-strip-content">
+            <span className="auto-mission-badge">
+              MISSION // LEVEL 0{activeLevel} OF 03: {currentLevelInfo.levelTitle.toUpperCase()}
+            </span>
+            <span className="auto-mission-strip-goal">
+              GOAL: <strong>{currentLevelInfo.targetCriteria}</strong>
+            </span>
           </div>
-
-          {/* Target Status & Feedback Bar */}
-          <div className="auto-mission-status-bar">
-            <div className="auto-mission-criteria">
-              <span className="auto-mission-criteria__label">TARGET:</span>
-              <span className="auto-mission-criteria__val">{currentLevelInfo.targetCriteria}</span>
-            </div>
-
-            <div className="auto-mission-current">
-              <span className="auto-mission-current__label">CURRENT:</span>
-              <span className="auto-mission-current__val">
-                {activeLevel === 1 && `0–100: ${perf.sprint0to100Sec.toFixed(2)} s ${perf.hasWheelspin ? '(Spinning)' : '(Clean)'}`}
-                {activeLevel === 2 && `Braking Dist: ${perf.brakingDistanceM.toFixed(1)} m`}
-                {activeLevel === 3 && `Corner: ${perf.testCornerSpeedKmh} km/h (Margin: ${perf.gripMarginPercent > 0 ? `+${perf.gripMarginPercent}` : perf.gripMarginPercent}%)`}
-              </span>
-            </div>
-
-            <div
-              className={`auto-mission-badge-status ${
-                challengeEval.isPassed
-                  ? 'is-passed'
-                  : challengeEval.status.includes('SKID') || challengeEval.status.includes('WHEELSPIN')
-                  ? 'is-warn'
-                  : 'is-pending'
-              }`}
-            >
-              {challengeEval.isPassed ? '✓ TARGET MET' : challengeEval.status}
-            </div>
-
-            <div className="auto-mission-actions">
-              <button
-                type="button"
-                className="auto-hint-btn"
-                onClick={() => setShowHint((prev) => !prev)}
-              >
-                {showHint ? 'HIDE HINT ▴' : '💡 HINT'}
-              </button>
-
-              {challengeEval.isPassed && activeLevel < 3 && (
-                <button
-                  type="button"
-                  className="auto-btn-next-mission"
-                  onClick={() => onLevelChange?.(Math.min(3, activeLevel + 1))}
-                  onPointerEnter={() => setIntent('button', 'NEXT LEVEL')}
-                  onPointerLeave={clearIntent}
-                >
-                  NEXT LEVEL →
-                </button>
-              )}
-            </div>
+          <div
+            className={`auto-mission-strip-status ${
+              challengeEval.isPassed
+                ? 'is-passed'
+                : challengeEval.status.includes('SKID') || challengeEval.status.includes('WHEELSPIN')
+                ? 'is-warn'
+                : 'is-pending'
+            }`}
+          >
+            {challengeEval.isPassed ? 'TARGET REACHED ✓' : challengeEval.status}
           </div>
-
-          {showHint && (
-            <div className="auto-mission-hint-box" role="note">
-              <strong>Engineer Tip:</strong> {currentLevelInfo.hint}
-            </div>
-          )}
         </div>
       ) : (
         /* Explore Mode Presets Bar */
@@ -463,9 +395,9 @@ export function AutomotiveExperimentView({
                   {/* Level 1 Sprint 100 km/h finish line marker */}
                   {activeLevel === 1 && (
                     <g transform="translate(680, 230)">
-                      <line x1="0" y1="0" x2="0" y2="120" stroke="var(--sys-fluid)" strokeWidth="2.5" strokeDasharray="4 2" />
-                      <rect x="-45" y="-22" width="90" height="20" rx="3" fill="#0f172a" stroke="var(--sys-fluid)" strokeWidth="1" />
-                      <text x="0" y="-8" textAnchor="middle" fill="var(--sys-fluid)" fontSize="10" fontFamily="monospace" fontWeight="700">
+                      <line x1="0" y1="0" x2="0" y2="120" stroke="var(--sys-automotive)" strokeWidth="2.5" strokeDasharray="4 2" />
+                      <rect x="-45" y="-22" width="90" height="20" rx="3" fill="#0f172a" stroke="var(--sys-automotive)" strokeWidth="1" />
+                      <text x="0" y="-8" textAnchor="middle" fill="var(--sys-automotive)" fontSize="10" fontFamily="monospace" fontWeight="700">
                         100 KM/H GATE
                       </text>
                     </g>
@@ -485,7 +417,7 @@ export function AutomotiveExperimentView({
                   {activeLevel === 3 && (
                     <g transform="translate(420, 230)">
                       <circle cx="0" cy="65" r="50" fill="none" stroke="rgba(56, 189, 248, 0.3)" strokeWidth="2" strokeDasharray="3 3" />
-                      <text x="0" y="-8" textAnchor="middle" fill="var(--sys-fluid)" fontSize="10" fontFamily="monospace" fontWeight="700">
+                      <text x="0" y="-8" textAnchor="middle" fill="var(--sys-automotive)" fontSize="10" fontFamily="monospace" fontWeight="700">
                         APEX R = 45m (≥ 75 km/h)
                       </text>
                     </g>
@@ -644,7 +576,7 @@ export function AutomotiveExperimentView({
               <g transform="translate(560, 20)">
                 <rect x="0" y="0" width="220" height="70" rx="5" fill="rgba(10, 15, 24, 0.85)" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" />
                 <text x="14" y="22" fill="#94a3b8" fontSize="10" fontFamily="monospace">STATUS:</text>
-                <text x="70" y="22" fill="var(--sys-fluid)" fontSize="10" fontFamily="monospace" fontWeight="700">
+                <text x="70" y="22" fill="var(--sys-automotive)" fontSize="10" fontFamily="monospace" fontWeight="700">
                   {runOutcome}
                 </text>
                 <text x="14" y="42" fill="#94a3b8" fontSize="10" fontFamily="monospace">SPEED:</text>
@@ -670,7 +602,7 @@ export function AutomotiveExperimentView({
                   <path
                     d="M 15 50 A 35 35 0 0 1 85 50"
                     fill="none"
-                    stroke="var(--sys-fluid)"
+                    stroke="var(--sys-automotive)"
                     strokeWidth="8"
                     strokeDasharray="110"
                     strokeDashoffset={110 - Math.min(110, (displaySpeed / 260) * 110)}

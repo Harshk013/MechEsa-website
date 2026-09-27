@@ -499,7 +499,7 @@ export function RoboticsExperimentView({
             <div className="robotics-try-this">
               <span className="robotics-try-this__title">TRY THIS:</span>
               <p className="robotics-try-this__text">
-                Move the <strong>Shoulder</strong> to aim the arm direction $\rightarrow$ then adjust the <strong>Elbow</strong> to reach the target circle!
+                Move the <strong>Shoulder</strong> to aim the arm direction → then adjust the <strong>Elbow</strong> to reach the target circle!
               </p>
             </div>
           </div>

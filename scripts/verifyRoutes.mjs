@@ -13,7 +13,11 @@ const routes = [
   'http://localhost:5173/lab/design?mode=explore',
   'http://localhost:5173/lab/design?mode=challenge',
   'http://localhost:5173/lab/materials',
+  'http://localhost:5173/lab/materials?mode=explore',
+  'http://localhost:5173/lab/materials?mode=challenge',
   'http://localhost:5173/lab/manufacturing',
+  'http://localhost:5173/lab/manufacturing?mode=explore',
+  'http://localhost:5173/lab/manufacturing?mode=challenge',
   'http://localhost:5173/lab/mechatronics',
   'http://localhost:5173/lab/automotive',
   'http://localhost:5173/lab/automotive?mode=explore',
@@ -41,7 +45,7 @@ async function testRoutes() {
   }
 
   if (allOk) {
-    console.log('\n✓ ALL 13 LAB ROUTES RETURNED HTTP 200 OK');
+    console.log(`\n✓ ALL ${routes.length} LAB ROUTES RETURNED HTTP 200 OK`);
   } else {
     console.error('\n✗ Some routes failed');
     process.exit(1);

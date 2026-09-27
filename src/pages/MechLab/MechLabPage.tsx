@@ -141,7 +141,7 @@ export function MechLabPage() {
                     style={
                       isFull
                         ? { color: 'var(--color-success)', borderColor: 'rgba(121, 184, 154, 0.4)' }
-                        : { color: 'var(--sys-fluid)', borderColor: 'rgba(111, 179, 184, 0.35)' }
+                        : { color: sys.colorToken, borderColor: 'rgba(205, 214, 219, 0.25)' }
                     }
                   >
                     {isFull ? '● FULL EXPERIMENT' : '● INTERACTIVE STUDY'}

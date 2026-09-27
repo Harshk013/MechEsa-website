@@ -1,0 +1,571 @@
+/* src/components/mechLab/experiments/manufacturing.css */
+/* Visual styling for Manufacturing Flagship Experience: CNC Machining Center */
+
+.mfg-experiment-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+/* ── CNC Machine Tool Enclosure & Stage ───────────────────────────────── */
+.mfg-stage-card {
+  position: relative;
+  background: radial-gradient(circle at 50% 30%, #151a24 0%, #090c10 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.mfg-stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  background: rgba(15, 23, 42, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+.mfg-stage-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.mfg-stage-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+
+.mfg-stage-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mfg-stage-led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 10px #22c55e;
+  animation: mfgPulse 2s infinite ease-in-out;
+}
+
+.mfg-stage-led.is-warning {
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+}
+
+.mfg-stage-led.is-overload {
+  background: #ef4444;
+  box-shadow: 0 0 12px #ef4444;
+  animation: mfgFlash 0.5s infinite;
+}
+
+@keyframes mfgPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.9); }
+}
+
+@keyframes mfgFlash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* ── Interactive Machining Canvas Stage ───────────────────────────────── */
+.mfg-canvas-viewport {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center center;
+}
+
+.mfg-svg-canvas {
+  width: 100%;
+  height: 100%;
+  max-width: 840px;
+  overflow: visible;
+}
+
+/* ── Live Digital Readout (DRO) HUD Overlays ──────────────────────────── */
+.mfg-hud-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: rgba(10, 14, 20, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mfg-hud-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.mfg-hud-card:hover {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.mfg-hud-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+}
+
+.mfg-hud-value {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+.mfg-hud-unit {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.mfg-hud-subtext {
+  font-size: 0.68rem;
+  color: #64748b;
+  margin-top: 0.2rem;
+}
+
+/* Spindle Load Bar */
+.mfg-load-meter {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 0.35rem;
+}
+
+.mfg-load-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.25s ease-out, background-color 0.25s;
+}
+
+.mfg-load-fill.is-optimal {
+  background: linear-gradient(90deg, #22c55e, #10b981);
+}
+
+.mfg-load-fill.is-heavy {
+  background: linear-gradient(90deg, #eab308, #f59e0b);
+}
+
+.mfg-load-fill.is-overload {
+  background: linear-gradient(90deg, #f97316, #ef4444);
+}
+
+/* ── Workpiece Material Selection Cards ───────────────────────────────── */
+.mfg-materials-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mfg-selector-title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mfg-materials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.mfg-material-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.85rem;
+  background: rgba(18, 24, 38, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.mfg-material-btn:hover {
+  border-color: rgba(245, 158, 11, 0.5);
+  transform: translateY(-2px);
+  background: rgba(30, 41, 59, 0.9);
+}
+
+.mfg-material-btn.is-active {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+}
+
+.mfg-material-btn.is-active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: #f59e0b;
+}
+
+.mfg-material-name {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #f1f5f9;
+  margin-bottom: 0.2rem;
+}
+
+.mfg-material-kc {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  color: #38bdf8;
+  margin-bottom: 0.35rem;
+}
+
+.mfg-material-desc {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: #94a3b8;
+}
+
+/* ── Tooling Selection Bar ────────────────────────────────────────────── */
+.mfg-tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.mfg-tool-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  color: #cbd5e1;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mfg-tool-btn:hover {
+  border-color: rgba(56, 189, 248, 0.5);
+  background: rgba(30, 41, 59, 0.9);
+}
+
+.mfg-tool-btn.is-active {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+/* ── Parameter Controls Deck ──────────────────────────────────────────── */
+.mfg-controls-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.mfg-sliders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.mfg-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mfg-control-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.8rem;
+}
+
+.mfg-control-label {
+  font-family: var(--font-mono, monospace);
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.mfg-control-val {
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  color: #f59e0b;
+}
+
+.mfg-slider {
+  width: 100%;
+  accent-color: #f59e0b;
+  cursor: pointer;
+}
+
+.mfg-control-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: #64748b;
+  font-family: var(--font-mono, monospace);
+}
+
+/* Coolant Toggle Switch */
+.mfg-coolant-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+}
+
+.mfg-coolant-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.mfg-coolant-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #94a3b8;
+}
+
+.mfg-coolant-toggle-btn.is-active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+/* ── Quick Presets Bar ────────────────────────────────────────────────── */
+.mfg-presets-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(10, 14, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+.mfg-presets-label {
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  color: #64748b;
+  margin-right: 0.3rem;
+}
+
+.mfg-preset-chip {
+  padding: 0.3rem 0.7rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: #cbd5e1;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mfg-preset-chip:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+/* ── Deep-Dive Equations & Technical Data Grids ───────────────────────── */
+.mfg-deep-dive-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 900px) {
+  .mfg-deep-dive-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mfg-equations-card,
+.mfg-technical-data-card {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.mfg-equations-card__head,
+.mfg-technical-data-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.mfg-equations-card__title,
+.mfg-technical-data-card__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #f8fafc;
+}
+
+.mfg-equations-card__badge {
+  font-size: 0.68rem;
+  font-family: var(--font-mono, monospace);
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.mfg-technical-data-card__toggle-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mfg-technical-data-card__toggle-btn:hover {
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.mfg-equations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.mfg-equation-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mfg-equation-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.mfg-equation-item__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #38bdf8;
+  letter-spacing: 0.02em;
+}
+
+.mfg-equation-item__desc {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #94a3b8;
+}
+
+/* Technical Data Key-Value Table */
+.mfg-tech-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mfg-tech-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0.6rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.mfg-tech-row span {
+  color: #94a3b8;
+}
+
+.mfg-tech-row strong {
+  font-family: var(--font-mono, monospace);
+  color: #f1f5f9;
+}

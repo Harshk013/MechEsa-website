@@ -40,13 +40,11 @@ export function FluidExperimentView({
   activeLevel = 1,
   isChallengeMode = false,
   onSwitchMode,
-  onLevelChange,
 }: FluidExperimentViewProps) {
   const { setIntent, clearIntent } = usePointer()
 
   // Playback & Auto Flow state
   const [isFlowRunning, setIsFlowRunning] = useState<boolean>(true)
-  const [showHint, setShowHint] = useState<boolean>(false)
 
   // Fluid physics calculation
   const fluidState: FluidState = useMemo(
@@ -192,92 +190,26 @@ export function FluidExperimentView({
     <div className="fluid-container">
       {/* ── Mode-Specific Upper Deck ─────────────────────────────── */}
       {isChallengeMode ? (
-        <div className="fluid-challenge-mission-deck" aria-label="Fluid Flow Mission Briefing">
-          <div className="fluid-mission-header">
-            <div className="fluid-mission-title-group">
-              <span className="fluid-mission-badge">
-                MISSION // LEVEL 0{activeLevel} OF 03
-              </span>
-              <h2 className="fluid-mission-heading">
-                {currentLevelInfo.levelTitle.toUpperCase()}
-              </h2>
-              <p className="fluid-mission-objective">{currentLevelInfo.objective}</p>
-            </div>
-
-            {/* Level Selector Pills */}
-            <div className="fluid-mission-level-pills" role="tablist" aria-label="Mission levels">
-              {FLUID_LEVELS.map((lvl) => (
-                <button
-                  key={lvl.levelNumber}
-                  type="button"
-                  role="tab"
-                  aria-selected={activeLevel === lvl.levelNumber}
-                  className={`fluid-level-pill${activeLevel === lvl.levelNumber ? ' is-active' : ''}`}
-                  onClick={() => onLevelChange?.(lvl.levelNumber)}
-                >
-                  <span className="fluid-level-pill__dot" aria-hidden="true" />
-                  <span>LVL 0{lvl.levelNumber}</span>
-                </button>
-              ))}
-            </div>
+        <div className="fluid-challenge-mission-strip" aria-label="Fluid Flow Mission Briefing">
+          <div className="fluid-mission-strip-content">
+            <span className="fluid-mission-badge">
+              MISSION // LEVEL 0{activeLevel} OF 03: {currentLevelInfo.levelTitle.toUpperCase()}
+            </span>
+            <span className="fluid-mission-strip-goal">
+              GOAL: <strong>{currentLevelInfo.targetCriteria}</strong>
+            </span>
           </div>
-
-          {/* Target Status & Feedback Bar */}
-          <div className="fluid-mission-status-bar">
-            <div className="fluid-mission-criteria">
-              <span className="fluid-mission-criteria__label">TARGET:</span>
-              <span className="fluid-mission-criteria__val">{currentLevelInfo.targetCriteria}</span>
-            </div>
-
-            <div className="fluid-mission-current">
-              <span className="fluid-mission-current__label">CURRENT:</span>
-              <span className="fluid-mission-current__val">
-                {activeLevel === 1 && `V₂ = ${fluidState.throat.velocity.toFixed(2)} m/s`}
-                {activeLevel === 2 && `ΔP = ${fluidState.pressureDropKpa.toFixed(2)} kPa`}
-                {activeLevel === 3 && `Q = ${flowRate} L/min | ΔP = ${fluidState.pressureDropKpa.toFixed(2)} kPa`}
-              </span>
-            </div>
-
-            <div
-              className={`fluid-mission-badge-status ${
-                challengeEval.isPassed
-                  ? 'is-passed'
-                  : challengeEval.status === 'PRESSURE DROP TOO HIGH'
-                  ? 'is-warn'
-                  : 'is-pending'
-              }`}
-            >
-              {challengeEval.isPassed ? '✓ TARGET MET' : challengeEval.status}
-            </div>
-
-            <div className="fluid-mission-actions">
-              <button
-                type="button"
-                className="fluid-hint-btn"
-                onClick={() => setShowHint((prev) => !prev)}
-              >
-                {showHint ? 'HIDE HINT ▴' : '💡 HINT'}
-              </button>
-
-              {challengeEval.isPassed && activeLevel < 3 && (
-                <button
-                  type="button"
-                  className="fluid-btn-next-mission"
-                  onClick={() => onLevelChange?.(Math.min(3, activeLevel + 1))}
-                  onPointerEnter={() => setIntent('button', 'NEXT LEVEL')}
-                  onPointerLeave={clearIntent}
-                >
-                  NEXT LEVEL →
-                </button>
-              )}
-            </div>
+          <div
+            className={`fluid-mission-strip-status ${
+              challengeEval.isPassed
+                ? 'is-passed'
+                : challengeEval.status === 'PRESSURE DROP TOO HIGH'
+                ? 'is-warn'
+                : 'is-pending'
+            }`}
+          >
+            {challengeEval.isPassed ? 'TARGET REACHED ✓' : challengeEval.status}
           </div>
-
-          {showHint && (
-            <div className="fluid-mission-hint-box" role="note">
-              <strong>Engineer Tip:</strong> {currentLevelInfo.hint}
-            </div>
-          )}
         </div>
       ) : (
         /* Explore Mode Presets Bar */

@@ -1365,6 +1365,442 @@
   }
 }
 
+/* ── Engineering Mathematical Typography & Fraction Layout ── */
+.math-equation {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono, 'Courier New', monospace);
+  font-size: 1.05rem;
+  color: #f1f5f9;
+  letter-spacing: 0.02em;
+  padding: 0.4rem 0.75rem;
+  background: rgba(15, 23, 42, 0.65);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 0.35rem 0;
+  flex-wrap: wrap;
+}
+
+.math-symbol {
+  font-style: italic;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.math-sub {
+  font-size: 0.72em;
+  vertical-align: sub;
+  font-style: normal;
+  color: #94a3b8;
+}
+
+.math-sup {
+  font-size: 0.72em;
+  vertical-align: super;
+  font-style: normal;
+  color: #f59e0b;
+}
+
+.math-op {
+  color: #94a3b8;
+  padding: 0 0.15rem;
+  font-style: normal;
+}
+
+.math-fraction {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  padding: 0 0.35rem;
+  line-height: 1.15;
+}
+
+.math-fraction__num {
+  border-bottom: 1.5px solid rgba(226, 232, 240, 0.65);
+  padding-bottom: 2px;
+  text-align: center;
+  width: 100%;
+}
+
+.math-fraction__den {
+  padding-top: 2px;
+  text-align: center;
+  width: 100%;
+}
+
+/* ── Global Reusable Mech Lab Hint Dropdown ────────────────────────── */
+.mech-lab-hint {
+  background: rgba(18, 24, 32, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm, 3px);
+  margin: 0.65rem 0;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.mech-lab-hint.is-open {
+  border-color: rgba(217, 138, 61, 0.4);
+  background: rgba(24, 20, 16, 0.85);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+
+.mech-lab-hint__toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.85rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted, #94a3b8);
+  text-align: left;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.mech-lab-hint__toggle:hover {
+  color: var(--color-signal, #d98a3d);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.mech-lab-hint__label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.mech-lab-hint__bulb {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.mech-lab-hint__title {
+  color: inherit;
+}
+
+.mech-lab-hint__arrow {
+  font-size: 0.65rem;
+  color: var(--color-text-muted, #94a3b8);
+  opacity: 0.85;
+}
+
+.mech-lab-hint.is-open .mech-lab-hint__arrow {
+  color: var(--color-signal, #d98a3d);
+}
+
+.mech-lab-hint__body {
+  padding: 0.6rem 0.85rem 0.75rem 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.mech-lab-hint__text {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+
+/* ── Global Mech Lab Engineering Challenge Section ───────────────────── */
+.thermo-challenge-section {
+  background: var(--color-panel, #171d21);
+  border: 1px solid rgba(217, 138, 61, 0.35);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  transition: all 0.25s ease;
+}
+
+.thermo-challenge-section.is-passed {
+  border-color: rgba(121, 184, 154, 0.6);
+  box-shadow: 0 0 28px rgba(121, 184, 154, 0.15);
+  background: linear-gradient(180deg, rgba(23, 29, 33, 0.95) 0%, rgba(18, 35, 28, 0.6) 100%);
+}
+
+.thermo-challenge-section__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.thermo-challenge-section__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.thermo-challenge-section__badge {
+  display: flex;
+  gap: 0.5rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-signal, #d98a3d);
+}
+
+.thermo-challenge-section.is-passed .thermo-challenge-section__badge {
+  color: var(--color-success, #79b89a);
+}
+
+.thermo-challenge-section__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-text, #ffffff);
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+.thermo-challenge-section__desc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #9da6aa);
+  margin: 0;
+  max-width: 760px;
+  line-height: 1.45;
+}
+
+.thermo-challenge-section__status-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-sm, 2px);
+  white-space: nowrap;
+}
+
+.thermo-challenge-section__status-badge.is-unmet {
+  background: rgba(217, 138, 61, 0.14);
+  border: 1px solid rgba(217, 138, 61, 0.4);
+  color: var(--color-signal, #d98a3d);
+}
+
+.thermo-challenge-section__status-badge.is-passed {
+  background: rgba(121, 184, 154, 0.2);
+  border: 1px solid var(--color-success, #79b89a);
+  color: var(--color-success, #79b89a);
+  box-shadow: 0 0 14px rgba(121, 184, 154, 0.35);
+}
+
+.thermo-challenge-levels {
+  display: flex;
+  gap: 0.65rem;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.thermo-challenge-level-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1.1rem;
+  background: rgba(14, 18, 22, 0.65);
+  border: 1px solid rgba(205, 214, 219, 0.18);
+  border-radius: var(--radius-sm, 2px);
+  font-family: var(--font-mono, monospace);
+  color: var(--color-text-dim, #697276);
+  cursor: pointer;
+  transition: all var(--duration-fast, 180ms) ease;
+  white-space: nowrap;
+}
+
+.thermo-challenge-level-btn:hover {
+  background: rgba(26, 33, 38, 0.9);
+  color: var(--color-text, #ffffff);
+  border-color: rgba(205, 214, 219, 0.35);
+}
+
+.thermo-challenge-level-btn.is-active {
+  background: rgba(217, 138, 61, 0.18);
+  border-color: var(--color-signal, #d98a3d);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(217, 138, 61, 0.2);
+}
+
+.thermo-challenge-level-btn__num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--color-signal, #d98a3d);
+}
+
+.thermo-challenge-level-btn.is-active .thermo-challenge-level-btn__num {
+  color: #ffffff;
+}
+
+.thermo-challenge-level-btn__name {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.thermo-challenge-level-brief {
+  padding: 0.75rem 1rem;
+  background: rgba(14, 18, 22, 0.65);
+  border-left: 3px solid var(--color-signal, #d98a3d);
+  border-radius: 0 var(--radius-sm, 2px) var(--radius-sm, 2px) 0;
+  font-size: 0.88rem;
+  color: var(--color-text, #ffffff);
+  line-height: 1.45;
+}
+
+.thermo-challenge-level-brief__hint {
+  color: var(--color-text-dim, #697276);
+  font-size: 0.82rem;
+  display: inline-block;
+  margin-left: 0.35rem;
+}
+
+.thermo-challenge-criteria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.thermo-challenge-target-card {
+  background: rgba(14, 18, 22, 0.75);
+  border: 1px solid rgba(205, 214, 219, 0.12);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.thermo-challenge-target-card.is-met {
+  border-color: rgba(121, 184, 154, 0.5);
+  background: rgba(121, 184, 154, 0.08);
+}
+
+.thermo-challenge-target-card.is-unmet {
+  border-color: rgba(217, 138, 61, 0.35);
+}
+
+.thermo-challenge-target-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.thermo-challenge-target-card__name {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  color: var(--color-text-dim, #697276);
+  letter-spacing: 0.04em;
+}
+
+.thermo-challenge-target-card__indicator {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.thermo-challenge-target-card.is-met .thermo-challenge-target-card__indicator {
+  color: var(--color-success, #79b89a);
+}
+
+.thermo-challenge-target-card.is-unmet .thermo-challenge-target-card__indicator {
+  color: var(--color-signal, #d98a3d);
+}
+
+.thermo-challenge-target-card__val {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-text, #ffffff);
+}
+
+.thermo-challenge-target-card__requirement {
+  font-size: 0.78rem;
+  color: var(--color-text-muted, #9da6aa);
+}
+
+.thermo-challenge-target-card__requirement strong {
+  color: var(--color-text, #ffffff);
+  font-family: var(--font-mono, monospace);
+}
+
+.thermo-challenge-feedback-box {
+  padding: 0.85rem 1.15rem;
+  background: rgba(14, 18, 22, 0.85);
+  border-left: 3px solid var(--color-signal, #d98a3d);
+  border-radius: 0 var(--radius-sm, 2px) var(--radius-sm, 2px) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.thermo-challenge-feedback-box.is-passed {
+  border-left-color: var(--color-success, #79b89a);
+  background: rgba(121, 184, 154, 0.08);
+}
+
+.thermo-challenge-feedback-box__message {
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--color-text, #ffffff);
+  margin: 0;
+}
+
+.thermo-challenge-feedback-box__insight {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--color-success, #79b89a);
+  margin: 0;
+}
+
+.thermo-challenge-section__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.thermo-challenge-reset-button {
+  background: transparent;
+  border: 1px solid rgba(205, 214, 219, 0.2);
+  color: var(--color-text-muted, #9da6aa);
+  padding: 0.45rem 0.9rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  border-radius: var(--radius-sm, 2px);
+  transition: all 0.2s ease;
+}
+
+.thermo-challenge-reset-button:hover {
+  background: rgba(205, 214, 219, 0.08);
+  border-color: rgba(205, 214, 219, 0.4);
+  color: var(--color-text, #ffffff);
+}
+
+.thermo-challenge-complete-banner {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--color-success, #79b89a);
+  background: rgba(121, 184, 154, 0.12);
+  border: 1px solid rgba(121, 184, 154, 0.4);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm, 2px);
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mech-lab-card,
   .mech-lab-card__action,

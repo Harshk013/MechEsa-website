@@ -42,12 +42,10 @@ export function DesignExperimentView({
   activeLevel = 1,
   isChallengeMode = false,
   onSwitchMode,
-  onLevelChange,
 }: DesignExperimentViewProps) {
   const { setIntent, clearIntent } = usePointer()
 
   const [deflectionScale, setDeflectionScale] = useState<number>(5) // 1x, 5x, 10x visual exaggeration
-  const [showHint, setShowHint] = useState<boolean>(false)
 
   // Calculate full structural beam analysis
   const analysis: BeamAnalysis = useMemo(
@@ -170,92 +168,26 @@ export function DesignExperimentView({
     <div className="design-container">
       {/* ── Mode-Specific Upper Deck ─────────────────────────────── */}
       {isChallengeMode ? (
-        <div className="design-challenge-mission-deck" aria-label="Structural Design Mission Briefing">
-          <div className="design-mission-header">
-            <div className="design-mission-title-group">
-              <span className="design-mission-badge">
-                MISSION // LEVEL 0{activeLevel} OF 03
-              </span>
-              <h2 className="design-mission-heading">
-                {currentLevelInfo.levelTitle.toUpperCase()}
-              </h2>
-              <p className="design-mission-objective">{currentLevelInfo.objective}</p>
-            </div>
-
-            {/* Level Selector Pills */}
-            <div className="design-mission-level-pills" role="tablist" aria-label="Mission levels">
-              {DESIGN_LEVELS.map((lvl) => (
-                <button
-                  key={lvl.levelNumber}
-                  type="button"
-                  role="tab"
-                  aria-selected={activeLevel === lvl.levelNumber}
-                  className={`design-level-pill${activeLevel === lvl.levelNumber ? ' is-active' : ''}`}
-                  onClick={() => onLevelChange?.(lvl.levelNumber)}
-                >
-                  <span className="design-level-pill__dot" aria-hidden="true" />
-                  <span>LVL 0{lvl.levelNumber}</span>
-                </button>
-              ))}
-            </div>
+        <div className="design-challenge-mission-strip" aria-label="Structural Design Mission Briefing">
+          <div className="design-mission-strip-content">
+            <span className="design-mission-badge">
+              MISSION // LEVEL 0{activeLevel} OF 03: {currentLevelInfo.levelTitle.toUpperCase()}
+            </span>
+            <span className="design-mission-strip-goal">
+              GOAL: <strong>{currentLevelInfo.targetCriteria}</strong>
+            </span>
           </div>
-
-          {/* Target Status & Feedback Bar */}
-          <div className="design-mission-status-bar">
-            <div className="design-mission-criteria">
-              <span className="design-mission-criteria__label">TARGET:</span>
-              <span className="design-mission-criteria__val">{currentLevelInfo.targetCriteria}</span>
-            </div>
-
-            <div className="design-mission-current">
-              <span className="design-mission-current__label">CURRENT:</span>
-              <span className="design-mission-current__val">
-                {activeLevel === 1 && `FoS = ${analysis.factorOfSafety.toFixed(2)} (${analysis.statusRating})`}
-                {activeLevel === 2 && `FoS = ${analysis.factorOfSafety.toFixed(2)} | Mass = ${analysis.massKg.toFixed(1)} kg`}
-                {activeLevel === 3 && `FoS = ${analysis.factorOfSafety.toFixed(2)} | δ = ${analysis.tipDeflectionMm.toFixed(1)} mm | Mass = ${analysis.massKg.toFixed(1)} kg`}
-              </span>
-            </div>
-
-            <div
-              className={`design-mission-badge-status ${
-                challengeEval.isPassed
-                  ? 'is-passed'
-                  : analysis.isFailed
-                  ? 'is-failed'
-                  : 'is-pending'
-              }`}
-            >
-              {challengeEval.isPassed ? '✓ TARGET MET' : challengeEval.status}
-            </div>
-
-            <div className="design-mission-actions">
-              <button
-                type="button"
-                className="design-hint-btn"
-                onClick={() => setShowHint((prev) => !prev)}
-              >
-                {showHint ? 'HIDE HINT ▴' : '💡 HINT'}
-              </button>
-
-              {challengeEval.isPassed && activeLevel < 3 && (
-                <button
-                  type="button"
-                  className="design-btn-next-mission"
-                  onClick={() => onLevelChange?.(Math.min(3, activeLevel + 1))}
-                  onPointerEnter={() => setIntent('button', 'NEXT LEVEL')}
-                  onPointerLeave={clearIntent}
-                >
-                  NEXT LEVEL →
-                </button>
-              )}
-            </div>
+          <div
+            className={`design-mission-strip-status ${
+              challengeEval.isPassed
+                ? 'is-passed'
+                : analysis.isFailed
+                ? 'is-failed'
+                : 'is-pending'
+            }`}
+          >
+            {challengeEval.isPassed ? 'TARGET REACHED ✓' : challengeEval.status}
           </div>
-
-          {showHint && (
-            <div className="design-mission-hint-box" role="note">
-              <strong>Engineer Tip:</strong> {currentLevelInfo.hint}
-            </div>
-          )}
         </div>
       ) : (
         /* Explore Mode Presets Bar */
@@ -512,7 +444,7 @@ export function DesignExperimentView({
                     width={Math.min(50, Math.max(16, (widthMm / 200) * 50))}
                     height={Math.min(65, Math.max(22, (heightMm / 300) * 65))}
                     fill="rgba(56, 189, 248, 0.2)"
-                    stroke="var(--sys-fluid)"
+                    stroke="var(--sys-design)"
                     strokeWidth="1.5"
                   />
                   {/* Width label */}
@@ -520,7 +452,7 @@ export function DesignExperimentView({
                     x={Math.min(50, Math.max(16, (widthMm / 200) * 50)) / 2}
                     y="-5"
                     textAnchor="middle"
-                    fill="var(--sys-fluid)"
+                    fill="var(--sys-design)"
                     fontSize="9.5"
                     fontFamily="monospace"
                   >

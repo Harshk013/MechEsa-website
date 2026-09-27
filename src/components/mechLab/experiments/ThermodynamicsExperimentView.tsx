@@ -388,7 +388,7 @@ function ThermodynamicsApparatus({
         </span>
         <span
           className="thermo-apparatus__tag"
-          style={{ color: effectiveStage === 3 ? 'var(--color-signal)' : 'var(--sys-fluid)' }}
+          style={{ color: effectiveStage === 3 ? 'var(--color-signal)' : 'var(--sys-thermodynamics)' }}
         >
           {effectiveStage === 1 && 'INTAKE AT BDC'}
           {effectiveStage === 2 && 'COMPRESSION AT TDC'}

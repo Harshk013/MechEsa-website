@@ -1,5 +1,7 @@
 import type { LabChallenge, ChallengeEvaluation } from './mechLabTypes'
 import { THERMODYNAMICS_CHALLENGE, THERMODYNAMICS_LEVELS } from '../components/mechLab/experiments/thermodynamicsChallenge'
+import { MATERIALS_FLAGSHIP_CHALLENGE, MATERIALS_LEVELS } from '../components/mechLab/experiments/materialsChallenge'
+import { MANUFACTURING_FLAGSHIP_CHALLENGE, MANUFACTURING_LEVELS } from '../components/mechLab/experiments/manufacturingChallenge'
 
 export const SYSTEM_CHALLENGES: Record<string, LabChallenge<any, any>> = {
   thermodynamics: {
@@ -229,228 +231,25 @@ export const SYSTEM_CHALLENGES: Record<string, LabChallenge<any, any>> = {
   },
 
   materials: {
-    id: 'materials-beam',
-    systemId: 'materials',
-    title: 'BEAM DEFLECTION & SAFETY',
-    description: 'Control the transverse bending load applied to a simply supported beam to maximize load carrying while keeping deflection within structural limits.',
-    hint: 'Bending deflection scales non-linearly with load: Delta ~ F * L^3 / (48 * E * I).',
-    levels: [
-      {
-        levelNumber: 1,
-        levelTitle: 'Safe Elastic Loading',
-        objective: 'Apply an initial load of at least 30% while keeping deflection under 8 mm.',
-        hint: 'Loads up to 45% remain comfortably in the low elastic range.',
-        targets: [
-          {
-            id: 'mat-load1',
-            label: 'APPLIED LOAD',
-            targetDisplay: '≥ 30%',
-            isMet: (p) => (p?.appliedLoad ?? 0) >= 30,
-            currentDisplay: (p) => `${p?.appliedLoad ?? 0}%`,
-          },
-          {
-            id: 'mat-defl1',
-            label: 'DEFLECTION',
-            targetDisplay: '≤ 8.0 mm',
-            isMet: (p) => Math.pow((p?.appliedLoad ?? 0) / 100, 2) * 28 <= 8.0,
-            currentDisplay: (p) => `${(Math.pow((p?.appliedLoad ?? 0) / 100, 2) * 28).toFixed(1)} mm`,
-          },
-        ],
-      },
-      {
-        levelNumber: 2,
-        levelTitle: 'Controlled High Load',
-        objective: 'Carry at least 50% load while keeping total deflection below 12 mm.',
-        hint: 'Between 50% and 65% load, deflection grows as the square of applied force.',
-        targets: [
-          {
-            id: 'mat-load2',
-            label: 'APPLIED LOAD',
-            targetDisplay: '≥ 50%',
-            isMet: (p) => (p?.appliedLoad ?? 0) >= 50,
-            currentDisplay: (p) => `${p?.appliedLoad ?? 0}%`,
-          },
-          {
-            id: 'mat-defl2',
-            label: 'DEFLECTION',
-            targetDisplay: '≤ 12.0 mm',
-            isMet: (p) => Math.pow((p?.appliedLoad ?? 0) / 100, 2) * 28 <= 12.0,
-            currentDisplay: (p) => `${(Math.pow((p?.appliedLoad ?? 0) / 100, 2) * 28).toFixed(1)} mm`,
-          },
-        ],
-      },
-      {
-        levelNumber: 3,
-        levelTitle: 'Maximum Elastic Threshold',
-        objective: 'Push load between 60% and 72% while ensuring deflection does not exceed 15 mm.',
-        hint: 'Carefully balance the load slider just below the high-response threshold.',
-        targets: [
-          {
-            id: 'mat-load3',
-            label: 'LOAD RANGE',
-            targetDisplay: '60% – 72%',
-            isMet: (p) => (p?.appliedLoad ?? 0) >= 60 && (p?.appliedLoad ?? 0) <= 72,
-            currentDisplay: (p) => `${p?.appliedLoad ?? 0}%`,
-          },
-          {
-            id: 'mat-defl3',
-            label: 'MAX DEFLECTION',
-            targetDisplay: '≤ 15.0 mm',
-            isMet: (p) => Math.pow((p?.appliedLoad ?? 0) / 100, 2) * 28 <= 15.0,
-            currentDisplay: (p) => `${(Math.pow((p?.appliedLoad ?? 0) / 100, 2) * 28).toFixed(1)} mm`,
-          },
-        ],
-      },
-    ],
-    targets: [
-      {
-        id: 'mat-load',
-        label: 'LOAD CAPACITY',
-        targetDisplay: '≥ 50%',
-        isMet: (p) => (p?.appliedLoad ?? 0) >= 50,
-        currentDisplay: (p) => `${p?.appliedLoad ?? 0}%`,
-      },
-      {
-        id: 'mat-defl',
-        label: 'DEFLECTION LIMIT',
-        targetDisplay: '≤ 12.0 mm',
-        isMet: (p) => Math.pow((p?.appliedLoad ?? 0) / 100, 2) * 28 <= 12.0,
-        currentDisplay: (p) => `${(Math.pow((p?.appliedLoad ?? 0) / 100, 2) * 28).toFixed(1)} mm`,
-      },
-    ],
-    evaluate: (params, _result, level = 1): ChallengeEvaluation => {
-      const load = params?.appliedLoad ?? 0
-      const deflection = Math.pow(load / 100, 2) * 28
-      if (level === 1) {
-        const passed = load >= 30 && deflection <= 8.0
-        return {
-          isPassed: passed,
-          status: passed ? 'TARGET ACHIEVED' : 'NOT QUITE',
-          feedbackMessage: passed
-            ? 'Elastic load test verified with minimal structural deflection.'
-            : 'Load is either too low (< 30%) or deflection exceeds 8.0 mm limit.',
-          engineeringInsight: 'Elastic modulus governs deflection under small strain conditions.',
-        }
-      }
-      if (level === 2) {
-        const passed = load >= 50 && deflection <= 12.0
-        return {
-          isPassed: passed,
-          status: passed ? 'TARGET ACHIEVED' : 'NOT QUITE',
-          feedbackMessage: passed
-            ? `Excellent! Carrying ${load}% load with ${deflection.toFixed(1)} mm deflection.`
-            : `Current deflection is ${deflection.toFixed(1)} mm. Keep load near 55% to stay under 12.0 mm.`,
-          engineeringInsight: 'Bending stress sigma = M * y / I is highest at the outermost fibers.',
-        }
-      }
-      const passed = load >= 60 && load <= 72 && deflection <= 15.0
-      return {
-        isPassed: passed,
-        status: passed ? 'TARGET ACHIEVED' : 'NOT QUITE',
-        feedbackMessage: passed
-          ? `High elastic threshold achieved! Load ${load}% safely balanced with ${deflection.toFixed(1)} mm deflection.`
-          : `Out of range. Target load between 60% and 72% with deflection <= 15 mm.`,
-        engineeringInsight: 'Exceeding yield strength causes permanent plastic strain.',
-      }
-    },
+    ...MATERIALS_FLAGSHIP_CHALLENGE,
+    levels: MATERIALS_LEVELS.map((lvl) => ({
+      levelNumber: lvl.levelNumber,
+      levelTitle: lvl.levelTitle,
+      objective: lvl.objective,
+      hint: lvl.hint,
+      targets: MATERIALS_FLAGSHIP_CHALLENGE.targets,
+    })),
   },
 
   manufacturing: {
-    id: 'mfg-cutting',
-    systemId: 'manufacturing',
-    title: 'PRECISION CNC MACHINING',
-    description: 'Advance the cutting tool along the planned toolpath to remove stock material and form the finished part profile.',
-    hint: 'Material removal rate progresses continuously as the cutter traverses the coordinate envelope.',
-    levels: [
-      {
-        levelNumber: 1,
-        levelTitle: 'Roughing Cut',
-        objective: 'Traverse the tool to complete at least 40% of the bulk stock removal.',
-        hint: 'Advance the cutting progress slider past 40%.',
-        targets: [
-          {
-            id: 'mfg-prog1',
-            label: 'MACHINING PROGRESS',
-            targetDisplay: '≥ 40%',
-            isMet: (p) => (p?.progress ?? 0) >= 40,
-            currentDisplay: (p) => `${p?.progress ?? 0}%`,
-          },
-        ],
-      },
-      {
-        levelNumber: 2,
-        levelTitle: 'Semi-Finish Contouring',
-        objective: 'Complete at least 75% of the toolpath passes.',
-        hint: 'Guide the cutter through the central contour steps.',
-        targets: [
-          {
-            id: 'mfg-prog2',
-            label: 'MACHINING PROGRESS',
-            targetDisplay: '≥ 75%',
-            isMet: (p) => (p?.progress ?? 0) >= 75,
-            currentDisplay: (p) => `${p?.progress ?? 0}%`,
-          },
-        ],
-      },
-      {
-        levelNumber: 3,
-        levelTitle: 'Final Finished Part',
-        objective: 'Achieve 100% toolpath completion to produce the fully formed part profile.',
-        hint: 'Complete the final smoothing pass to 100%.',
-        targets: [
-          {
-            id: 'mfg-prog3',
-            label: 'FINISHED PROFILE',
-            targetDisplay: '100% (FINISHED)',
-            isMet: (p) => (p?.progress ?? 0) >= 100,
-            currentDisplay: (p) => `${p?.progress ?? 0}%`,
-          },
-        ],
-      },
-    ],
-    targets: [
-      {
-        id: 'mfg-prog',
-        label: 'TOOLPATH COMPLETION',
-        targetDisplay: '≥ 75%',
-        isMet: (p) => (p?.progress ?? 0) >= 75,
-        currentDisplay: (p) => `${p?.progress ?? 0}%`,
-      },
-    ],
-    evaluate: (params, _result, level = 1): ChallengeEvaluation => {
-      const prog = params?.progress ?? 0
-      if (level === 1) {
-        const passed = prog >= 40
-        return {
-          isPassed: passed,
-          status: passed ? 'TARGET ACHIEVED' : 'NOT QUITE',
-          feedbackMessage: passed
-            ? 'Roughing pass complete! Bulk stock material successfully excised.'
-            : 'Continue advancing the cutter to reach at least 40% removal.',
-          engineeringInsight: 'Roughing passes prioritize high volumetric material removal over finish.',
-        }
-      }
-      if (level === 2) {
-        const passed = prog >= 75
-        return {
-          isPassed: passed,
-          status: passed ? 'TARGET ACHIEVED' : 'NOT QUITE',
-          feedbackMessage: passed
-            ? 'Semi-finish contouring reached. Profile steps are clearly defined.'
-            : `Current progress is ${prog}%. Advance further along the toolpath.`,
-          engineeringInsight: 'Stepover distance controls scallop height and resultant surface finish.',
-        }
-      }
-      const passed = prog >= 100
-      return {
-        isPassed: passed,
-        status: passed ? 'TARGET ACHIEVED' : 'NOT QUITE',
-        feedbackMessage: passed
-          ? 'Part machining 100% complete! Final profile verified to tolerance.'
-          : `Current progress is ${prog}%. Push the cutter to 100% to finalize.`,
-        engineeringInsight: 'Climb milling improves surface finish by beginning cut at maximum chip thickness.',
-      }
-    },
+    ...MANUFACTURING_FLAGSHIP_CHALLENGE,
+    levels: MANUFACTURING_LEVELS.map((lvl) => ({
+      levelNumber: lvl.levelNumber,
+      levelTitle: lvl.levelTitle,
+      objective: lvl.objective,
+      hint: lvl.hint,
+      targets: MANUFACTURING_FLAGSHIP_CHALLENGE.targets,
+    })),
   },
 
   mechatronics: {

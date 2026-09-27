@@ -234,22 +234,22 @@ export function getBeamDynamicExplanation(
 export const DESIGN_EQUATIONS = [
   {
     title: 'Area Moment of Inertia (Bending Resistance)',
-    formula: 'I = \\frac{w \\cdot h^3}{12}',
+    formula: 'I = (w · h³) / 12',
     explanation: 'Height (h) contributes cubically to bending stiffness. A taller beam is exponentially more resistant to bending than a wider beam of equal area.',
   },
   {
     title: 'Flexural Bending Stress (Euler-Bernoulli)',
-    formula: '\\sigma_{\\text{max}} = \\frac{M \\cdot y}{I} = \\frac{6 \\cdot F \\cdot L}{w \\cdot h^2}',
+    formula: 'σ_max = (M · y) / I = (6 · F · L) / (w · h²)',
     explanation: 'Maximum normal stress occurs at the outermost top and bottom fibers at the fixed support root. It must not exceed the material yield strength.',
   },
   {
     title: 'Cantilever Tip Deflection',
-    formula: '\\delta_{\\text{max}} = \\frac{F \\cdot L^3}{3 \\cdot E \\cdot I}',
+    formula: 'δ_max = (F · L³) / (3 · E · I)',
     explanation: 'Deflection measures elastic sag under load. It is directly proportional to applied force F and length cubed L³, and inversely proportional to flexural rigidity E·I.',
   },
   {
     title: 'Factor of Safety (Design Margin)',
-    formula: '\\text{FoS} = \\frac{\\sigma_{\\text{yield}}}{\\sigma_{\\text{max}}} \\ge 1.5',
+    formula: 'FoS = σ_yield / σ_max ≥ 1.5',
     explanation: 'Engineering structures require FoS ≥ 1.5 to 2.0 to guard against manufacturing tolerances, fatigue, and unexpected peak shock loads.',
   },
 ]

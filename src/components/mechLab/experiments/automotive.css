@@ -5,11 +5,73 @@
   width: 100%;
 }
 
-/* ── Mode-Specific Mission Deck (Challenge Mode) ─────────────── */
+/* ── Mode-Specific Mission Strip (Challenge Mode) ─────────────── */
+.auto-challenge-mission-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.15rem;
+  background: linear-gradient(180deg, rgba(18, 21, 27, 0.95), rgba(13, 16, 21, 0.95));
+  border: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.12));
+  border-left: 3px solid var(--sys-automotive, #c77b5a);
+  border-radius: var(--radius-sm, 2px);
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  flex-wrap: wrap;
+}
+
+.auto-mission-strip-content {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.auto-mission-strip-goal {
+  font-size: 0.82rem;
+  color: var(--color-text-muted, #94a3b8);
+}
+
+.auto-mission-strip-goal strong {
+  color: var(--color-text, #ffffff);
+  font-family: var(--font-mono, monospace);
+}
+
+.auto-mission-strip-status {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-sm, 2px);
+  white-space: nowrap;
+}
+
+.auto-mission-strip-status.is-passed {
+  background: rgba(121, 184, 154, 0.2);
+  border: 1px solid var(--color-success, #79b89a);
+  color: var(--color-success, #79b89a);
+  box-shadow: 0 0 10px rgba(121, 184, 154, 0.3);
+}
+
+.auto-mission-strip-status.is-warn {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+  color: #ef4444;
+}
+
+.auto-mission-strip-status.is-pending {
+  background: rgba(217, 138, 61, 0.14);
+  border: 1px solid rgba(217, 138, 61, 0.4);
+  color: var(--color-signal, #d98a3d);
+}
+
+/* ── Mode-Specific Mission Deck (Legacy / Fallback) ─────────────── */
 .auto-challenge-mission-deck {
   background: linear-gradient(180deg, rgba(18, 21, 27, 0.95), rgba(13, 16, 21, 0.95));
   border: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.12));
-  border-left: 3px solid var(--sys-automotive, #e27d60);
+  border-left: 3px solid var(--sys-automotive, #c77b5a);
   border-radius: var(--radius-md, 8px);
   padding: 1.15rem 1.25rem;
   margin-bottom: 1.25rem;

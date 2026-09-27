@@ -49,7 +49,7 @@ export const labSystemsData: LabSystemConfig[] = [
     title: 'Materials',
     shortLabel: 'MATERIALS',
     colorToken: 'var(--sys-materials)',
-    status: 'IN DEVELOPMENT',
+    status: 'AVAILABLE',
     exploreDescription: 'Push a material until it bends, stretches, or fails.',
     focus: 'Crystal structure, tensile strength, and factor of safety under load.',
     parameters: [
@@ -70,7 +70,7 @@ export const labSystemsData: LabSystemConfig[] = [
     title: 'Manufacturing',
     shortLabel: 'MFG',
     colorToken: 'var(--sys-manufacturing)',
-    status: 'IN DEVELOPMENT',
+    status: 'AVAILABLE',
     exploreDescription: 'Choose how to make your part and discover the trade-offs.',
     focus: 'Process planning, cutter kinematics, and surface finish precision.',
     parameters: [
