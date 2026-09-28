@@ -1,0 +1,88 @@
+/* ==========================================================================
+   HERO MECHANICAL ENVIRONMENT — SUBTLE ANIMATED LABORATORY SCHEMATIC
+   ========================================================================== */
+
+.home-hero__mechanical-env {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  user-select: none;
+}
+
+.mech-env__atmosphere {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 48%, rgba(20, 26, 32, 0.25) 0%, rgba(12, 16, 18, 0.75) 55%, #090b0d 100%),
+    radial-gradient(circle at 80% 25%, rgba(93, 156, 236, 0.035), transparent 45%),
+    radial-gradient(circle at 20% 75%, rgba(217, 138, 61, 0.025), transparent 40%);
+  pointer-events: none;
+}
+
+.mech-env__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.92;
+  will-change: transform;
+}
+
+/* Gear Cluster Rotations */
+.mech-env__gear--main {
+  transform-origin: 800px 480px;
+  animation: mech-env-cw 130s linear infinite;
+}
+
+.mech-env__gear--pinion {
+  transform-origin: 1260px 240px;
+  animation: mech-env-ccw 54s linear infinite;
+}
+
+.mech-env__gear--idler {
+  transform-origin: 340px 720px;
+  animation: mech-env-ccw 72s linear infinite;
+}
+
+.mech-env__radar-sweep {
+  transform-origin: 800px 480px;
+  animation: mech-env-cw 48s linear infinite;
+  opacity: 0.75;
+}
+
+@keyframes mech-env-cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mech-env-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  .mech-env__gear--main,
+  .mech-env__gear--pinion,
+  .mech-env__gear--idler,
+  .mech-env__radar-sweep {
+    animation: none !important;
+  }
+}
+
+/* Responsive Dimming */
+@media (max-width: 900px) {
+  .mech-env__svg {
+    opacity: 0.65;
+  }
+}

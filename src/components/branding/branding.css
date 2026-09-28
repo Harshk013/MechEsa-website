@@ -1,0 +1,106 @@
+/* ==========================================================================
+   MechESA Branding & Wordmark Stylesheet
+   Pure vector SVG lockup, sharp across high-DPI and mobile viewports
+   ========================================================================== */
+
+.mechesa-brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--color-text, #edf1f2);
+  line-height: 1;
+  transition: opacity var(--duration-fast, 180ms) ease;
+  user-select: none;
+}
+
+.mechesa-brand-lockup:hover {
+  opacity: 0.92;
+}
+
+.mechesa-brand-lockup__emblem-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mechesa-brand-lockup__emblem {
+  color: var(--color-signal, #d98a3d);
+  filter: drop-shadow(0 0 10px rgba(217, 138, 61, 0.28));
+  transition: transform var(--duration-normal, 380ms) var(--ease-precision, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.mechesa-brand-lockup:hover .mechesa-brand-lockup__emblem {
+  transform: rotate(-4deg) scale(1.04);
+}
+
+.mechesa-brand-lockup__text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.mechesa-brand-lockup__wordmark {
+  color: var(--color-text, #edf1f2);
+  transition: color var(--duration-fast, 180ms) ease;
+}
+
+.mechesa-brand-lockup__sub {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mechesa-brand-lockup__sub-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--color-border-strong, rgba(205, 214, 219, 0.24));
+}
+
+.mechesa-brand-lockup__sub-text {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--color-text-dim, #697276);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* ─── Responsive adjustments ──────────────────────────────────────────────── */
+
+@media (max-width: 1120px) {
+  .mechesa-brand-lockup__sub {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .mechesa-brand-lockup {
+    gap: 8px;
+  }
+
+  .mechesa-brand-lockup__emblem {
+    height: 28px !important;
+  }
+
+  .mechesa-brand-lockup__wordmark {
+    height: 24px !important;
+  }
+
+  .mechesa-brand-lockup__sub {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .mechesa-brand-lockup__emblem {
+    height: 24px !important;
+  }
+
+  .mechesa-brand-lockup__wordmark {
+    height: 20px !important;
+  }
+}

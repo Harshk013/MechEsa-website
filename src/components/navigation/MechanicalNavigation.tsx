@@ -1,4 +1,4 @@
-﻿import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { navigation } from '../../data/site'
@@ -6,6 +6,7 @@ import { SystemIndicator } from '../telemetry/SystemIndicator'
 import { RepresentationToggle } from '../system/RepresentationToggle/RepresentationToggle'
 import { useMotionSettings } from '../../app/providers/MotionProvider'
 import { usePointer } from '../interaction/PointerProvider'
+import { MechESALogo } from '../branding/MechESALogo'
 
 export function MechanicalNavigation() {
   const location = useLocation()
@@ -28,21 +29,21 @@ export function MechanicalNavigation() {
   return <>
     <header className="mechanical-nav" aria-label="Primary navigation">
       <NavLink to="/" className="mechanical-nav__brand" onPointerEnter={() => setIntent('link', 'HOME')} onPointerLeave={clearIntent}>
-        <span className="mechanical-nav__brand-mark">MECHESA</span><span className="mechanical-nav__brand-sub">IIT INDORE / MECHANICAL SYSTEMS</span>
+        <MechESALogo />
       </NavLink>
       <nav className="mechanical-nav__links" aria-label="Desktop">
         {navigation.map((item, index) => <NavItem key={item.path} href={item.path} label={item.label} number={String(index + 1).padStart(2, '0')} />)}
       </nav>
-      <div className="mechanical-nav__status"><SystemIndicator state="online" label="SYSTEM ONLINE" /><RepresentationToggle /><button className="mechanical-nav__mobile-trigger" aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen((value) => !value)} onPointerEnter={() => setIntent('button', open ? 'CLOSE' : 'ACCESS')} onPointerLeave={clearIntent}><span>{open ? 'CLOSE' : 'MENU'}</span><i aria-hidden="true" /></button></div>
+      <div className="mechanical-nav__status"><SystemIndicator state="online" label="ASSOCIATION ACTIVE" /><RepresentationToggle /><button className="mechanical-nav__mobile-trigger" aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen((value) => !value)} onPointerEnter={() => setIntent('button', open ? 'CLOSE' : 'ACCESS')} onPointerLeave={clearIntent}><span>{open ? 'CLOSE' : 'MENU'}</span><i aria-hidden="true" /></button></div>
     </header>
     <AnimatePresence>
       {open && <motion.div id="mobile-navigation" className="mobile-machine-menu" initial="hidden" animate="visible" exit="hidden" variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}>
         <div className="mobile-machine-menu__frame">
-          <div className="mobile-machine-menu__head"><span className="technical-small">MECHESA CORE / ACCESS PANEL</span><div className="mobile-machine-menu__status"><SystemIndicator state="online" label="SYSTEM ONLINE" /><RepresentationToggle /></div></div>
+          <div className="mobile-machine-menu__head"><span className="technical-small">MECHESA // STUDENT ASSOCIATION</span><div className="mobile-machine-menu__status"><SystemIndicator state="online" label="ONLINE" /><RepresentationToggle /></div></div>
           <nav className="mobile-machine-menu__links" aria-label="Mobile">
             {navigation.map((item, index) => <motion.div key={item.path} variants={variants} transition={{ delay: reducedMotion ? 0 : index * 0.045 }} initial="hidden" animate="visible" exit="hidden"><NavItem href={item.path} label={item.label} number={String(index + 1).padStart(2, '0')} mobile onNavigate={() => setOpen(false)} linkRef={index === 0 ? firstMobileLinkRef : undefined} /></motion.div>)}
           </nav>
-          <div className="mobile-machine-menu__foot"><span className="technical-small">ESC / CLOSE</span><span className="technical-small">BUILD 03 / GLOBAL INTERACTION</span></div>
+          <div className="mobile-machine-menu__foot"><span className="technical-small">ESC / CLOSE</span><span className="technical-small">IIT INDORE // MECHANICAL ENGINEERING</span></div>
         </div>
       </motion.div>}
     </AnimatePresence>

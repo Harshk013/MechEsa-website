@@ -1,47 +1,115 @@
-export interface AboutPrinciple {
+// ==========================================================================
+// MECHESA ABOUT PAGE DATA
+// Simple, realistic, editable data for MechESA IIT Indore
+// ==========================================================================
+
+export interface AboutActivity {
   id: string
   index: string
   title: string
+  subtitle: string
   description: string
+  tag: string
 }
 
-export interface AboutLoopStage {
+export interface AboutDiscipline {
   id: string
   index: string
   title: string
+  tag: string
   description: string
-  output: string
 }
 
-export interface AboutManifestoLine {
-  id: string
-  index: string
-  text: string
-  annotation: string
-}
-
-export const aboutPrinciples: AboutPrinciple[] = [
-  { id: 'understand', index: '01', title: 'UNDERSTAND', description: 'Study forces, constraints, materials and systems before changing them.' },
-  { id: 'design', index: '02', title: 'DESIGN', description: 'Turn requirements into geometry, mechanisms and deliberate decisions.' },
-  { id: 'build', index: '03', title: 'BUILD', description: 'Move from equations and screens into physical form.' },
-  { id: 'test', index: '04', title: 'TEST', description: 'Measure what actually happens and compare it with the model.' },
-  { id: 'iterate', index: '05', title: 'ITERATE', description: 'Use evidence to improve the system rather than protect the first idea.' },
-  { id: 'move', index: '06', title: 'MOVE', description: 'Engineering becomes meaningful when ideas become motion.' },
+export const aboutActivities: AboutActivity[] = [
+  {
+    id: 'events',
+    index: '01',
+    title: 'EVENTS',
+    subtitle: 'TECHNICAL & STUDENT CONCLAVES',
+    description: 'Technical and student-focused events throughout the academic year, bringing students together to share ideas.',
+    tag: 'ACTIVITIES',
+  },
+  {
+    id: 'workshops',
+    index: '02',
+    title: 'WORKSHOPS',
+    subtitle: 'HANDS-ON LEARNING',
+    description: 'Hands-on sessions and opportunities to learn new skills in CAD modeling, simulation, and practical engineering.',
+    tag: 'LEARNING',
+  },
+  {
+    id: 'industry-visits',
+    index: '03',
+    title: 'INDUSTRY VISITS',
+    subtitle: 'PRACTICAL EXPOSURE',
+    description: 'Exposure to real-world engineering environments, industrial manufacturing plants, and industry practices.',
+    tag: 'EXPOSURE',
+  },
+  {
+    id: 'student-engagement',
+    index: '04',
+    title: 'STUDENT ACTIVITIES',
+    subtitle: 'COMMUNITY & PEER LEARNING',
+    description: 'Interactive sessions, senior-junior peer mentorship, and activities that bring Mechanical Engineering students together.',
+    tag: 'COMMUNITY',
+  },
 ]
 
-export const aboutLoopStages: AboutLoopStage[] = [
-  { id: 'learn', index: '01', title: 'LEARN', description: 'Technical knowledge, workshops and peer learning.', output: 'KNOWLEDGE' },
-  { id: 'experiment', index: '02', title: 'EXPERIMENT', description: 'Explore mechanisms, materials, simulations and systems.', output: 'EVIDENCE' },
-  { id: 'build', index: '03', title: 'BUILD', description: 'Turn ideas into physical form and testable systems.', output: 'PROTOTYPE' },
-  { id: 'share', index: '04', title: 'SHARE', description: 'Document and communicate engineering work.', output: 'DOCUMENT' },
-  { id: 'repeat', index: '05', title: 'REPEAT', description: 'Return to the problem with better information.', output: 'ITERATION' },
-]
-
-export const aboutManifesto: AboutManifestoLine[] = [
-  { id: 'question', index: '01', text: 'WE QUESTION THE SYSTEM.', annotation: 'ASSUMPTION / INSPECT' },
-  { id: 'geometry', index: '02', text: 'WE DRAW THE GEOMETRY.', annotation: 'FORM / DEFINE' },
-  { id: 'part', index: '03', text: 'WE BUILD THE PART.', annotation: 'MATERIAL / FABRICATE' },
-  { id: 'measure', index: '04', text: 'WE MEASURE THE RESULT.', annotation: 'DATA / VERIFY' },
-  { id: 'iterate', index: '05', text: 'WE ITERATE.', annotation: 'EVIDENCE / IMPROVE' },
-  { id: 'motion', index: '06', text: 'WE KEEP MOVING.', annotation: 'SYSTEM / MOTION' },
+export const aboutDisciplines: AboutDiscipline[] = [
+  {
+    id: 'design',
+    index: '01',
+    title: 'Design',
+    tag: 'CAD / MODELING',
+    description: 'Geometry, mechanism design, 3D modeling, and turning ideas into buildable parts.',
+  },
+  {
+    id: 'manufacturing',
+    index: '02',
+    title: 'Manufacturing',
+    tag: 'MACHINING / CNC',
+    description: 'Machining, CNC processes, rapid prototyping, and production methods.',
+  },
+  {
+    id: 'thermodynamics',
+    index: '03',
+    title: 'Thermodynamics',
+    tag: 'ENERGY / HEAT',
+    description: 'Energy systems, heat transfer, refrigeration cycles, and thermal behavior.',
+  },
+  {
+    id: 'fluid',
+    index: '04',
+    title: 'Fluid Mechanics',
+    tag: 'FLOW / PRESSURE',
+    description: 'Fluid dynamics, aerodynamics, pumps, piping systems, and flow forces.',
+  },
+  {
+    id: 'robotics',
+    index: '05',
+    title: 'Robotics',
+    tag: 'KINEMATICS / CONTROL',
+    description: 'Robotic mechanisms, kinematic chains, motion control, and automation.',
+  },
+  {
+    id: 'automotive',
+    index: '06',
+    title: 'Automotive',
+    tag: 'VEHICLE / POWERTRAIN',
+    description: 'Vehicle dynamics, suspension setups, powertrain layouts, and mobility engineering.',
+  },
+  {
+    id: 'materials',
+    index: '07',
+    title: 'Materials',
+    tag: 'METALS / POLYMERS',
+    description: 'Material properties, stress-strain behavior, testing, and material selection.',
+  },
+  {
+    id: 'mechatronics',
+    index: '08',
+    title: 'Mechatronics',
+    tag: 'SENSING / ACTUATION',
+    description: 'Mechanical systems coupled with sensors, electronics, microcontrollers, and actuators.',
+  },
 ]
