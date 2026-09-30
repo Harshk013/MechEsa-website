@@ -179,7 +179,7 @@ export function TeamPage() {
             </div>
             <CursorTarget intent="link" label="OPEN">
               <Link className="mechanical-button mechanical-button--primary label" to="/blogs">
-                READ STORIES ↗
+                <span>READ STORIES</span> <span className="btn-arrow" aria-hidden="true">↗</span>
               </Link>
             </CursorTarget>
           </div>

@@ -163,3 +163,549 @@
     opacity: .16;
   }
 }
+
+/* ==========================================================================
+   UNIFIED BLUEPRINT MODE — ALL 8 ENGINEERING SYSTEMS
+   CAD Linework, Technical Dimensions, Schematics & Datum Markings
+   ========================================================================== */
+
+/* ── 01. Shared Blueprint Engineering Canvas & Frame ─────────────────────── */
+
+.engineering-lab.is-blueprint .thermo-instrument__visual,
+.engineering-lab.is-blueprint .fluid-instrument__visual,
+.engineering-lab.is-blueprint .manufacturing-instrument__visual,
+.engineering-lab.is-blueprint .robotics-instrument__visual,
+.engineering-lab.is-blueprint .mechanical-systems-instrument__visual,
+html[data-representation="blueprint"] .thermo-instrument__visual,
+html[data-representation="blueprint"] .fluid-instrument__visual,
+html[data-representation="blueprint"] .manufacturing-instrument__visual,
+html[data-representation="blueprint"] .robotics-instrument__visual,
+html[data-representation="blueprint"] .mechanical-systems-instrument__visual {
+  background-color: #071524 !important;
+  background-image: 
+    linear-gradient(rgba(130, 169, 199, 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(130, 169, 199, 0.22) 1px, transparent 1px),
+    linear-gradient(rgba(130, 169, 199, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(130, 169, 199, 0.08) 1px, transparent 1px),
+    radial-gradient(ellipse 75% 65% at 50% 50%, #0d283e 0%, #071726 65%, #05101a 100%) !important;
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px, 100% 100% !important;
+  background-repeat: repeat, repeat, repeat, repeat, no-repeat !important;
+  border: 1px solid rgba(130, 169, 199, 0.65) !important;
+  box-shadow: inset 0 0 54px rgba(0, 0, 0, 0.7), 0 0 20px rgba(130, 169, 199, 0.16) !important;
+  transition: background 300ms var(--ease-ui), border-color 300ms var(--ease-ui), box-shadow 300ms var(--ease-ui);
+}
+
+.engineering-lab.is-blueprint .thermo-instrument,
+.engineering-lab.is-blueprint .fluid-instrument,
+.engineering-lab.is-blueprint .manufacturing-instrument,
+.engineering-lab.is-blueprint .robotics-instrument,
+.engineering-lab.is-blueprint .mechanical-systems-instrument,
+html[data-representation="blueprint"] .thermo-instrument,
+html[data-representation="blueprint"] .fluid-instrument,
+html[data-representation="blueprint"] .manufacturing-instrument,
+html[data-representation="blueprint"] .robotics-instrument,
+html[data-representation="blueprint"] .mechanical-systems-instrument {
+  border-color: rgba(130, 169, 199, 0.45) !important;
+  background: linear-gradient(180deg, rgba(10, 24, 38, 0.85), rgba(5, 13, 21, 0.95)) !important;
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.6), 0 0 1px rgba(130, 169, 199, 0.3) !important;
+  transition: background 300ms var(--ease-ui), border-color 300ms var(--ease-ui);
+}
+
+/* Hide conflicting reality labels in Blueprint mode so technical CAD drawings remain crystal clear */
+.engineering-lab.is-blueprint .thermo-instrument__labels,
+.engineering-lab.is-blueprint .fluid-instrument__annotation,
+.engineering-lab.is-blueprint .manufacturing-annotation,
+.engineering-lab.is-blueprint .robotics-annotation,
+.engineering-lab.is-blueprint .mechanical-study__svg-label,
+html[data-representation="blueprint"] .thermo-instrument__labels,
+html[data-representation="blueprint"] .fluid-instrument__annotation,
+html[data-representation="blueprint"] .manufacturing-annotation,
+html[data-representation="blueprint"] .robotics-annotation,
+html[data-representation="blueprint"] .mechanical-study__svg-label {
+  display: none !important;
+}
+
+/* ── 02. Shared Blueprint Readouts & Control Rails ───────────────────────── */
+
+.engineering-lab.is-blueprint .thermo-readout,
+.engineering-lab.is-blueprint .fluid-readout,
+.engineering-lab.is-blueprint .manufacturing-readout,
+.engineering-lab.is-blueprint .robotics-readout,
+.engineering-lab.is-blueprint .mechanical-systems-instrument__readout,
+html[data-representation="blueprint"] .thermo-readout,
+html[data-representation="blueprint"] .fluid-readout,
+html[data-representation="blueprint"] .manufacturing-readout,
+html[data-representation="blueprint"] .robotics-readout,
+html[data-representation="blueprint"] .mechanical-systems-instrument__readout {
+  border-color: rgba(130, 169, 199, 0.35) !important;
+  background: rgba(8, 20, 32, 0.9) !important;
+}
+
+.engineering-lab.is-blueprint .thermo-readout__grid div,
+.engineering-lab.is-blueprint .fluid-readout__grid div,
+.engineering-lab.is-blueprint .manufacturing-readout__grid div,
+.engineering-lab.is-blueprint .robotics-readout__grid div,
+.engineering-lab.is-blueprint .mechanical-systems-instrument__readout-grid div,
+html[data-representation="blueprint"] .thermo-readout__grid div,
+html[data-representation="blueprint"] .fluid-readout__grid div,
+html[data-representation="blueprint"] .manufacturing-readout__grid div,
+html[data-representation="blueprint"] .robotics-readout__grid div,
+html[data-representation="blueprint"] .mechanical-systems-instrument__readout-grid div {
+  background: rgba(6, 16, 26, 0.95) !important;
+  border-color: rgba(130, 169, 199, 0.22) !important;
+}
+
+.engineering-lab.is-blueprint .thermo-readout__grid strong,
+.engineering-lab.is-blueprint .fluid-readout__grid strong,
+.engineering-lab.is-blueprint .manufacturing-readout__grid strong,
+.engineering-lab.is-blueprint .robotics-readout__grid strong,
+.engineering-lab.is-blueprint .mechanical-systems-instrument__readout-grid strong,
+html[data-representation="blueprint"] .thermo-readout__grid strong,
+html[data-representation="blueprint"] .fluid-readout__grid strong,
+html[data-representation="blueprint"] .manufacturing-readout__grid strong,
+html[data-representation="blueprint"] .robotics-readout__grid strong,
+html[data-representation="blueprint"] .mechanical-systems-instrument__readout-grid strong {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(130, 169, 199, 0.45);
+}
+
+.engineering-lab.is-blueprint .thermo-readout__grid span,
+.engineering-lab.is-blueprint .fluid-readout__grid span,
+.engineering-lab.is-blueprint .manufacturing-readout__grid span,
+.engineering-lab.is-blueprint .robotics-readout__grid span,
+.engineering-lab.is-blueprint .mechanical-systems-instrument__readout-grid span,
+html[data-representation="blueprint"] .thermo-readout__grid span,
+html[data-representation="blueprint"] .fluid-readout__grid span,
+html[data-representation="blueprint"] .manufacturing-readout__grid span,
+html[data-representation="blueprint"] .robotics-readout__grid span,
+html[data-representation="blueprint"] .mechanical-systems-instrument__readout-grid span {
+  color: #a2c8e2 !important;
+  opacity: 0.9;
+}
+
+.engineering-lab.is-blueprint input[type="range"],
+html[data-representation="blueprint"] .engineering-lab input[type="range"] {
+  accent-color: var(--representation-blueprint-accent) !important;
+}
+
+.engineering-lab.is-blueprint .thermo-control__head output,
+.engineering-lab.is-blueprint .fluid-regulator__head output,
+.engineering-lab.is-blueprint .manufacturing-control__head output,
+.engineering-lab.is-blueprint .robotics-control__head output,
+.engineering-lab.is-blueprint .mechanical-systems-instrument__control-head output,
+html[data-representation="blueprint"] .thermo-control__head output,
+html[data-representation="blueprint"] .fluid-regulator__head output,
+html[data-representation="blueprint"] .manufacturing-control__head output,
+html[data-representation="blueprint"] .robotics-control__head output,
+html[data-representation="blueprint"] .mechanical-systems-instrument__control-head output {
+  color: #a9d4f5 !important;
+  text-shadow: 0 0 10px rgba(130, 169, 199, 0.45);
+}
+
+.engineering-lab.is-blueprint .thermo-control__rail button,
+.engineering-lab.is-blueprint .fluid-regulator__rail button,
+.engineering-lab.is-blueprint .manufacturing-control__rail button,
+.engineering-lab.is-blueprint .robotics-control__rail button,
+.engineering-lab.is-blueprint .mechanical-systems-instrument__rail > button:not(.mechanical-button),
+html[data-representation="blueprint"] .thermo-control__rail button,
+html[data-representation="blueprint"] .fluid-regulator__rail button,
+html[data-representation="blueprint"] .manufacturing-control__rail button,
+html[data-representation="blueprint"] .robotics-control__rail button,
+html[data-representation="blueprint"] .mechanical-systems-instrument__rail > button:not(.mechanical-button) {
+  border-color: rgba(130, 169, 199, 0.45) !important;
+  background: rgba(12, 28, 44, 0.85) !important;
+  color: #a9d4f5 !important;
+}
+
+.engineering-lab.is-blueprint .thermo-control__rail button:hover,
+.engineering-lab.is-blueprint .fluid-regulator__rail button:hover,
+.engineering-lab.is-blueprint .manufacturing-control__rail button:hover,
+.engineering-lab.is-blueprint .robotics-control__rail button:hover,
+.engineering-lab.is-blueprint .mechanical-systems-instrument__rail > button:not(.mechanical-button):hover,
+html[data-representation="blueprint"] .thermo-control__rail button:hover,
+html[data-representation="blueprint"] .fluid-regulator__rail button:hover,
+html[data-representation="blueprint"] .manufacturing-control__rail button:hover,
+html[data-representation="blueprint"] .robotics-control__rail button:hover,
+html[data-representation="blueprint"] .mechanical-systems-instrument__rail > button:not(.mechanical-button):hover {
+  border-color: var(--representation-blueprint-accent) !important;
+  background: rgba(22, 50, 78, 0.9) !important;
+  color: #ffffff !important;
+}
+
+/* ── 03. Blueprint Typography & Dimension Annotation Hierarchy ──────────── */
+
+.blueprint-title-block,
+.thermo-cad-title {
+  font: 700 10px/1 var(--font-mono, monospace) !important;
+  letter-spacing: 0.14em !important;
+  fill: #ffffff !important;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  filter: drop-shadow(0 0 5px rgba(130, 169, 199, 0.5));
+}
+
+.blueprint-subtitle-block,
+.thermo-cad-sub {
+  font: 600 8.5px/1 var(--font-mono, monospace) !important;
+  letter-spacing: 0.08em !important;
+  fill: #82a9c7 !important;
+  color: #82a9c7 !important;
+  text-transform: uppercase;
+}
+
+.blueprint-dimension-text,
+.thermo-cad-bore,
+.thermo-cad-stroke,
+.thermo-cad-tdc,
+.thermo-cad-bdc {
+  font: 600 8.5px/1 var(--font-mono, monospace) !important;
+  letter-spacing: 0.08em !important;
+  fill: #a2c8e2 !important;
+  color: #a2c8e2 !important;
+  text-transform: uppercase;
+}
+
+.blueprint-annotation-text {
+  font: 600 9px/1 var(--font-mono, monospace) !important;
+  letter-spacing: 0.09em !important;
+  fill: #ffffff !important;
+  color: #ffffff !important;
+  text-transform: uppercase;
+}
+
+.blueprint-angle-callout,
+.thermo-cad-energy {
+  font: 700 9.5px/1 var(--font-mono, monospace) !important;
+  letter-spacing: 0.1em !important;
+  fill: #7fd4ff !important;
+  color: #7fd4ff !important;
+  text-transform: uppercase;
+}
+
+/* ── 04. System 1: DESIGN (Four-Bar Linkage CAD Drawing) ─────────────────── */
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__link {
+  stroke-width: 2.8px !important;
+  stroke: var(--representation-blueprint-text) !important;
+  fill: none !important;
+  stroke-linecap: round;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__link--input {
+  stroke: var(--representation-blueprint-accent) !important;
+  stroke-width: 3.2px !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__link--output {
+  stroke: var(--representation-blueprint-text) !important;
+  stroke-width: 2.8px !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__joint {
+  fill: rgba(130, 169, 199, 0.12) !important;
+  stroke: var(--representation-blueprint-text) !important;
+  stroke-width: 1.4px !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__joint-core {
+  fill: var(--representation-blueprint-accent) !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__ground {
+  stroke: var(--representation-blueprint-line) !important;
+  stroke-width: 1px !important;
+  stroke-dasharray: 4 4;
+}
+
+/* ── 05. System 2: MANUFACTURING (CNC Drawing & G-Code Track) ───────────── */
+
+.manufacturing-instrument.is-blueprint .manufacturing-stock {
+  fill: rgba(130, 169, 199, 0.045) !important;
+  stroke: var(--representation-blueprint-line) !important;
+  stroke-width: 1.2px !important;
+  stroke-dasharray: 5 3;
+}
+
+.manufacturing-instrument.is-blueprint .manufacturing-profile {
+  stroke: #ffffff !important;
+  stroke-width: 2.2px !important;
+  filter: drop-shadow(0 0 6px rgba(130, 169, 199, 0.45));
+}
+
+.manufacturing-instrument.is-blueprint .manufacturing-toolpath {
+  stroke: var(--representation-blueprint-line) !important;
+  stroke-width: 1px !important;
+  stroke-dasharray: 3 4 !important;
+}
+
+.manufacturing-instrument.is-blueprint .manufacturing-active-path {
+  stroke: var(--representation-blueprint-accent) !important;
+  stroke-width: 2px !important;
+}
+
+.manufacturing-instrument.is-blueprint .manufacturing-hatch line {
+  stroke: var(--representation-blueprint-accent) !important;
+  opacity: 0.85;
+}
+
+.manufacturing-instrument.is-blueprint .manufacturing-tool rect {
+  fill: rgba(13, 29, 44, 0.75) !important;
+  stroke: var(--representation-blueprint-text) !important;
+  stroke-width: 1px !important;
+}
+
+.manufacturing-instrument.is-blueprint .manufacturing-tool path {
+  fill: rgba(130, 169, 199, 0.25) !important;
+  stroke: var(--representation-blueprint-accent) !important;
+}
+
+/* ── 06. System 3: ROBOTICS (Kinematic Drawing Calibration) ─────────────── */
+
+.robotics-instrument.is-blueprint .robotics-link {
+  stroke-width: 2.2px !important;
+  stroke: var(--representation-blueprint-text) !important;
+}
+
+.robotics-instrument.is-blueprint .robotics-workspace circle {
+  stroke: var(--representation-blueprint-line) !important;
+  stroke-width: 0.9px !important;
+  stroke-dasharray: 4 6 !important;
+  opacity: 0.75 !important;
+}
+
+.robotics-instrument.is-blueprint .robotics-axes path {
+  stroke: var(--representation-blueprint-line) !important;
+  stroke-width: 0.8px !important;
+  stroke-dasharray: 6 4 !important;
+}
+
+.robotics-instrument.is-blueprint .robotics-joint circle:first-child {
+  fill: rgba(13, 29, 44, 0.6) !important;
+  stroke: var(--representation-blueprint-text) !important;
+  stroke-width: 1.4px !important;
+}
+
+.robotics-instrument.is-blueprint .robotics-effector path {
+  fill: rgba(130, 169, 199, 0.15) !important;
+  stroke: var(--representation-blueprint-accent) !important;
+  stroke-width: 1.4px !important;
+}
+
+/* ── 07. System 4: AUTOMOTIVE (Drivetrain CAD Pitch Circles) ─────────────── */
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__shaft {
+  stroke-width: 2.2px !important;
+  stroke: var(--representation-blueprint-text) !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__wheel {
+  fill: rgba(130, 169, 199, 0.05) !important;
+  stroke: var(--representation-blueprint-text) !important;
+  stroke-width: 1.4px !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__gear {
+  fill: rgba(130, 169, 199, 0.08) !important;
+  stroke: var(--representation-blueprint-accent) !important;
+  stroke-width: 1.4px !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__spokes {
+  stroke: var(--representation-blueprint-line) !important;
+  stroke-width: 1px !important;
+}
+
+/* ── 08. System 5: THERMODYNAMICS (P-V Section & TDC/BDC Markers) ───────── */
+
+.thermo-blueprint-cad-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.thermo-cad-title {
+  position: absolute;
+  left: 20px;
+  top: 18px;
+  font: 700 9px/1 var(--font-mono, monospace);
+  letter-spacing: 0.14em;
+  color: var(--representation-blueprint-text);
+  text-transform: uppercase;
+}
+
+.thermo-cad-sub {
+  position: absolute;
+  left: 20px;
+  top: 32px;
+  font: 500 7.5px/1 var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+  color: var(--representation-blueprint-line);
+  text-transform: uppercase;
+}
+
+.thermo-cad-tdc {
+  position: absolute;
+  right: 18px;
+  top: 24%;
+  font: 600 7.5px/1 var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+  color: var(--representation-blueprint-line);
+}
+
+.thermo-cad-bdc {
+  position: absolute;
+  right: 18px;
+  bottom: 27%;
+  font: 600 7.5px/1 var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+  color: var(--representation-blueprint-line);
+}
+
+.thermo-cad-bore {
+  position: absolute;
+  left: 8%;
+  top: 48%;
+  font: 600 8px/1 var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+  color: var(--representation-blueprint-line);
+}
+
+.thermo-cad-stroke {
+  position: absolute;
+  right: 6%;
+  top: 48%;
+  font: 600 8px/1 var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+  color: var(--representation-blueprint-line);
+}
+
+.thermo-cad-energy {
+  position: absolute;
+  left: 20px;
+  bottom: 16px;
+  font: 700 8.5px/1 var(--font-mono, monospace);
+  letter-spacing: 0.1em;
+  color: var(--representation-blueprint-accent);
+}
+
+.thermo-chamber-blueprint-marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.thermo-mark-tdc {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 12%;
+  height: 1px;
+  border-top: 1px dashed var(--representation-blueprint-line);
+  opacity: 0.65;
+}
+
+.thermo-mark-bdc {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16%;
+  height: 1px;
+  border-top: 1px dashed var(--representation-blueprint-line);
+  opacity: 0.65;
+}
+
+.thermo-instrument.is-blueprint .thermo-instrument__piston {
+  background: rgba(130, 169, 199, 0.22) !important;
+  border: 1px solid var(--representation-blueprint-text) !important;
+  border-top: 2px solid var(--representation-blueprint-accent) !important;
+  box-shadow: 0 0 10px rgba(130, 169, 199, 0.25);
+}
+
+.thermo-instrument.is-blueprint .thermo-instrument__rod {
+  width: 2px !important;
+  background: var(--representation-blueprint-text) !important;
+  box-shadow: 0 0 6px rgba(130, 169, 199, 0.3);
+}
+
+/* ── 09. System 6: FLUID MECHANICS (Venturi Piezometer Linework) ─────────── */
+
+.fluid-instrument.is-blueprint .fluid-streamline {
+  stroke: var(--representation-blueprint-accent) !important;
+  stroke-width: 1.2px !important;
+  stroke-dasharray: 6 3 !important;
+  opacity: 0.8 !important;
+}
+
+.fluid-instrument.is-blueprint svg path:first-child {
+  stroke: var(--representation-blueprint-text) !important;
+  stroke-width: 1.5px !important;
+  fill: rgba(130, 169, 199, 0.04) !important;
+}
+
+/* ── 10. System 7: MATERIALS (Structural FEA Analysis Blueprint) ─────────── */
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__beam {
+  stroke-width: 2.8px !important;
+  stroke: var(--representation-blueprint-text) !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__support {
+  fill: rgba(130, 169, 199, 0.08) !important;
+  stroke: var(--representation-blueprint-line) !important;
+  stroke-width: 1.2px !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__load {
+  stroke: var(--representation-blueprint-accent) !important;
+  stroke-width: 2px !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__dimension {
+  stroke: var(--representation-blueprint-line) !important;
+  stroke-width: 1px !important;
+}
+
+/* ── 11. System 8: MECHATRONICS (Linear Encoder Scale Blueprint) ─────────── */
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__rail {
+  fill: rgba(130, 169, 199, 0.03) !important;
+  stroke: var(--representation-blueprint-line) !important;
+  stroke-width: 1.2px !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__carriage {
+  fill: rgba(13, 29, 44, 0.8) !important;
+  stroke: var(--representation-blueprint-text) !important;
+  stroke-width: 1.4px !important;
+}
+
+.mechanical-systems-instrument.is-blueprint .mechanical-study__target {
+  stroke: var(--representation-blueprint-accent) !important;
+  stroke-width: 1.5px !important;
+  stroke-dasharray: 4 4 !important;
+}
+
+/* ── 12. Responsive Adjustments ─────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .blueprint-title-block {
+    font-size: 7.5px !important;
+  }
+  .blueprint-subtitle-block,
+  .blueprint-dimension-text,
+  .blueprint-annotation-text {
+    font-size: 7px !important;
+  }
+  .thermo-cad-title {
+    font-size: 7.5px;
+  }
+  .thermo-cad-sub,
+  .thermo-cad-bore,
+  .thermo-cad-stroke,
+  .thermo-cad-tdc,
+  .thermo-cad-bdc {
+    font-size: 6.5px;
+  }
+}
+

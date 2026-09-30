@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./tokens.css";
 @import "./typography.css";
+@import "./interactions.css";
 
 * { box-sizing: border-box; }
 html { background: var(--color-bg-deep); color: var(--color-text); scroll-behavior: smooth; }

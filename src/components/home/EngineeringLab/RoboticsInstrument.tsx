@@ -65,6 +65,24 @@ export function RoboticsInstrument() {
   return <div className={`robotics-instrument ${isBlueprint ? 'is-blueprint' : 'is-reality'}`}>
     <div className="robotics-instrument__visual" aria-hidden="true">
       <svg viewBox="0 0 660 420" role="presentation">
+        {/* Blueprint CAD Schematics Overlay */}
+        {isBlueprint && (
+          <g className="blueprint-overlay" aria-hidden="true">
+            <text x="24" y="28" className="blueprint-title-block">DWG: ROBOT-KIN-03 // 2-DOF PLANAR ARM</text>
+            <text x="24" y="42" className="blueprint-subtitle-block">
+              FORWARD KINEMATICS // L1 = {LINK_1} mm · L2 = {LINK_2} mm
+            </text>
+            <text x="420" y="28" className="blueprint-angle-callout">
+              EE: ({model.endEffector.x.toFixed(1)}, {model.endEffector.y.toFixed(1)})
+            </text>
+            <text x="420" y="42" className="blueprint-annotation-text">
+              REACH: {model.reach.toFixed(1)} mm
+            </text>
+            <text x={origin.x - 42} y={origin.y + 48} className="blueprint-dimension-text">[DATUM B0 / 0,0]</text>
+            <text x={origin.x + model.maxReach * scale - 40} y={origin.y - 12} className="blueprint-dimension-text">R_MAX = {model.maxReach.toFixed(0)}</text>
+          </g>
+        )}
+
         <g className="robotics-workspace">
           <circle cx={origin.x} cy={origin.y} r={model.maxReach * scale} />
           <circle cx={origin.x} cy={origin.y} r={model.minReach * scale} />

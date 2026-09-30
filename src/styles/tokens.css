@@ -46,13 +46,18 @@
   --space-11: 120px;
   --space-12: 144px;
 
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
   --text-hero: clamp(3.5rem, 7vw, 7.5rem);
-  --text-h1: clamp(3rem, 5.5vw, 6rem);
-  --text-h2: clamp(2.25rem, 4vw, 4.5rem);
-  --text-h3: clamp(1.5rem, 2vw, 2.5rem);
-  --text-card-title: clamp(1.15rem, 1.5vw, 1.75rem);
+  --text-h1: clamp(2.75rem, 5.5vw, 5.5rem);
+  --text-h2: clamp(1.75rem, 3.5vw, 2.75rem);
+  --text-h3: clamp(1.2rem, 1.8vw, 1.5rem);
+  --text-card-title: clamp(1.15rem, 1.5vw, 1.35rem);
   --text-body: 1.125rem;
-  --text-body-small: 1rem;
+  --text-body-small: 0.95rem;
   --text-technical: 0.85rem;
   --text-technical-small: 0.75rem;
 

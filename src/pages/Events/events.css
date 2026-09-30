@@ -8,7 +8,7 @@
   padding-top: clamp(80px, 10vw, 120px);
   padding-bottom: clamp(5rem, 10vw, 10rem);
   background:
-    radial-gradient(circle at 80% 10%, rgba(217, 119, 6, 0.03), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(217, 138, 61, 0.03), transparent 40%),
     radial-gradient(circle at 20% 60%, rgba(130, 169, 199, 0.03), transparent 40%),
     linear-gradient(180deg, rgba(16, 18, 20, 0.98), rgba(10, 12, 13, 0.99));
 }
@@ -108,17 +108,20 @@
 }
 
 .events-section-head h2 {
-  margin: 0.5rem 0 0.5rem;
-  font-size: var(--text-h2, clamp(2rem, 4vw, 3.5rem));
+  margin: 0.4rem 0 0.6rem;
+  font-size: var(--text-h2, clamp(1.75rem, 3.5vw, 2.75rem));
   line-height: 1.05;
   letter-spacing: -0.03em;
+  font-weight: 800;
+  color: var(--color-text);
 }
 
 .events-section-head p {
   margin: 0;
   color: var(--color-text-muted);
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: var(--text-body-small, 0.95rem);
+  line-height: 1.55;
+  max-width: 620px;
 }
 
 /* ─── Featured Event ────────────────────────────────────────── */
@@ -153,7 +156,7 @@
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(circle at 70% 30%, rgba(217, 119, 6, 0.12), transparent 60%),
+    radial-gradient(circle at 70% 30%, rgba(217, 138, 61, 0.12), transparent 60%),
     repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.015) 0, rgba(255, 255, 255, 0.015) 1px, transparent 0, transparent 16px);
   pointer-events: none;
 }

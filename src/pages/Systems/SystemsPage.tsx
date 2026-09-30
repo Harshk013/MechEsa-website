@@ -4,6 +4,7 @@ import { TechnicalLabel } from '../../components/typography/TechnicalLabel'
 import { SystemIndicator } from '../../components/telemetry/SystemIndicator'
 import { TechnicalDivider } from '../../components/mechanical/TechnicalDivider'
 import { EngineeringLab } from '../../components/home/EngineeringLab/EngineeringLab'
+import { RepresentationToggle } from '../../components/system/RepresentationToggle/RepresentationToggle'
 import { engineeringSystems } from '../../data/home'
 import './systems.css'
 
@@ -87,6 +88,7 @@ export function SystemsPage() {
                 label={selected.status}
               />
               <span className="technical-small">{selected.metric}</span>
+              <RepresentationToggle />
             </div>
           </div>
 

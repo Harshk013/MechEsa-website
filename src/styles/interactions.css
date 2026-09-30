@@ -1,0 +1,476 @@
+/* ==========================================================================
+   MechESA Unified Interaction System & Micro-Animation Architecture
+   Restrained, engineered, high-precision physics across desktop & mobile
+   ========================================================================== */
+
+/* ─── Level 1: Micro-Interactions (Navbar, Links, Indicators, Arrows) ───── */
+
+/* Navigation Links */
+.mechanical-nav__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 18px;
+  color: var(--color-text-dim);
+  text-decoration: none;
+  font: 0.75rem/1 var(--font-mono);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  transition: color 220ms var(--ease-ui),
+              background 220ms var(--ease-ui);
+}
+
+.mechanical-nav__item strong {
+  transition: transform 220ms var(--ease-precision),
+              color 220ms var(--ease-ui);
+  display: inline-block;
+}
+
+.mechanical-nav__item > span {
+  color: var(--color-signal);
+  opacity: 0.65;
+  font-size: 0.65rem;
+  transition: opacity 220ms var(--ease-ui),
+              color 220ms var(--ease-ui);
+}
+
+.mechanical-nav__item i {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 8px;
+  height: 2px;
+  background: var(--color-signal);
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+  transition: transform 240ms var(--ease-precision),
+              opacity 240ms ease;
+  pointer-events: none;
+}
+
+.mechanical-nav__item:hover strong {
+  color: #ffffff;
+  transform: translateX(2px);
+}
+
+.mechanical-nav__item:hover > span {
+  opacity: 1;
+}
+
+.mechanical-nav__item:hover:not(.is-active) i {
+  transform: scaleX(0.7);
+  opacity: 0.8;
+}
+
+.mechanical-nav__item.is-active i {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* Arrows Global Behavior */
+.btn-arrow,
+[data-arrow],
+.arrow-interactive {
+  display: inline-block;
+  transition: transform 220ms var(--ease-precision);
+  will-change: transform;
+}
+
+*:hover > .btn-arrow,
+*:hover > [data-arrow],
+*:hover > .arrow-interactive,
+.mechanical-button:hover .btn-arrow,
+.event-card:hover .btn-arrow,
+.blog-card:hover .btn-arrow,
+.about-activity-card:hover .btn-arrow,
+.about-discipline-card:hover .discipline-card__link span,
+.discipline-card__link:hover span,
+.mech-lab-gateway:hover .mech-lab-gateway__arrow,
+.mech-lab-card:hover .btn-arrow,
+.home-log-card:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Text Links with Mechanical Underline */
+.text-link-animated,
+.discipline-card__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-signal);
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 200ms ease, gap 220ms var(--ease-precision);
+}
+
+.text-link-animated::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 240ms var(--ease-precision);
+}
+
+.text-link-animated:hover::after {
+  transform: scaleX(1);
+}
+
+.text-link-animated:hover,
+.discipline-card__link:hover {
+  color: #ffffff;
+}
+
+/* Icons Micro-motion */
+.icon-interactive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 220ms var(--ease-precision), color 220ms ease;
+}
+
+*:hover > .icon-interactive {
+  transform: translateY(-1px) scale(1.04);
+}
+
+/* ─── Level 2: Buttons & Controls ────────────────────────────────────────── */
+
+.mechanical-button {
+  --button-border: var(--color-border-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 42px;
+  padding: 0 var(--space-5);
+  border: 1px solid var(--button-border);
+  border-radius: var(--radius-sm, 2px);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 220ms var(--ease-precision),
+              background 220ms var(--ease-ui),
+              border-color 220ms var(--ease-ui),
+              box-shadow 220ms var(--ease-ui),
+              color 220ms ease;
+  will-change: transform;
+}
+
+.mechanical-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+}
+
+.mechanical-button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.985);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.mechanical-button--primary {
+  background: var(--color-signal);
+  color: var(--color-bg-deep);
+  border-color: var(--color-signal);
+}
+
+.mechanical-button--primary:hover:not(:disabled),
+.mechanical-button--primary:focus-visible {
+  background: var(--color-signal);
+  border-color: var(--color-signal);
+  color: #000000;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.45),
+    0 0 20px var(--color-signal-glow);
+}
+
+.mechanical-button--secondary {
+  background: var(--color-panel);
+  border-color: var(--color-border);
+}
+
+.mechanical-button--secondary:hover:not(:disabled) {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border-strong);
+}
+
+/* ─── Level 2: Universal Card Hover Physics ─────────────────────────────── */
+
+/* Shared Card Transitions */
+.mechanical-card,
+.about-activity-card,
+.about-discipline-card,
+.about-connect-card,
+.event-card,
+.featured-event-card,
+.member-card,
+.blog-card,
+.career-track-card,
+.contact-channel-card,
+.home-log-panel,
+.mech-lab-card,
+.mech-lab-gateway {
+  transition: transform 240ms var(--ease-precision),
+              border-color 240ms var(--ease-ui),
+              box-shadow 240ms var(--ease-ui),
+              background 240ms var(--ease-ui);
+  will-change: transform, border-color, box-shadow;
+}
+
+/* Standard Hover Lift */
+.mechanical-card:hover,
+.about-activity-card:hover,
+.about-discipline-card:hover,
+.about-connect-card:hover,
+.event-card:hover,
+.member-card:hover,
+.blog-card:hover,
+.career-track-card:hover,
+.contact-channel-card:hover,
+.home-log-card:hover .home-log-panel,
+.mech-lab-card:hover {
+  transform: translateY(-4px) scale(1.006);
+  border-color: color-mix(in srgb, var(--color-border-strong) 75%, var(--color-blueprint));
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55), 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* Card Internal Titles Micro-shift */
+.mechanical-card .card-heading,
+.about-activity-card .activity-card__title,
+.about-discipline-card .discipline-card__title,
+.event-card .event-card__title,
+.member-card .member-card__name,
+.blog-card .blog-card__title,
+.career-track-card h3,
+.contact-channel-card strong,
+.home-log-panel .home-log-title,
+.mech-lab-card .mech-lab-card__action-lead {
+  transition: transform 220ms var(--ease-precision),
+              color 220ms ease;
+  will-change: transform;
+}
+
+.mechanical-card:hover .card-heading,
+.about-activity-card:hover .activity-card__title,
+.about-discipline-card:hover .discipline-card__title,
+.event-card:hover .event-card__title,
+.member-card:hover .member-card__name,
+.blog-card:hover .blog-card__title,
+.career-track-card:hover h3,
+.contact-channel-card:hover strong,
+.home-log-card:hover .home-log-title,
+.mech-lab-card:hover .mech-lab-card__action-lead {
+  transform: translateX(2px);
+  color: #ffffff;
+}
+
+/* Subtle Media Zoom on Image Cards */
+.member-card .member-card__photo,
+.event-card .event-card__media-pattern,
+.blog-card .blog-card__media-pattern {
+  transition: transform 420ms var(--ease-precision),
+              opacity 300ms ease;
+  will-change: transform;
+}
+
+.member-card:hover .member-card__photo {
+  transform: scale(1.03);
+}
+
+.event-card:hover .event-card__media-pattern,
+.blog-card:hover .blog-card__media-pattern {
+  transform: scale(1.03);
+  opacity: 0.9;
+}
+
+/* Corner Bracket Accents */
+.corner-bracket,
+.member-card__corner-bracket {
+  transition: border-color 220ms ease, opacity 220ms ease, transform 220ms var(--ease-precision);
+}
+
+.about-activity-card:hover .corner-bracket,
+.member-card:hover .member-card__corner-bracket {
+  border-color: var(--color-signal);
+  opacity: 1;
+}
+
+/* Card Metadata Micro-brightening */
+.event-card:hover .event-card__date,
+.blog-card:hover .blog-card__meta-line,
+.member-card:hover .member-card__domain-tag,
+.mech-lab-card:hover .mech-lab-card__tag,
+.home-log-card:hover .home-log-stamp {
+  color: var(--color-signal);
+}
+
+.event-card:hover .event-card__badge,
+.blog-card:hover .blog-card__badge {
+  border-color: rgba(217, 138, 61, 0.5);
+}
+
+/* Filter Bar Buttons Precision Micro-interactions */
+.events-filter-btn,
+.team-nav-btn,
+.blogs-filter-btn {
+  transition: color 200ms ease,
+              background 200ms ease,
+              border-color 200ms ease,
+              box-shadow 200ms ease,
+              transform 200ms var(--ease-precision);
+  will-change: transform;
+}
+
+.events-filter-btn:hover:not(.is-active),
+.team-nav-btn:hover:not(.is-active),
+.blogs-filter-btn:hover:not(.is-active) {
+  transform: translateY(-1px);
+}
+
+.events-filter-btn:active,
+.team-nav-btn:active,
+.blogs-filter-btn:active {
+  transform: translateY(1px);
+}
+
+/* ─── Level 3: Featured Controls (Mech Lab Floating Trigger & Hero) ──────── */
+
+.floating-lab-trigger__button {
+  transition: transform 240ms var(--ease-precision),
+              border-color 240ms ease,
+              box-shadow 240ms ease,
+              filter 240ms ease;
+}
+
+.floating-lab-trigger__button:hover {
+  transform: translateY(-3px) scale(1.025);
+  border-color: rgba(217, 138, 61, 0.85);
+  filter: brightness(1.08);
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.75),
+    0 0 0 2px #171d21,
+    0 0 0 4px rgba(217, 138, 61, 0.35),
+    0 0 28px rgba(217, 138, 61, 0.28),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.28);
+}
+
+.floating-lab-trigger__button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ─── Scroll Reveal System (Pure GPU-accelerated) ────────────────────────── */
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 520ms var(--ease-precision),
+              transform 520ms var(--ease-precision);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger-1 { transition-delay: 60ms; }
+.reveal-stagger-2 { transition-delay: 120ms; }
+.reveal-stagger-3 { transition-delay: 180ms; }
+.reveal-stagger-4 { transition-delay: 240ms; }
+
+/* ─── Accessibility: Reduced Motion Standard ────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .mechanical-button:hover:not(:disabled),
+  .mechanical-button:active:not(:disabled),
+  .mechanical-card:hover,
+  .about-activity-card:hover,
+  .about-discipline-card:hover,
+  .about-connect-card:hover,
+  .event-card:hover,
+  .member-card:hover,
+  .blog-card:hover,
+  .career-track-card:hover,
+  .contact-channel-card:hover,
+  .home-log-card:hover .home-log-panel,
+  .mech-lab-card:hover,
+  .floating-lab-trigger__button:hover,
+  .events-filter-btn:hover,
+  .team-nav-btn:hover,
+  .blogs-filter-btn:hover,
+  .events-filter-btn:active,
+  .team-nav-btn:active,
+  .blogs-filter-btn:active,
+  .reveal-on-scroll,
+  .btn-arrow,
+  [data-arrow],
+  .arrow-interactive {
+    transform: none !important;
+  }
+
+  .reveal-on-scroll {
+    opacity: 1 !important;
+  }
+}
+
+/* ─── Touch Devices / Mobile Safety ─────────────────────────────────────── */
+
+@media (hover: none) {
+  /* Prevent permanent stuck hover transforms on touch taps */
+  .mechanical-card:hover,
+  .about-activity-card:hover,
+  .about-discipline-card:hover,
+  .about-connect-card:hover,
+  .event-card:hover,
+  .member-card:hover,
+  .blog-card:hover,
+  .career-track-card:hover,
+  .contact-channel-card:hover,
+  .home-log-card:hover .home-log-panel,
+  .mech-lab-card:hover,
+  .floating-lab-trigger__button:hover,
+  .events-filter-btn:hover,
+  .team-nav-btn:hover,
+  .blogs-filter-btn:hover {
+    transform: none !important;
+  }
+
+  .mechanical-card:hover .card-heading,
+  .about-activity-card:hover .activity-card__title,
+  .about-discipline-card:hover .discipline-card__title,
+  .event-card:hover .event-card__title,
+  .member-card:hover .member-card__name,
+  .blog-card:hover .blog-card__title,
+  .career-track-card:hover h3,
+  .contact-channel-card:hover strong,
+  .home-log-card:hover .home-log-title,
+  .mech-lab-card:hover .mech-lab-card__action-lead,
+  .btn-arrow,
+  [data-arrow],
+  .arrow-interactive {
+    transform: none !important;
+  }
+}

@@ -9,7 +9,7 @@
   padding-bottom: clamp(5rem, 10vw, 10rem);
   background:
     radial-gradient(circle at 75% 15%, rgba(130, 169, 199, 0.035), transparent 45%),
-    radial-gradient(circle at 25% 75%, rgba(217, 119, 6, 0.025), transparent 45%),
+    radial-gradient(circle at 25% 75%, rgba(217, 138, 61, 0.025), transparent 45%),
     linear-gradient(180deg, rgba(16, 18, 20, 0.98), rgba(10, 12, 13, 0.99));
 }
 

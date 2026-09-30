@@ -294,7 +294,7 @@ export function ContactPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    SEND VIA EMAIL CLIENT (MAILTO) ↗
+                    <span>SEND VIA EMAIL CLIENT (MAILTO)</span> <span className="btn-arrow" aria-hidden="true">↗</span>
                   </a>
                   <MechanicalButton variant="secondary" onClick={handleReset}>
                     RESET / EDIT MESSAGE
@@ -318,25 +318,25 @@ export function ContactPage() {
             <CursorTarget intent="link" label="OPEN">
               <Link to="/" className="contact-handoff-link">
                 <span>RETURN TO HOME</span>
-                <b>↗</b>
+                <span className="btn-arrow" aria-hidden="true">↗</span>
               </Link>
             </CursorTarget>
             <CursorTarget intent="link" label="OPEN">
               <Link to="/events" className="contact-handoff-link">
                 <span>EXPLORE EVENTS</span>
-                <b>↗</b>
+                <span className="btn-arrow" aria-hidden="true">↗</span>
               </Link>
             </CursorTarget>
             <CursorTarget intent="link" label="OPEN">
               <Link to="/team" className="contact-handoff-link">
                 <span>MEET THE TEAM</span>
-                <b>↗</b>
+                <span className="btn-arrow" aria-hidden="true">↗</span>
               </Link>
             </CursorTarget>
             <CursorTarget intent="link" label="OPEN">
               <Link to="/blogs" className="contact-handoff-link">
                 <span>READ STORIES</span>
-                <b>↗</b>
+                <span className="btn-arrow" aria-hidden="true">↗</span>
               </Link>
             </CursorTarget>
           </div>

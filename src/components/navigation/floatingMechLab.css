@@ -19,7 +19,7 @@
     0 8px 28px rgba(0, 0, 0, 0.7),
     0 0 0 2px #101518,
     0 0 0 3px rgba(205, 214, 219, 0.16),
-    0 0 24px rgba(93, 156, 236, 0.16),
+    0 0 24px rgba(130, 169, 199, 0.16),
     inset 0 1.5px 2px rgba(255, 255, 255, 0.2),
     inset 0 -2px 6px rgba(0, 0, 0, 0.6);
   color: var(--color-text);
@@ -133,8 +133,8 @@
   right: calc(100% + 12px);
   top: 50%;
   transform: translateY(-50%) translateX(6px);
-  background: #151b1f;
-  border: 1px solid rgba(93, 156, 236, 0.35);
+  background: var(--color-panel);
+  border: 1px solid rgba(130, 169, 199, 0.35);
   padding: 5px 10px;
   border-radius: var(--radius-sm, 2px);
   font-family: var(--font-mono, monospace);
@@ -155,7 +155,7 @@
   right: -5px;
   top: 50%;
   transform: translateY(-50%);
-  border-left: 5px solid rgba(93, 156, 236, 0.35);
+  border-left: 5px solid rgba(130, 169, 199, 0.35);
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
 }
@@ -176,8 +176,8 @@
 .floating-lab-trigger__expand-ring {
   position: fixed;
   border-radius: 50%;
-  border: 2px solid rgba(93, 156, 236, 0.7);
-  box-shadow: 0 0 24px rgba(93, 156, 236, 0.5);
+  border: 2px solid rgba(130, 169, 199, 0.7);
+  box-shadow: 0 0 24px rgba(130, 169, 199, 0.5);
   pointer-events: none;
   z-index: 1000;
   animation: labRingExpand 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;

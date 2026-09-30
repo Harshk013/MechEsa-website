@@ -8,7 +8,7 @@ export function SectionHeader({ number, eyebrow, title, description, status, ali
       <span className="page-eyebrow">{number} // {eyebrow}</span>
       {status}
     </div>
-    <h2 className="page-heading">{title}</h2>
-    {description && <p className="page-description">{description}</p>}
+    <h2 className="home-section-header__title section-heading">{title}</h2>
+    {description && <p className="home-section-header__description section-description">{description}</p>}
   </header>
 }

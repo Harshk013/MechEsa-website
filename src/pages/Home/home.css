@@ -122,7 +122,7 @@
   box-shadow: 
     0 20px 56px rgba(0, 0, 0, 0.7),
     0 0 0 1px rgba(205, 214, 219, 0.05),
-    0 0 40px rgba(93, 156, 236, 0.05),
+    0 0 40px rgba(130, 169, 199, 0.05),
     inset 0 0 32px rgba(0, 0, 0, 0.45);
   border-radius: 2px;
   padding: 22px 14px 20px;
@@ -134,7 +134,7 @@
   box-shadow: 
     0 24px 64px rgba(0, 0, 0, 0.75),
     0 0 0 1px rgba(217, 138, 61, 0.15),
-    0 0 48px rgba(93, 156, 236, 0.08),
+    0 0 48px rgba(130, 169, 199, 0.08),
     inset 0 0 36px rgba(0, 0, 0, 0.5);
 }
 
@@ -489,18 +489,20 @@
 }
 
 .home-section-header__title {
-  font-size: var(--text-h2, clamp(2.25rem, 4vw, 4rem));
+  font-size: var(--text-h2, clamp(1.75rem, 3.5vw, 2.75rem));
   line-height: 1.05;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  color: var(--color-text);
   margin: 0;
 }
 
 .home-section-header__description {
-  max-width: 680px;
+  max-width: 620px;
   color: var(--color-text-muted);
-  font-size: 1.05rem;
-  line-height: 1.65;
-  margin-top: 18px;
+  font-size: var(--text-body-small, 0.95rem);
+  line-height: 1.55;
+  margin-top: 14px;
 }
 
 .mechesa-about-grid {
@@ -512,8 +514,8 @@
 
 .mechesa-about-grid .mechanical-card {
   height: 100%;
-  background: #13181c;
-  border: 1px solid rgba(205, 214, 219, 0.12);
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
   border-top: 2px solid rgba(130, 169, 199, 0.35);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
   transition: transform var(--duration-fast) var(--ease-mechanical),
@@ -550,8 +552,8 @@
 
 .event-preview-card .mechanical-card {
   height: 100%;
-  background: #13181c;
-  border: 1px solid rgba(205, 214, 219, 0.12);
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
   transition: transform var(--duration-fast) var(--ease-mechanical),
               border-color var(--duration-fast) ease,
               box-shadow var(--duration-fast) ease;
@@ -596,8 +598,8 @@
 }
 
 .home-log-panel {
-  background: #13181c;
-  border: 1px solid rgba(205, 214, 219, 0.14);
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm, 2px);
   padding: 28px;
   height: 100%;
@@ -618,7 +620,7 @@
 
 .home-log-panel--featured {
   border-top: 3px solid var(--color-signal);
-  background: radial-gradient(circle at 100% 0%, rgba(217, 138, 61, 0.06), transparent 60%), #13181c;
+  background: radial-gradient(circle at 100% 0%, rgba(217, 138, 61, 0.06), transparent 60%), var(--color-panel);
 }
 
 .home-log-header {
@@ -787,17 +789,19 @@
 }
 
 .terminal-title {
-  font-size: var(--text-h2, clamp(2.2rem, 4vw, 3.6rem));
+  font-size: var(--text-h2, clamp(1.75rem, 3.5vw, 2.75rem));
   line-height: 1.08;
   letter-spacing: -0.03em;
+  font-weight: 800;
   color: var(--color-text);
   margin: 16px 0;
 }
 
 .terminal-desc {
-  font-size: 1.05rem;
-  line-height: 1.65;
+  font-size: var(--text-body-small, 0.95rem);
+  line-height: 1.55;
   color: var(--color-text-muted);
+  max-width: 620px;
   margin-bottom: 32px;
 }
 

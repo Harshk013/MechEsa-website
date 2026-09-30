@@ -171,7 +171,7 @@ export function EventsPage() {
             </div>
             <CursorTarget intent="link" label="OPEN">
               <Link className="mechanical-button mechanical-button--primary label" to="/team">
-                MEET THE TEAM ↗
+                <span>MEET THE TEAM</span> <span className="btn-arrow" aria-hidden="true">↗</span>
               </Link>
             </CursorTarget>
           </div>

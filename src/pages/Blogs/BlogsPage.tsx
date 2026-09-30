@@ -127,8 +127,8 @@ export function BlogsPage() {
           <TechnicalDivider label="CAREER TRACKS" />
           <div style={{ marginTop: '2rem' }}>
             <span className="page-eyebrow">FIELD GUIDANCE</span>
-            <h2 id="tracks-title" className="page-heading">CAREER EXPERIENCES.</h2>
-            <p style={{ margin: 0, color: 'var(--color-text-muted)', maxWidth: '640px' }}>
+            <h2 id="tracks-title" className="section-heading">CAREER EXPERIENCES.</h2>
+            <p className="section-description">
               First-hand advice and lessons learned through internships and campus recruitment from senior students.
             </p>
           </div>
@@ -147,7 +147,7 @@ export function BlogsPage() {
                   STUDENT FIELD NOTES
                 </span>
                 <Link to="/blogs/internships" className="mechanical-button mechanical-button--primary label">
-                  EXPLORE INTERNSHIPS ↗
+                  <span>EXPLORE INTERNSHIPS</span> <span className="btn-arrow" aria-hidden="true">↗</span>
                 </Link>
               </div>
             </article>
@@ -165,7 +165,7 @@ export function BlogsPage() {
                   CAREER TRANSITIONS
                 </span>
                 <Link to="/blogs/placements" className="mechanical-button mechanical-button--primary label">
-                  EXPLORE PLACEMENTS ↗
+                  <span>EXPLORE PLACEMENTS</span> <span className="btn-arrow" aria-hidden="true">↗</span>
                 </Link>
               </div>
             </article>
@@ -184,7 +184,7 @@ export function BlogsPage() {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1rem' }}>
             <CursorTarget intent="link" label="CONNECT">
               <Link className="mechanical-button mechanical-button--primary label" to="/contact">
-                SUBMIT YOUR ARTICLE ↗
+                <span>SUBMIT YOUR ARTICLE</span> <span className="btn-arrow" aria-hidden="true">↗</span>
               </Link>
             </CursorTarget>
             <span className="technical-small" style={{ color: 'var(--color-text-dim)' }}>
@@ -251,7 +251,7 @@ function BlogCard({
         <div className="blog-card__action">
           {post.trackLink ? (
             <Link to={post.trackLink} className="mechanical-button mechanical-button--primary label">
-              OPEN TRACK ↗
+              <span>OPEN TRACK</span> <span className="btn-arrow" aria-hidden="true">↗</span>
             </Link>
           ) : (
             <MechanicalButton variant="secondary" onClick={onRead}>

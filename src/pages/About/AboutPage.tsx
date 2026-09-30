@@ -95,7 +95,7 @@ export function AboutPage() {
                     aria-label={`Explore ${item.title} simulation in Mech Lab`}
                   >
                     <span>EXPLORE IN LAB</span>
-                    <i aria-hidden="true">→</i>
+                    <i aria-hidden="true" className="btn-arrow">→</i>
                   </Link>
                 </div>
               </div>
@@ -127,7 +127,9 @@ export function AboutPage() {
                 <p className="connect-card__desc">
                   See upcoming technical conclaves, guest lectures, hands-on workshops, and calendar events.
                 </p>
-                <span className="connect-card__action">VIEW EVENTS →</span>
+                <span className="connect-card__action">
+                  <span>VIEW EVENTS</span> <span className="btn-arrow" aria-hidden="true">→</span>
+                </span>
               </Link>
             </CursorTarget>
 
@@ -141,7 +143,9 @@ export function AboutPage() {
                 <p className="connect-card__desc">
                   Meet the student coordinators, division leads, and faculty advisors behind MechESA.
                 </p>
-                <span className="connect-card__action">MEET THE TEAM →</span>
+                <span className="connect-card__action">
+                  <span>MEET THE TEAM</span> <span className="btn-arrow" aria-hidden="true">→</span>
+                </span>
               </Link>
             </CursorTarget>
 
@@ -155,7 +159,9 @@ export function AboutPage() {
                 <p className="connect-card__desc">
                   Have a question, an idea for an activity, or want to collaborate with the association? Get in touch.
                 </p>
-                <span className="connect-card__action">GET IN TOUCH ↗</span>
+                <span className="connect-card__action">
+                  <span>GET IN TOUCH</span> <span className="btn-arrow" aria-hidden="true">↗</span>
+                </span>
               </Link>
             </CursorTarget>
           </div>

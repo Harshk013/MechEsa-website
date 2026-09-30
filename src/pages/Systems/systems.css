@@ -387,3 +387,70 @@
 @media (prefers-reduced-motion: reduce) {
   .systems-selector__tab { transition: none; }
 }
+
+/* Blueprint Mode System Architecture */
+html[data-representation="blueprint"] .systems-selector {
+  border-bottom-color: rgba(130, 169, 199, 0.28);
+  background: color-mix(in srgb, #081522 92%, transparent);
+}
+
+html[data-representation="blueprint"] .systems-selector__tab {
+  border-right-color: rgba(130, 169, 199, 0.2);
+}
+
+html[data-representation="blueprint"] .systems-selector__tab:hover {
+  background: rgba(130, 169, 199, 0.1);
+  color: #ffffff;
+}
+
+html[data-representation="blueprint"] .systems-selector__tab.is-active {
+  background: rgba(130, 169, 199, 0.16);
+  color: #ffffff;
+}
+
+html[data-representation="blueprint"] .systems-selector__tab.is-active::after {
+  background: var(--representation-blueprint-accent);
+  box-shadow: 0 0 10px rgba(130, 169, 199, 0.7);
+}
+
+html[data-representation="blueprint"] .systems-selector__tab.is-active .systems-selector__index {
+  color: var(--representation-blueprint-accent);
+  text-shadow: 0 0 8px rgba(130, 169, 199, 0.4);
+}
+
+html[data-representation="blueprint"] .systems-lab__instrument-wrap {
+  border-color: rgba(130, 169, 199, 0.45);
+  background: linear-gradient(160deg, rgba(14, 32, 50, 0.4), rgba(7, 16, 26, 0.65));
+  box-shadow: 0 0 0 1px rgba(130, 169, 199, 0.22) inset, 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 32px rgba(130, 169, 199, 0.08);
+  transition: border-color var(--duration-normal) var(--ease-precision), box-shadow var(--duration-normal) var(--ease-precision);
+}
+
+html[data-representation="blueprint"] .systems-lab__instrument-wrap::before,
+html[data-representation="blueprint"] .systems-lab__instrument-wrap::after {
+  border-color: var(--representation-blueprint-accent);
+  opacity: 0.95;
+  filter: drop-shadow(0 0 6px rgba(130, 169, 199, 0.6));
+}
+
+html[data-representation="blueprint"] .systems-lab__system-name {
+  color: #ffffff;
+  text-shadow: 0 0 18px rgba(130, 169, 199, 0.35);
+}
+
+html[data-representation="blueprint"] .systems-page__bg::after {
+  opacity: 0.28;
+  background-image:
+    linear-gradient(rgba(130, 169, 199, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(130, 169, 199, 0.09) 1px, transparent 1px);
+}
+
+html[data-representation="blueprint"] .systems-inforail {
+  border-top-color: rgba(130, 169, 199, 0.25);
+}
+
+html[data-representation="blueprint"] .systems-inforail__stat-value {
+  color: var(--representation-blueprint-text);
+  text-shadow: 0 0 8px rgba(130, 169, 199, 0.3);
+}
+
+

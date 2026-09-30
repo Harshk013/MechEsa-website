@@ -184,7 +184,7 @@ function HomeContent() {
         </div>
         <div className="section-cta">
           <Link to="/events" className="mechanical-button mechanical-button--secondary label" data-cursor="view" data-cursor-label="OPEN">
-            VIEW ALL EVENTS ↗
+            <span>VIEW ALL EVENTS</span> <span className="btn-arrow" aria-hidden="true">↗</span>
           </Link>
         </div>
       </section>
@@ -215,7 +215,7 @@ function HomeContent() {
                 </div>
                 <div className="home-log-footer">
                   <Link to="/blogs" className="mechanical-button mechanical-button--primary label">
-                    OPEN LOG ENTRY →
+                    <span>OPEN LOG ENTRY</span> <span className="btn-arrow" aria-hidden="true">→</span>
                   </Link>
                 </div>
               </MechanicalPanel>
@@ -235,7 +235,7 @@ function HomeContent() {
                   <p className="home-log-sub-excerpt">{blog.excerpt}</p>
                   <div className="home-log-sub-link">
                     <Link to="/blogs" className="technical-small">
-                      READ DOCUMENT →
+                      <span>READ DOCUMENT</span> <span className="btn-arrow" aria-hidden="true">→</span>
                     </Link>
                   </div>
                 </MechanicalPanel>
@@ -245,7 +245,7 @@ function HomeContent() {
         </div>
         <div className="section-cta">
           <Link to="/blogs" className="mechanical-button mechanical-button--secondary label" data-cursor="view" data-cursor-label="OPEN">
-            READ ENGINEERING LOGS ↗
+            <span>READ ENGINEERING LOGS</span> <span className="btn-arrow" aria-hidden="true">↗</span>
           </Link>
         </div>
       </section>
@@ -288,12 +288,12 @@ function HomeContent() {
             <div className="terminal-actions">
               <CursorTarget label="CONTACT" intent="button">
                 <Link className="mechanical-button mechanical-button--primary label" to="/contact">
-                  GET IN TOUCH ↗
+                  <span>GET IN TOUCH</span> <span className="btn-arrow" aria-hidden="true">↗</span>
                 </Link>
               </CursorTarget>
               <CursorTarget label="VIEW" intent="view">
                 <Link className="mechanical-button mechanical-button--ghost label" to="/events">
-                  EXPLORE EVENTS ↗
+                  <span>EXPLORE EVENTS</span> <span className="btn-arrow" aria-hidden="true">↗</span>
                 </Link>
               </CursorTarget>
             </div>

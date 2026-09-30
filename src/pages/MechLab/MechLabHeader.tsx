@@ -50,7 +50,7 @@ export function MechLabHeader() {
             onPointerLeave={clearIntent}
             aria-label="Exit Mech Lab and return to website"
           >
-            EXIT LAB ↗
+            <span>EXIT LAB</span> <span className="btn-arrow" aria-hidden="true">↗</span>
           </button>
         </div>
       </div>

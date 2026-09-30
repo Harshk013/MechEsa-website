@@ -10,6 +10,18 @@ interface MechanicalCardProps extends HTMLAttributes<HTMLElement> {
   action?: ReactNode
 }
 
+function formatActionContent(action: ReactNode): ReactNode {
+  if (typeof action === 'string' && action.includes('→')) {
+    const parts = action.split('→')
+    return (
+      <span className="technical-small">
+        <span>{parts[0].trim()}</span> <span className="btn-arrow" aria-hidden="true">→</span>
+      </span>
+    )
+  }
+  return action
+}
+
 export function MechanicalCard({ number, category, status, title, description, action, className, ...props }: MechanicalCardProps) {
   return <article className={cn('mechanical-card', className)} {...props}>
     <div className="mechanical-card__top">
@@ -18,9 +30,9 @@ export function MechanicalCard({ number, category, status, title, description, a
     </div>
     <div className="mechanical-card__body">
       {category && <span className="technical-small mechanical-card__category">{category}</span>}
-      <h3 className="heading-md">{title}</h3>
-      {description && <p className="body-small">{description}</p>}
+      <h3 className="card-heading heading-md">{title}</h3>
+      {description && <p className="card-description body-small">{description}</p>}
     </div>
-    {action && <div className="mechanical-card__action">{action}</div>}
+    {action && <div className="mechanical-card__action">{formatActionContent(action)}</div>}
   </article>
 }
