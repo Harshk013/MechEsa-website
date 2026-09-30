@@ -8,7 +8,7 @@
   align-items: center;
   gap: 10px;
   text-decoration: none;
-  color: var(--color-text, #edf1f2);
+  color: #ffffff;
   line-height: 1;
   transition: opacity var(--duration-fast, 180ms) ease;
   user-select: none;
@@ -26,13 +26,13 @@
 }
 
 .mechesa-brand-lockup__emblem {
-  color: var(--color-signal, #d98a3d);
-  filter: drop-shadow(0 0 10px rgba(217, 138, 61, 0.28));
+  color: #ffffff;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
   transition: transform var(--duration-normal, 380ms) var(--ease-precision, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .mechesa-brand-lockup:hover .mechesa-brand-lockup__emblem {
-  transform: rotate(-4deg) scale(1.04);
+  transform: rotate(-3deg) scale(1.03);
 }
 
 .mechesa-brand-lockup__text {
@@ -43,7 +43,7 @@
 }
 
 .mechesa-brand-lockup__wordmark {
-  color: var(--color-text, #edf1f2);
+  color: #ffffff;
   transition: color var(--duration-fast, 180ms) ease;
 }
 
@@ -64,7 +64,7 @@
   font-size: 0.62rem;
   letter-spacing: 0.12em;
   font-weight: 600;
-  color: var(--color-text-dim, #697276);
+  color: rgba(255, 255, 255, 0.75);
   white-space: nowrap;
   text-transform: uppercase;
 }

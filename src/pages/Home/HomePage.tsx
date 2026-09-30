@@ -12,6 +12,7 @@ import { HeroMechanicalEnvironment } from '../../components/home/HeroMechanicalE
 import { HomeScrollController } from '../../components/home/scroll/HomeScrollController'
 import { useHomeScrollProgress } from '../../components/home/scroll/useHomeScrollProgress'
 import { homepageEvents, homepageBlogs } from '../../data/home'
+import { MechESAWordmark } from '../../components/branding/MechESAWordmark'
 import './home.css'
 
 export function HomePage() {
@@ -78,11 +79,9 @@ function HomeContent() {
               <MechanicalCoreStage />
 
               <div className="home-hero__title">
-                <span className="page-eyebrow">MECHANICAL ENGINEERING STUDENTS ASSOCIATION</span>
-                <h1><span>MECH</span><span>ESA</span></h1>
-                <p className="page-description">
-                  The official student association for Mechanical Engineering at IIT Indore.
-                </p>
+                <h1 className="home-hero__wordmark-wrap">
+                  <MechESAWordmark className="home-hero__wordmark-svg" aria-label="Mech-E Student Association" />
+                </h1>
               </div>
 
               {/* Machine Bezel Bottom Precision Datum */}

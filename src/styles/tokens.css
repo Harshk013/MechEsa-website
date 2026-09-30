@@ -6,7 +6,10 @@
   --sys-mechatronics: #8f9fd6;
   --sys-manufacturing: #d98a3d;
   --sys-materials: #b98a5e;
-  --sys-design: #c9d0d3;
+  --color-brand: #2b7bc4;
+  --color-brand-glow: rgba(43, 123, 196, 0.35);
+  --color-brand-soft: rgba(43, 123, 196, 0.16);
+  --color-brand-deep: #16426b;
   --color-signal-glow: rgba(217, 138, 61, 0.28);
   --color-signal-soft: rgba(217, 138, 61, 0.14);
   --color-signal: #d98a3d;

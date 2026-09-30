@@ -245,44 +245,47 @@
 
 .home-hero__title {
   position: absolute;
+  inset: 0;
   z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   pointer-events: none;
-  transform: translateY(-4px);
+  width: 100%;
+  height: 100%;
+}
+
+.home-hero__wordmark-wrap {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  pointer-events: none;
   width: 100%;
 }
 
-.home-hero__title h1 {
-  font-size: var(--text-h1, clamp(3rem, 5.8vw, 5.4rem));
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  margin: 0.14em 0 0.1em;
-  font-weight: 800;
-  color: var(--color-text);
-  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.75);
+.home-hero__wordmark-svg {
+  height: clamp(110px, 20vh, 175px) !important;
+  width: auto !important;
+  max-width: min(82vw, 420px);
+  color: #ffffff;
+  filter: drop-shadow(0 6px 32px rgba(0, 0, 0, 0.96)) drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
+  transition: transform var(--duration-fast, 180ms) ease;
 }
 
-.home-hero__title h1 span {
-  display: block;
-}
-
-.home-hero__title h1 span:last-child {
-  margin-left: 0.22em;
-}
-
-.home-hero__title .page-description {
-  font: 500 0.76rem/1.5 var(--font-technical);
-  letter-spacing: 0.18em;
-  color: var(--color-text-muted);
-  max-width: 540px;
-  margin-inline: auto;
-  text-transform: uppercase;
+@media (max-width: 980px) {
+  .home-hero__wordmark-svg {
+    height: clamp(86px, 16vh, 135px) !important;
+    max-width: min(84vw, 360px);
+  }
 }
 
 @media (max-width: 680px) {
-  .home-hero__title h1 {
-    font-size: clamp(2.4rem, 9vw, 3.8rem);
-    line-height: 0.95;
+  .home-hero__wordmark-svg {
+    height: clamp(70px, 18vw, 110px) !important;
+    max-width: min(86vw, 300px);
   }
 }
 
@@ -895,13 +898,9 @@
   .core-stage {
     width: 88vw;
   }
-  .home-hero__title h1 {
-    font-size: clamp(2.4rem, 11vw, 3.8rem);
-    line-height: 0.95;
-  }
-  .home-hero__title .page-description {
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
+  .home-hero__wordmark-svg {
+    height: clamp(60px, 16vw, 92px) !important;
+    max-width: min(86vw, 270px);
   }
   .home-hero__actions {
     flex-direction: column;

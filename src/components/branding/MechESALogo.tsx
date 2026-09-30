@@ -18,7 +18,7 @@ interface MechESALogoProps {
 export function MechESALogo({
   showEmblem = true,
   showSubline = true,
-  emblemHeight = 34,
+  emblemHeight = 38,
   wordmarkHeight = 28,
   className = '',
 }: MechESALogoProps) {
