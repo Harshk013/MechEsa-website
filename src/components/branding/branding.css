@@ -10,14 +10,13 @@
   text-decoration: none;
   color: #ffffff;
   line-height: 1;
-  transition: opacity var(--duration-fast, 220ms) ease,
-              transform var(--duration-fast, 220ms) var(--ease-precision);
+  transition: opacity var(--duration-fast, 220ms) ease;
   user-select: none;
 }
 
 .mechesa-brand-lockup:hover {
   opacity: 1;
-  transform: translateY(-1px);
+  transform: none;
 }
 
 .mechesa-brand-lockup__emblem-wrap {
@@ -29,14 +28,17 @@
 
 .mechesa-brand-lockup__emblem {
   color: #ffffff;
+  transform-origin: center center;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
-  transition: transform var(--duration-fast, 220ms) var(--ease-precision),
-              filter var(--duration-fast, 220ms) ease;
+  transition: transform var(--duration-normal, 380ms) var(--ease-precision, cubic-bezier(0.16, 1, 0.3, 1)),
+              filter var(--duration-normal, 380ms) ease;
 }
 
-.mechesa-brand-lockup:hover .mechesa-brand-lockup__emblem {
-  transform: translateY(-1px);
-  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 8px rgba(255, 255, 255, 0.15));
+.mechesa-brand-lockup:hover .mechesa-brand-lockup__emblem,
+.mechanical-nav__brand:hover .mechesa-brand-lockup__emblem,
+.mechesa-brand-lockup__emblem:hover {
+  transform: rotate(8deg) scale(1.04);
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
 }
 
 .mechesa-brand-lockup__text {
@@ -44,10 +46,12 @@
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
+  transform: none;
 }
 
 .mechesa-brand-lockup__wordmark {
   color: #ffffff;
+  transform: none;
   transition: color var(--duration-fast, 180ms) ease;
 }
 
@@ -55,6 +59,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  transform: none;
 }
 
 .mechesa-brand-lockup__sub-sep {
