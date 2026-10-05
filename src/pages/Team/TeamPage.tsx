@@ -4,7 +4,6 @@ import { teamMembersData, teamDomains } from '../../data/team'
 import type { TeamMember } from '../../data/types'
 import { EngineeringGrid } from '../../components/mechanical/EngineeringGrid'
 import { TechnicalDivider } from '../../components/mechanical/TechnicalDivider'
-import { SystemIndicator } from '../../components/telemetry/SystemIndicator'
 import { MechanicalButton } from '../../components/mechanical/MechanicalButton'
 import { CursorTarget } from '../../components/interaction/CursorTarget'
 import './team.css'
@@ -94,10 +93,6 @@ export function TeamPage() {
 
       {/* ─── Hero Section ─── */}
       <section className="team-hero page-container" aria-labelledby="team-hero-title">
-        <div className="team-hero__meta">
-          <span className="page-eyebrow">MECHESA // DIRECTORY & LEADERSHIP</span>
-          <SystemIndicator state="online" label="COUNCIL ACTIVE" />
-        </div>
         <div className="team-hero__content">
           <div>
             <span className="technical-small">DEPARTMENT OF MECHANICAL ENGINEERING // IIT INDORE</span>

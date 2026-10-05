@@ -2,6 +2,30 @@ import type { BlogPost } from './types'
 
 export const blogPostsData: BlogPost[] = [
   {
+    id: 'story-placements',
+    title: 'Placement Stories',
+    excerpt: 'Experiences from the transition into first engineering roles: preparation, interview insights, and decisions.',
+    content: 'Documenting the journey from campus coursework to full-time roles across automotive, aerospace, energy, manufacturing, and technology sectors.',
+    date: 'CAREER TRACK',
+    author: 'STUDENT CONTRIBUTIONS',
+    readTime: 'FIELD NOTES',
+    category: 'CAREER',
+    tags: ['PLACEMENTS', 'CAREER', 'ALUMNI'],
+    trackLink: '/blogs/placements',
+  },
+  {
+    id: 'story-internships',
+    title: 'Internship Stories',
+    excerpt: 'First-hand notes from students on finding opportunities, joining engineering teams, and reflecting on industry experience.',
+    content: 'Detailed field notes documenting application strategies, interview preparations, project responsibilities, and takeaways from core engineering and research internships.',
+    date: 'CAREER TRACK',
+    author: 'STUDENT CONTRIBUTIONS',
+    readTime: 'FIELD NOTES',
+    category: 'CAREER',
+    tags: ['INTERNSHIPS', 'EXPERIENCE', 'GUIDANCE'],
+    trackLink: '/blogs/internships',
+  },
+  {
     id: 'log-01',
     title: 'Engineering Log',
     excerpt: 'A content-ready space for technical articles and project documentation from MechESA members.',
@@ -34,30 +58,6 @@ export const blogPostsData: BlogPost[] = [
     category: 'SYSTEMS',
     tags: ['ROBOTICS', 'AUTOMOTIVE', 'THERMAL'],
   },
-  {
-    id: 'story-internships',
-    title: 'Internship Stories',
-    excerpt: 'First-hand notes from students on finding opportunities, joining engineering teams, and reflecting on industry experience.',
-    content: 'Detailed field notes documenting application strategies, interview preparations, project responsibilities, and takeaways from core engineering and research internships.',
-    date: 'CAREER TRACK',
-    author: 'STUDENT CONTRIBUTIONS',
-    readTime: 'FIELD NOTES',
-    category: 'CAREER',
-    tags: ['INTERNSHIPS', 'EXPERIENCE', 'GUIDANCE'],
-    trackLink: '/blogs/internships',
-  },
-  {
-    id: 'story-placements',
-    title: 'Placement Stories',
-    excerpt: 'Experiences from the transition into first engineering roles: preparation, interview insights, and decisions.',
-    content: 'Documenting the journey from campus coursework to full-time roles across automotive, aerospace, energy, manufacturing, and technology sectors.',
-    date: 'CAREER TRACK',
-    author: 'STUDENT CONTRIBUTIONS',
-    readTime: 'FIELD NOTES',
-    category: 'CAREER',
-    tags: ['PLACEMENTS', 'CAREER', 'ALUMNI'],
-    trackLink: '/blogs/placements',
-  },
 ]
 
-export const blogCategories = ['ALL', 'TECHNICAL', 'DESIGN', 'SYSTEMS', 'CAREER'] as const
+export const blogCategories = ['ALL', 'CAREER', 'TECHNICAL', 'DESIGN', 'SYSTEMS'] as const

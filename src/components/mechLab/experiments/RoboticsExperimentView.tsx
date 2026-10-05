@@ -69,7 +69,7 @@ export function RoboticsExperimentView({
   // Auto position button handler using inverse kinematics
   const handleAutoPosition = () => {
     // Prefer elbow up for obstacle avoidance if level 3
-    const preferElbowUp = activeLevel === 3 ? true : true
+    const preferElbowUp = true // Elbow-up posture for all levels (avoids obstacles on level 3)
     const ik = calculateInverseKinematics(target, preferElbowUp)
     if (ik.isReachable) {
       onAngleChange(ik.shoulderAngle, ik.elbowAngle)

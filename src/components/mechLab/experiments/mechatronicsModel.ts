@@ -119,8 +119,8 @@ export function calculateMechatronicsAnalysis(rawParams?: Partial<MechatronicsPa
 
   // Equivalent 2nd-order closed-loop characteristics
   // m * d2y/dt2 + (c + Km * Kd) * dy/dt + Km * Kp * y = Km * Kp * r - F_dist
-  const kEff = 20.0 * kp // Effective electronic stiffness
-  const cEff = VISCOUS_DAMPING_N_S_M + 20.0 * kd // Intrinsic rail damping + electronic derivative damping
+  const kEff = ACTUATOR_FORCE_CONSTANT_N_PER_V * kp // Effective electronic stiffness (N/m)
+  const cEff = VISCOUS_DAMPING_N_S_M + ACTUATOR_FORCE_CONSTANT_N_PER_V * kd // Intrinsic rail damping + electronic derivative damping
 
   // Undamped natural frequency omega_n (rad/s)
   const omegaN = Math.sqrt(Math.max(0.1, kEff / CARRIAGE_MASS_KG))

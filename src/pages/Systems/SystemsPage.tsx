@@ -28,11 +28,7 @@ export function SystemsPage() {
           <div className="page-container">
             <div className="systems-hero__inner">
               <div>
-                <div className="systems-hero__eyebrow">
-                  <span className="systems-hero__number">03</span>
-                  <TechnicalLabel>ENGINEERING SYSTEMS / LAB</TechnicalLabel>
-                  <SystemIndicator state="online" label="LIVE" />
-                </div>
+
                 <h1 id="systems-hero-title" className="systems-hero__title">
                   INTERACT<br /><em>WITH THE</em><br />SYSTEM.
                 </h1>

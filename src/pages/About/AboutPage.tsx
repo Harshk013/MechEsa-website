@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { aboutActivities, aboutDisciplines } from '../../data/about'
 import { EngineeringGrid } from '../../components/mechanical/EngineeringGrid'
-import { SystemIndicator } from '../../components/telemetry/SystemIndicator'
 import { CursorTarget } from '../../components/interaction/CursorTarget'
 import './about.css'
 
@@ -12,11 +11,6 @@ export function AboutPage() {
 
       {/* ─── Hero Section ─── */}
       <section className="about-hero page-container" aria-labelledby="about-hero-title">
-        <div className="about-hero__meta">
-          <span className="page-eyebrow">MECHESA // STUDENT ASSOCIATION</span>
-          <SystemIndicator state="online" label="ASSOCIATION ACTIVE" />
-        </div>
-
         <div className="about-hero__content">
           <div>
             <span className="technical-small">DEPARTMENT OF MECHANICAL ENGINEERING // IIT INDORE</span>

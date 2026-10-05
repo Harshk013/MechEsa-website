@@ -16,10 +16,7 @@ export function MechLabPage() {
 
       {/* ── Main Hero Section ───────────────────────────────────── */}
       <section className="mech-lab-hero" aria-labelledby="lab-hero-title">
-        <div className="mech-lab-hero__badge">
-          <span className="mech-lab-hero__badge-dot" aria-hidden="true" />
-          <span>MECHESA // INTERACTIVE PLAYGROUND</span>
-        </div>
+
 
         <h1 id="lab-hero-title" className="mech-lab-hero__title">
           MECH LAB

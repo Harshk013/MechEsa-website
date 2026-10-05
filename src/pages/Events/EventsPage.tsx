@@ -4,7 +4,6 @@ import { eventsData } from '../../data/events'
 import type { EventItem } from '../../data/types'
 import { EngineeringGrid } from '../../components/mechanical/EngineeringGrid'
 import { TechnicalDivider } from '../../components/mechanical/TechnicalDivider'
-import { SystemIndicator } from '../../components/telemetry/SystemIndicator'
 import { MechanicalButton } from '../../components/mechanical/MechanicalButton'
 import { CursorTarget } from '../../components/interaction/CursorTarget'
 import './events.css'
@@ -29,9 +28,6 @@ export function EventsPage() {
     return ['ALL', ...cats]
   }, [])
 
-  const featuredEvent = useMemo(() => {
-    return eventsData.find((e) => e.featured) || eventsData.find((e) => e.status === 'upcoming') || null
-  }, [])
 
   const upcomingEvents = useMemo(() => {
     const upcoming = eventsData.filter((e) => e.status === 'upcoming' || e.status === 'ongoing')
@@ -51,10 +47,6 @@ export function EventsPage() {
 
       {/* ─── Hero Section ─── */}
       <section className="events-hero page-container" aria-labelledby="events-hero-title">
-        <div className="events-hero__meta">
-          <span className="page-eyebrow">MECHESA // CALENDAR & SESSIONS</span>
-          <SystemIndicator state="online" label="ACTIVITIES ACTIVE" />
-        </div>
         <div className="events-hero__content">
           <div>
             <span className="technical-small">STUDENT ASSOCIATION OF MECHANICAL ENGINEERING</span>
@@ -77,26 +69,11 @@ export function EventsPage() {
       </section>
 
       <main className="page-container">
-        {/* ─── 01 Featured Event ─── */}
-        {featuredEvent && (
-          <section className="events-section" aria-labelledby="featured-section-title">
-            <div className="events-section-head">
-              <div className="events-section-head__title-group">
-                <span className="page-eyebrow">01 // SPOTLIGHT</span>
-                <h2 id="featured-section-title">FEATURED EVENT.</h2>
-                <p>The primary upcoming session on the MechESA calendar.</p>
-              </div>
-            </div>
-
-            <FeaturedEventCard event={featuredEvent} onSelect={setSelectedEvent} />
-          </section>
-        )}
-
-        {/* ─── 02 Upcoming Events ─── */}
+        {/* ─── 01 Upcoming Events ─── */}
         <section className="events-section" aria-labelledby="upcoming-section-title">
           <div className="events-section-head">
             <div className="events-section-head__title-group">
-              <span className="page-eyebrow">02 // SCHEDULE</span>
+              <span className="page-eyebrow">01 // SCHEDULE</span>
               <h2 id="upcoming-section-title">UPCOMING EVENTS.</h2>
               <p>Browse open workshops, interactive sessions, and technical activities.</p>
             </div>
@@ -141,7 +118,7 @@ export function EventsPage() {
           <TechnicalDivider label="HISTORICAL ARCHIVE" />
           <div className="events-section-head" style={{ marginTop: '2rem' }}>
             <div className="events-section-head__title-group">
-              <span className="page-eyebrow">03 // ARCHIVE</span>
+              <span className="page-eyebrow">02 // ARCHIVE</span>
               <h2 id="past-section-title">PAST EVENTS.</h2>
               <p>Record of completed technical workshops, lectures, and activities.</p>
             </div>
@@ -186,77 +163,6 @@ export function EventsPage() {
   )
 }
 
-function FeaturedEventCard({
-  event,
-  onSelect,
-}: {
-  event: EventItem
-  onSelect: (e: EventItem) => void
-}) {
-  return (
-    <article className="featured-event-card">
-      <div className="featured-event__media">
-        <div className="featured-event__media-bg" />
-        <span className="featured-event__badge">FEATURED EVENT</span>
-        <div className="featured-event__blueprint-art" aria-hidden="true">
-          <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <circle cx="50" cy="50" r="42" strokeDasharray="3 3" />
-            <circle cx="50" cy="50" r="30" />
-            <circle cx="50" cy="50" r="16" />
-            <path d="M50 8 V92 M8 50 H92" strokeWidth="1" strokeDasharray="2 4" />
-            <path d="M22 22 L78 78 M78 22 L22 78" strokeWidth="0.8" strokeDasharray="2 4" opacity="0.5" />
-          </svg>
-          <span>MECHESA // SPECIFICATION 01</span>
-        </div>
-        <span className="technical-small" style={{ color: 'var(--color-text-dim)', zIndex: 1 }}>
-          STATUS // {event.status.toUpperCase()}
-        </span>
-      </div>
-
-      <div className="featured-event__info">
-        <div>
-          <div className="featured-event__meta-tag">
-            <span>CATEGORY / {event.category}</span>
-            <span>•</span>
-            <span>{event.status === 'upcoming' ? 'UPCOMING' : 'ARCHIVED'}</span>
-          </div>
-
-          <h3 className="featured-event__title">{event.title}</h3>
-
-          <div className="featured-event__meta-row">
-            <span>
-              <strong>DATE:</strong> {event.date}
-            </span>
-            {event.location && (
-              <>
-                <span>•</span>
-                <span>
-                  <strong>VENUE:</strong> {event.location}
-                </span>
-              </>
-            )}
-            {event.organizer && (
-              <>
-                <span>•</span>
-                <span>
-                  <strong>BY:</strong> {event.organizer}
-                </span>
-              </>
-            )}
-          </div>
-
-          <p className="featured-event__desc">{event.description}</p>
-        </div>
-
-        <div className="featured-event__actions">
-          <MechanicalButton variant="primary" onClick={() => onSelect(event)}>
-            VIEW EVENT DETAILS →
-          </MechanicalButton>
-        </div>
-      </div>
-    </article>
-  )
-}
 
 function EventCard({
   event,

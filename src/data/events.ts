@@ -2,10 +2,10 @@ import type { EventItem } from './types'
 
 export const eventsData: EventItem[] = [
   {
-    id: 'event-preview-01',
-    title: 'Upcoming Event',
+    id: 'teachersday-2026',
+    title: 'Teachers Day - 2026',
     category: 'MECHESA',
-    date: 'DATE / TBD',
+    date: '4th September 2026',
     description: 'Event information will be populated from the official MechESA calendar.',
     location: 'IIT Indore Campus',
     status: 'upcoming',

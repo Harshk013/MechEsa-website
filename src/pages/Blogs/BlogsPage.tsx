@@ -4,7 +4,6 @@ import { blogPostsData, blogCategories } from '../../data/blogs'
 import type { BlogPost } from '../../data/types'
 import { EngineeringGrid } from '../../components/mechanical/EngineeringGrid'
 import { TechnicalDivider } from '../../components/mechanical/TechnicalDivider'
-import { SystemIndicator } from '../../components/telemetry/SystemIndicator'
 import { MechanicalButton } from '../../components/mechanical/MechanicalButton'
 import { CursorTarget } from '../../components/interaction/CursorTarget'
 import './blogs.css'
@@ -46,10 +45,6 @@ export function BlogsPage() {
 
       {/* ─── Hero Section ─── */}
       <section className="blogs-hero page-container" aria-labelledby="blogs-hero-title">
-        <div className="blogs-hero__meta">
-          <span className="page-eyebrow">MECHESA // STORIES & LOGS</span>
-          <SystemIndicator state="online" label="PUBLICATIONS OPEN" />
-        </div>
         <div className="blogs-hero__content">
           <div>
             <span className="technical-small">ASSOCIATION ARTICLES & FIELD NOTES</span>
@@ -136,25 +131,7 @@ export function BlogsPage() {
           <div className="career-tracks-grid">
             <article className="career-track-card">
               <span className="technical-small" style={{ color: 'var(--color-accent)' }}>
-                TRACK 01 // INTERNSHIPS
-              </span>
-              <h3>INTERNSHIP STORIES</h3>
-              <p>
-                Notes on finding opportunities, joining industry and research teams, and applying classroom fundamentals to real projects.
-              </p>
-              <div className="career-track-card__footer">
-                <span className="technical-small" style={{ color: 'var(--color-text-dim)' }}>
-                  STUDENT FIELD NOTES
-                </span>
-                <Link to="/blogs/internships" className="mechanical-button mechanical-button--primary label">
-                  <span>EXPLORE INTERNSHIPS</span> <span className="btn-arrow" aria-hidden="true">↗</span>
-                </Link>
-              </div>
-            </article>
-
-            <article className="career-track-card">
-              <span className="technical-small" style={{ color: 'var(--color-accent)' }}>
-                TRACK 02 // PLACEMENTS
+                TRACK 01 // PLACEMENTS
               </span>
               <h3>PLACEMENT STORIES</h3>
               <p>
@@ -166,6 +143,24 @@ export function BlogsPage() {
                 </span>
                 <Link to="/blogs/placements" className="mechanical-button mechanical-button--primary label">
                   <span>EXPLORE PLACEMENTS</span> <span className="btn-arrow" aria-hidden="true">↗</span>
+                </Link>
+              </div>
+            </article>
+
+            <article className="career-track-card">
+              <span className="technical-small" style={{ color: 'var(--color-accent)' }}>
+                TRACK 02 // INTERNSHIPS
+              </span>
+              <h3>INTERNSHIP STORIES</h3>
+              <p>
+                Notes on finding opportunities, joining industry and research teams, and applying classroom fundamentals to real projects.
+              </p>
+              <div className="career-track-card__footer">
+                <span className="technical-small" style={{ color: 'var(--color-text-dim)' }}>
+                  STUDENT FIELD NOTES
+                </span>
+                <Link to="/blogs/internships" className="mechanical-button mechanical-button--primary label">
+                  <span>EXPLORE INTERNSHIPS</span> <span className="btn-arrow" aria-hidden="true">↗</span>
                 </Link>
               </div>
             </article>

@@ -2,7 +2,6 @@ import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { EngineeringGrid } from '../../components/mechanical/EngineeringGrid'
 import { TechnicalDivider } from '../../components/mechanical/TechnicalDivider'
-import { SystemIndicator } from '../../components/telemetry/SystemIndicator'
 import { MechanicalButton } from '../../components/mechanical/MechanicalButton'
 import { CursorTarget } from '../../components/interaction/CursorTarget'
 import './contact.css'
@@ -83,10 +82,6 @@ export function ContactPage() {
 
       {/* ─── Hero Section ─── */}
       <section className="contact-hero page-container" aria-labelledby="contact-hero-title">
-        <div className="contact-hero__meta">
-          <span className="page-eyebrow">MECHESA // COMMUNICATION & INQUIRIES</span>
-          <SystemIndicator state="online" label="COMMUNICATION READY" />
-        </div>
         <div className="contact-hero__content">
           <div>
             <span className="technical-small">STUDENT ASSOCIATION // IIT INDORE</span>

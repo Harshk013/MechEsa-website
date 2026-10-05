@@ -70,7 +70,6 @@ body { background-image: radial-gradient(circle at 50% 0%, rgba(255,255,255,.025
 @media (prefers-reduced-motion: reduce) { .motion-line span { animation: none; transform: none; } }
 
 /* PROMPT 03 — GLOBAL MACHINE INTERACTION LAYER */
-html { scroll-behavior: auto; }
 body { overflow-x: hidden; }
 .app-shell { isolation: isolate; }
 .app-content { position: relative; z-index: var(--z-content); min-height: 100vh; }
